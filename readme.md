@@ -6,12 +6,11 @@ A luxury 3D wedding showcase website featuring opening cinematic video reveal, i
 
 ## 📁 Categorized Asset Structure
 
-All media paths in `index.html` and `luxury_3d_parallax_bento_showcase (1).html` use clean relative paths pointing to the `assets/` directory:
+All media paths in `index.html` use clean relative paths pointing to the `assets/` directory:
 
 ```
 Our Wedding/
 ├── index.html                               # Main entry point (GitHub Pages ready)
-├── luxury_3d_parallax_bento_showcase (1).html
 ├── README.md
 └── assets/
     ├── videos/
@@ -69,5 +68,5 @@ Our Wedding/
 
 ## ⚙️ Customization
 
-Open `index.html` (or `luxury_3d_parallax_bento_showcase (1).html`) in any code editor:
+Open `index.html` in any code editor:
 - Modify `GOOGLE_DRIVE_MEDIA_CONFIG` (around line 1500) to change couple names, Instagram/Facebook handles, or replace any media links with Google Drive share URLs or local asset paths.
