@@ -507,27 +507,46 @@
   <!-- =========================================================================
        WEBSITE INTRO PRELOADER CURTAIN
        ========================================================================= -->
-  <div id="introPreloader" class="fixed inset-0 z-50 bg-obsidian flex flex-col items-center justify-center transition-all duration-1000">
-    <!-- Decorative Floral SVG Top -->
-    <svg class="w-48 h-12 text-gold-400/80 mb-4 animate-pulse" viewBox="0 0 200 50" fill="none">
-      <path d="M10 25 Q60 5 100 25 T190 25" stroke="currentColor" stroke-width="1.2" fill="none"/>
-      <circle cx="100" cy="25" r="5" fill="currentColor"/>
-      <path d="M90 25 C80 12, 70 12, 65 25 C70 38, 80 38, 90 25 Z" fill="currentColor" opacity="0.5"/>
-      <path d="M110 25 C120 12, 130 12, 135 25 C130 38, 120 38, 110 25 Z" fill="currentColor" opacity="0.5"/>
-    </svg>
+  <div id="introPreloader" class="fixed inset-0 z-50 bg-obsidian overflow-hidden flex flex-col items-center justify-center transition-all duration-1000">
+    <!-- Fullscreen Curtain Raiser Background Video -->
+    <video
+      id="curtainBgVideo"
+      class="absolute inset-0 w-full h-full object-cover scale-105 transition-all duration-1000"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="assets/images/invitation/poster.jpg"
+    >
+      <source src="assets/videos/entry_intro.mp4" type="video/mp4" />
+    </video>
 
-    <p class="text-xs uppercase tracking-[0.45em] text-gold-300/80 mb-3">Two Hearts, One Journey</p><br/>	
-    <h1 class="font-script text-5xl sm:text-7xl text-gold-200 script-glow mb-6 text-center">Devashish<br/>&amp;</br>Rimu</h1>
+    <!-- Ambient Dark Luxury Overlay / Vignette to ensure text, couple name and button pop vibrantly -->
+    <div class="absolute inset-0 bg-gradient-to-b from-obsidian/85 via-obsidian/60 to-obsidian/90 pointer-events-none"></div>
 
-    <!-- Loading Progress Bar -->
-    <div class="w-56 h-[2px] bg-white/10 rounded-full overflow-hidden mb-8">
-      <div id="preloaderBar" class="h-full bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 w-0 transition-all duration-300"></div>
+    <!-- Foreground Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-xl mx-auto">
+      <!-- Decorative Floral SVG Top -->
+      <svg class="w-48 h-12 text-gold-400/80 mb-3 animate-pulse" viewBox="0 0 200 50" fill="none">
+        <path d="M10 25 Q60 5 100 25 T190 25" stroke="currentColor" stroke-width="1.2" fill="none"/>
+        <circle cx="100" cy="25" r="5" fill="currentColor"/>
+        <path d="M90 25 C80 12, 70 12, 65 25 C70 38, 80 38, 90 25 Z" fill="currentColor" opacity="0.5"/>
+        <path d="M110 25 C120 12, 130 12, 135 25 C130 38, 120 38, 110 25 Z" fill="currentColor" opacity="0.5"/>
+      </svg>
+
+      <p class="text-xs uppercase tracking-[0.45em] text-gold-300/90 mb-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">Two Hearts, One Journey</p>
+      <h1 class="font-script text-5xl sm:text-7xl text-gold-200 script-glow mb-5 text-center drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)]">Devashish<br/>&amp;<br/>Rimu</h1>
+
+      <!-- Loading Progress Bar (Tracks Video Playback Time) -->
+      <div class="w-56 sm:w-64 h-[3px] bg-white/20 rounded-full overflow-hidden mb-7 backdrop-blur-sm shadow-inner">
+        <div id="preloaderBar" class="h-full bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 w-0 transition-all duration-200"></div>
+      </div>
+
+      <button id="enterExperienceBtn" class="floral-btn px-8 py-3.5 rounded-full bg-gradient-to-r from-gold-500/35 via-gold-400/45 to-gold-500/35 backdrop-blur-md border border-gold-400/70 text-gold-100 text-xs uppercase tracking-[0.28em] hover:bg-gold-400 hover:text-obsidian transition-all duration-500 shadow-[0_0_35px_rgba(212,175,55,0.4)] flex items-center gap-3 cursor-pointer">
+        <i class="fa-solid fa-play text-[10px]"></i>
+        <span>Enter With Music &amp; Film</span>
+      </button>
     </div>
-
-    <button id="enterExperienceBtn" class="floral-btn px-8 py-3.5 rounded-full bg-gradient-to-r from-gold-500/30 via-gold-400/40 to-gold-500/30 border border-gold-400/60 text-gold-100 text-xs uppercase tracking-[0.28em] hover:bg-gold-400 hover:text-obsidian transition-all duration-500 shadow-[0_0_30px_rgba(212,175,55,0.3)] flex items-center gap-3">
-      <i class="fa-solid fa-play text-[10px]"></i>
-      <span>Enter With Music &amp; Film</span>
-    </button>
   </div>
 
   <!-- =========================================================================
@@ -1086,6 +1105,11 @@
 
       <div class="space-y-4 text-xs">
         <div>
+          <label class="block text-gold-200 uppercase tracking-wider mb-1">Curtain Raiser Video (MP4 Asset Path or Google Drive URL)</label>
+          <input id="inputCurtainVideoUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="assets/videos/entry_intro.mp4" />
+        </div>
+
+        <div>
           <label class="block text-gold-200 uppercase tracking-wider mb-1">Background Music (Google Drive MP3 Share Link or URL)</label>
           <input id="inputMusicUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/YOUR_AUDIO_FILE_ID/view?usp=sharing" />
         </div>
@@ -1504,6 +1528,9 @@
       facebookUrl: "https://facebook.com",
       facebookHandle: "facebook.com/aureliajulian",
 
+      // Curtain Raiser Video (Background for opening welcome curtain)
+      curtainVideoDriveLink: "assets/videos/entry_intro.mp4",
+
       // Background Music (Local asset relative path, or Google Drive link)
       backgroundMusicDriveLink: "assets/audio/background-music.mp3",
       backgroundMusicFallback: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
@@ -1741,24 +1768,43 @@
       initHorizontalDragScroll();
       initFallingPetalsCanvas();
 
-      // Animate Preloader Bar
+      // Animate Preloader Bar tracking Curtain Video
       const bar = document.getElementById('preloaderBar');
-      setTimeout(() => { bar.style.width = '100%'; }, 100);
+      const curtainVid = document.getElementById('curtainBgVideo');
+
+      if (curtainVid) {
+        curtainVid.addEventListener('timeupdate', () => {
+          if (curtainVid.duration && bar) {
+            const pct = Math.min(100, Math.round((curtainVid.currentTime / curtainVid.duration) * 100));
+            bar.style.width = pct + '%';
+          }
+        });
+      } else if (bar) {
+        setTimeout(() => { bar.style.width = '100%'; }, 100);
+      }
 
       document.getElementById('enterExperienceBtn').addEventListener('click', () => {
         dismissPreloaderAndStartIntro(true);
       });
 
-      // Also allow automatic dismissal after 2.4s if user doesn't click
+      // Allow automatic smooth transition after the intro video completes (~8s) if user doesn't click
       setTimeout(() => {
         const preloader = document.getElementById('introPreloader');
         if (preloader && !preloader.classList.contains('opacity-0')) {
           dismissPreloaderAndStartIntro(false);
         }
-      }, 2600);
+      }, 8200);
     });
 
     function initMediaSources() {
+      // Curtain Raiser Video
+      const curtainVid = document.getElementById('curtainBgVideo');
+      if (curtainVid) {
+        curtainVid.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.curtainVideoDriveLink || 'assets/videos/entry_intro.mp4', 'video');
+        curtainVid.load();
+        curtainVid.play().catch(() => {});
+      }
+
       // Audio
       const audioEl = document.getElementById('bgMusicPlayer');
       audioEl.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink, 'audio');
@@ -1790,8 +1836,16 @@
 
     function dismissPreloaderAndStartIntro(withAudio) {
       const preloader = document.getElementById('introPreloader');
+      const curtainVideo = document.getElementById('curtainBgVideo');
+      if (!preloader || preloader.classList.contains('opacity-0')) return;
+
       preloader.classList.add('opacity-0', 'pointer-events-none');
-      setTimeout(() => { preloader.style.display = 'none'; }, 1000);
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        if (curtainVideo) {
+          curtainVideo.pause();
+        }
+      }, 1000);
 
       if (withAudio && !isMusicPlaying) {
         toggleBackgroundMusic(true);
@@ -2592,6 +2646,8 @@
        12. GOOGLE DRIVE CONFIGURATION MODAL
        ========================================================================= */
     function openDriveModal() {
+      const curtainInput = document.getElementById('inputCurtainVideoUrl');
+      if (curtainInput) curtainInput.value = GOOGLE_DRIVE_MEDIA_CONFIG.curtainVideoDriveLink || '';
       document.getElementById('inputMusicUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink;
       document.getElementById('inputHeroVideoUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink;
       document.getElementById('inputFirstImageUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[1].driveLink;
@@ -2611,6 +2667,8 @@
     }
 
     function applyDriveConfigFromModal() {
+      const curtainInput = document.getElementById('inputCurtainVideoUrl');
+      const curtainVidVal = curtainInput ? curtainInput.value.trim() : '';
       const musicVal = document.getElementById('inputMusicUrl').value.trim();
       const heroVidVal = document.getElementById('inputHeroVideoUrl').value.trim();
       const firstImgVal = document.getElementById('inputFirstImageUrl').value.trim();
@@ -2618,6 +2676,7 @@
       const igVal = document.getElementById('inputInstagram').value.trim();
       const fbVal = document.getElementById('inputFacebook').value.trim();
 
+      if (curtainVidVal) GOOGLE_DRIVE_MEDIA_CONFIG.curtainVideoDriveLink = curtainVidVal;
       if (musicVal) GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink = musicVal;
       if (heroVidVal) GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink = heroVidVal;
       if (firstImgVal) GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[1].driveLink = firstImgVal;

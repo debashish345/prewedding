@@ -15,6 +15,7 @@ Our Wedding/
 ├── README.md
 └── assets/
     ├── videos/
+    │   ├── entry_intro.mp4                  # Curtain raiser welcome page background video
     │   ├── intro.mp4                        # Opening hero fullscreen background video
     │   ├── ceremony.mp4                     # Bento gallery feature film 1
     │   └── reception.mp4                    # Bento gallery feature film 2
