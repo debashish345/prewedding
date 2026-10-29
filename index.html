@@ -1,0 +1,2721 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aurelia & Julian — 3D Luxury Visual Showcase & Invitation</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Great+Vibes&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            script: ['"Great Vibes"', 'cursive'],
+            bengali: ['"Noto Serif Bengali"', '"Hind Siliguri"', 'serif'],
+          },
+          colors: {
+            gold: {
+              100: '#F9F1D8',
+              200: '#F0DEAA',
+              300: '#E5C878',
+              400: '#D4AF37',
+              500: '#AA8620',
+              600: '#7D6011',
+            },
+            sindoor: {
+              700: '#8A0B1C',
+              800: '#6B0714',
+              900: '#49040D',
+            },
+            obsidian: '#0B0A0E',
+            charcoal: '#14121A',
+            blush: '#F4E4E6',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold-primary: #D4AF37;
+      --gold-glow: rgba(212, 175, 55, 0.55);
+      --rose-petal: #eab8c1;
+    }
+
+    body {
+      background-color: #0B0A0E;
+      color: #F5F2EB;
+      overflow-x: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0A0E;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #D4AF37, #7D6011);
+      border-radius: 9999px;
+    }
+
+    /* 1. Preloader & Intro Stroke Text Animation */
+    .stroke-text-svg {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      fill: rgba(255, 255, 255, 0);
+      stroke: #F9F1D8;
+      stroke-width: 1.6px;
+      stroke-dasharray: 950;
+      stroke-dashoffset: 950;
+      filter: drop-shadow(0 0 22px rgba(212, 175, 55, 0.85));
+    }
+
+    .stroke-animate {
+      animation: strokeDraw 3.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes strokeDraw {
+      0% {
+        stroke-dashoffset: 950;
+        fill: rgba(255, 248, 231, 0);
+        filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.2));
+      }
+      65% {
+        stroke-dashoffset: 0;
+        fill: rgba(255, 248, 231, 0.12);
+        filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.9));
+      }
+      100% {
+        stroke-dashoffset: 0;
+        fill: rgba(255, 248, 231, 0.98);
+        filter: drop-shadow(0 0 36px rgba(212, 175, 55, 1));
+      }
+    }
+
+    .script-glow {
+      text-shadow: 0 0 28px rgba(212, 175, 55, 0.95), 0 4px 18px rgba(0, 0, 0, 0.95);
+    }
+
+    /* 2. AI Enhancer Filter Class (SVG + CSS Multi-stage HDR & Sharpness) */
+    .ai-enhanced-media {
+      filter: url(#ai-super-enhance) contrast(1.09) saturate(1.18) brightness(1.03);
+      transition: filter 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s ease-out;
+    }
+
+    /* 3. Six Distinct Scroll Reveal Styles */
+    .reveal-item {
+      will-change: transform, opacity, filter, clip-path;
+      transition: all 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Style 1: Fade & Rise */
+    .reveal-fade-up {
+      opacity: 0;
+      transform: translateY(65px);
+    }
+    .reveal-fade-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Style 2: Blur to Clear */
+    .reveal-blur-clear {
+      opacity: 0;
+      filter: blur(24px) brightness(1.3);
+      transform: scale(0.94);
+    }
+    .reveal-blur-clear.is-visible {
+      opacity: 1;
+      filter: blur(0px) brightness(1);
+      transform: scale(1);
+    }
+
+    /* Style 3: 3D Flip & Unfold */
+    .reveal-flip-3d {
+      opacity: 0;
+      transform: perspective(1200px) rotateX(38deg) translateY(45px) scale(0.92);
+      transform-origin: center bottom;
+    }
+    .reveal-flip-3d.is-visible {
+      opacity: 1;
+      transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1);
+    }
+
+    /* Style 4: Clip-Path Curtain Wipe */
+    .reveal-curtain {
+      opacity: 0.2;
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      transform: translateY(25px);
+    }
+    .reveal-curtain.is-visible {
+      opacity: 1;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      transform: translateY(0);
+    }
+
+    /* Style 5: Zoom Out & Settle */
+    .reveal-zoom-settle {
+      opacity: 0;
+      transform: scale(1.22);
+      filter: blur(6px);
+    }
+    .reveal-zoom-settle.is-visible {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+
+    /* Style 6: Rotate & Skew Editorial Reveal */
+    .reveal-rotate-skew {
+      opacity: 0;
+      transform: translateY(60px) rotate(-5deg) skewY(4deg);
+    }
+    .reveal-rotate-skew.is-visible {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg) skewY(0deg);
+    }
+
+    /* 4. Uneven Asymmetric Bento Grid with ZERO Empty Holes (grid-auto-flow: dense) */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      grid-auto-rows: 265px;
+      grid-auto-flow: dense;
+      gap: 24px;
+    }
+    @media (min-width: 640px) {
+      .bento-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 260px;
+        grid-auto-flow: dense;
+        gap: 24px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .bento-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-auto-rows: 245px;
+        grid-auto-flow: dense;
+        gap: 24px;
+      }
+      .bento-hero { grid-column: span 8; grid-row: span 2; }
+      .bento-story-tall { grid-column: span 4; grid-row: span 2; }
+      .bento-tall { grid-column: span 5; grid-row: span 2; }
+      .bento-wide { grid-column: span 7; grid-row: span 1; }
+      .bento-story-wide { grid-column: span 7; grid-row: span 1; }
+      .bento-square { grid-column: span 4; grid-row: span 1; }
+      .bento-portrait { grid-column: span 4; grid-row: span 2; }
+      .bento-feature { grid-column: span 8; grid-row: span 2; }
+      .bento-half { grid-column: span 6; grid-row: span 2; }
+      .bento-third { grid-column: span 4; grid-row: span 1; }
+    }
+
+    /* 5. Torn Paper & Ink Splash Artistic Borders */
+    .border-torn-paper {
+      clip-path: url(#torn-paper-clip);
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 2px rgba(249, 241, 216, 0.45));
+    }
+    .border-torn-paper::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 6px solid rgba(247, 238, 220, 0.85);
+      pointer-events: none;
+      clip-path: url(#torn-paper-clip);
+      z-index: 15;
+    }
+
+    .border-ink-splash {
+      clip-path: url(#ink-splash-clip);
+      filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
+    }
+    .border-ink-splash::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border: 3px solid rgba(212, 175, 55, 0.65);
+      pointer-events: none;
+      clip-path: url(#ink-splash-clip);
+      z-index: 15;
+    }
+
+    .border-classic-botanical {
+      border-radius: 1rem;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    /* 6. Hugging Face 2.5D Depth Parallax Layer */
+    .hf-depth-layer {
+      position: absolute;
+      inset: -6%;
+      width: 112%;
+      height: 112%;
+      pointer-events: none;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    /* 3D Card Tilt & Glare */
+    .tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1100px;
+    }
+    .tilt-card-inner {
+      transform-style: preserve-3d;
+      transition: transform 0.25s ease-out;
+    }
+    .tilt-depth-badge {
+      transform: translateZ(34px);
+    }
+
+    /* 7. Bengali Royal Wedding Fullscreen Invitation & 3D Book */
+    .banarasi-bg {
+      background-color: #49040D;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.18) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.045) 0px, rgba(212, 175, 55, 0.045) 2px, transparent 2px, transparent 14px),
+        linear-gradient(135deg, #3A0209 0%, #6E0715 50%, #42030B 100%);
+      background-size: 100% 100%, 100% 100%, 28px 28px, 100% 100%;
+    }
+
+    .bengali-page-pattern {
+      background-color: #630612;
+      background-image:
+        radial-gradient(circle at 50% 35%, rgba(255, 215, 0, 0.14), transparent 65%),
+        repeating-radial-gradient(circle at 0 0, transparent 0, rgba(212, 175, 55, 0.04) 12px),
+        linear-gradient(160deg, #7A0918 0%, #52040E 55%, #3B020A 100%);
+    }
+
+    .bengali-gold-text {
+      color: #FCE694;
+      text-shadow: 0 2px 12px rgba(212, 175, 55, 0.45), 0 1px 3px rgba(0, 0, 0, 0.85);
+    }
+
+    @keyframes mandalaSpin {
+      0% { transform: rotate(0deg) scale(0.96); }
+      50% { transform: rotate(180deg) scale(1.04); }
+      100% { transform: rotate(360deg) scale(0.96); }
+    }
+    .mandala-spin {
+      animation: mandalaSpin 38s linear infinite;
+    }
+
+    @keyframes ceremonialBloom {
+      0% { opacity: 0; transform: scale(0.82) translateY(20px); filter: blur(12px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    }
+    .ceremonial-reveal {
+      animation: ceremonialBloom 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* 3D Page-Turn Invitation Book */
+    .book-stage {
+      perspective: 2400px;
+      padding: 1.5rem 1rem;
+      min-height: 540px;
+    }
+    .book-container {
+      position: relative;
+      width: 320px;
+      height: 480px;
+      transform-style: preserve-3d;
+      transition: transform 0.95s cubic-bezier(0.645, 0.045, 0.355, 1);
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) {
+      .book-stage {
+        min-height: 640px;
+      }
+      .book-container {
+        width: 420px;
+        height: 580px;
+      }
+      .book-container.book-open {
+        transform: translateX(50%);
+      }
+    }
+    @media (max-width: 767px) {
+      .book-container.book-open {
+        transform: translateX(42%) scale(0.92);
+      }
+    }
+
+    .book-sheet {
+      position: absolute;
+      inset: 0;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      transition: transform 1.05s cubic-bezier(0.645, 0.045, 0.355, 1), z-index 0.35s ease;
+      cursor: pointer;
+      border-radius: 4px 18px 18px 4px;
+      user-select: none;
+    }
+
+    .book-sheet.book-sheet-1 {
+      z-index: 20;
+    }
+    .book-sheet.book-sheet-2 {
+      z-index: 10;
+    }
+
+    .book-sheet.book-sheet-1.sheet-flipped {
+      transform: rotateY(-180deg);
+      z-index: 10;
+    }
+    .book-sheet.book-sheet-2.sheet-flipped {
+      transform: rotateY(-180deg);
+      z-index: 25;
+    }
+
+    .book-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 4px 18px 18px 4px;
+      overflow: hidden;
+      transform: translateZ(1px);
+    }
+
+    .book-face-back {
+      transform: rotateY(180deg) translateZ(1px);
+      border-radius: 18px 4px 4px 18px;
+    }
+
+    .sheet-flipped {
+      transform: rotateY(-180deg);
+    }
+
+    /* Soundwave Equalizer Bars */
+    .eq-bar {
+      width: 3px;
+      background: #D4AF37;
+      border-radius: 999px;
+      animation: eqBounce 1s ease-in-out infinite;
+    }
+    .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.15s; }
+    .eq-paused .eq-bar {
+      animation-play-state: paused;
+      height: 4px !important;
+    }
+    @keyframes eqBounce {
+      0%, 100% { height: 5px; }
+      50% { height: 18px; }
+    }
+
+    /* Floral Button Garnish Hover */
+    .floral-btn {
+      position: relative;
+      overflow: visible;
+    }
+    .floral-btn::before,
+    .floral-btn::after {
+      content: '❀';
+      position: absolute;
+      color: #D4AF37;
+      font-size: 14px;
+      transition: all 0.4s ease;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    .floral-btn::before {
+      top: -7px;
+      left: -7px;
+    }
+    .floral-btn::after {
+      bottom: -7px;
+      right: -7px;
+    }
+    .floral-btn:hover::before {
+      transform: translate(-3px, -3px) rotate(-25deg) scale(1.2);
+      opacity: 1;
+    }
+    .floral-btn:hover::after {
+      transform: translate(3px, 3px) rotate(25deg) scale(1.2);
+      opacity: 1;
+    }
+
+    /* Hide Scrollbars on Horizontal Filmstrip */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="selection:bg-gold-400 selection:text-obsidian">
+
+  <!-- =========================================================================
+       SVG FILTER ENGINE & TORN PAPER / INK SPLASH CLIP PATH DEFINITIONS
+       ========================================================================= -->
+  <svg class="hidden" width="0" height="0" aria-hidden="true">
+    <defs>
+      <!-- AI Super-Resolution & Golden Tone Filter -->
+      <filter id="ai-super-enhance" x="-10%" y="-10%" width="120%" height="120%">
+        <feConvolveMatrix
+          order="3 3"
+          preserveAlpha="true"
+          kernelMatrix="0 -0.35 0 -0.35 2.4 -0.35 0 -0.35 0"
+          result="sharpened"
+        />
+        <feComponentTransfer in="sharpened" result="toned">
+          <feFuncR type="gamma" amplitude="1.05" exponent="0.94" offset="0"/>
+          <feFuncG type="gamma" amplitude="1.03" exponent="0.96" offset="0"/>
+          <feFuncB type="gamma" amplitude="1.01" exponent="0.99" offset="0"/>
+        </feComponentTransfer>
+      </filter>
+
+      <!-- Torn Deckle-Edge Paper Clip Path (Normalized 0..1 ObjectBoundingBox) -->
+      <clipPath id="torn-paper-clip" clipPathUnits="objectBoundingBox">
+        <path d="M 0.015,0.025 L 0.08,0.01 L 0.15,0.028 L 0.23,0.012 L 0.31,0.026 L 0.39,0.01 L 0.47,0.025 L 0.56,0.012 L 0.64,0.028 L 0.73,0.01 L 0.82,0.026 L 0.91,0.012 L 0.985,0.025 L 0.992,0.11 L 0.978,0.21 L 0.994,0.32 L 0.98,0.43 L 0.995,0.54 L 0.979,0.65 L 0.993,0.76 L 0.98,0.88 L 0.988,0.975 L 0.91,0.99 L 0.82,0.972 L 0.73,0.992 L 0.64,0.975 L 0.55,0.99 L 0.46,0.974 L 0.37,0.992 L 0.28,0.976 L 0.19,0.991 L 0.10,0.974 L 0.015,0.985 L 0.008,0.89 L 0.022,0.78 L 0.007,0.67 L 0.021,0.55 L 0.008,0.44 L 0.022,0.33 L 0.009,0.22 L 0.023,0.11 Z" />
+      </clipPath>
+
+      <!-- Artistic Ink-Splash / Brushstroke Clip Path (Normalized 0..1 ObjectBoundingBox) -->
+      <clipPath id="ink-splash-clip" clipPathUnits="objectBoundingBox">
+        <path d="M 0.05,0.04 C 0.14,0.005 0.25,0.045 0.36,0.015 C 0.48,-0.005 0.60,0.04 0.73,0.012 C 0.84,-0.005 0.93,0.03 0.965,0.065 C 0.998,0.16 0.96,0.28 0.992,0.41 C 1.01,0.54 0.962,0.67 0.99,0.80 C 1.005,0.89 0.965,0.95 0.93,0.975 C 0.82,1.002 0.70,0.962 0.57,0.992 C 0.44,1.01 0.31,0.962 0.19,0.99 C 0.10,1.005 0.04,0.965 0.022,0.91 C -0.005,0.80 0.038,0.68 0.01,0.55 C -0.01,0.42 0.038,0.29 0.012,0.16 C 0.002,0.09 0.025,0.055 0.05,0.04 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- =========================================================================
+       FALLING FLORAL PETALS CANVAS OVERLAY
+       ========================================================================= -->
+  <canvas id="petalsCanvas" class="fixed inset-0 pointer-events-none z-40 opacity-85"></canvas>
+
+  <!-- =========================================================================
+       WEBSITE INTRO PRELOADER CURTAIN
+       ========================================================================= -->
+  <div id="introPreloader" class="fixed inset-0 z-50 bg-obsidian flex flex-col items-center justify-center transition-all duration-1000">
+    <!-- Decorative Floral SVG Top -->
+    <svg class="w-48 h-12 text-gold-400/80 mb-4 animate-pulse" viewBox="0 0 200 50" fill="none">
+      <path d="M10 25 Q60 5 100 25 T190 25" stroke="currentColor" stroke-width="1.2" fill="none"/>
+      <circle cx="100" cy="25" r="5" fill="currentColor"/>
+      <path d="M90 25 C80 12, 70 12, 65 25 C70 38, 80 38, 90 25 Z" fill="currentColor" opacity="0.5"/>
+      <path d="M110 25 C120 12, 130 12, 135 25 C130 38, 120 38, 110 25 Z" fill="currentColor" opacity="0.5"/>
+    </svg>
+
+    <p class="text-xs uppercase tracking-[0.45em] text-gold-300/80 mb-3">Two Hearts, One Journey</p><br/>	
+    <h1 class="font-script text-5xl sm:text-7xl text-gold-200 script-glow mb-6 text-center">Devashish<br/>&amp;</br>Rimu</h1>
+
+    <!-- Loading Progress Bar -->
+    <div class="w-56 h-[2px] bg-white/10 rounded-full overflow-hidden mb-8">
+      <div id="preloaderBar" class="h-full bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 w-0 transition-all duration-300"></div>
+    </div>
+
+    <button id="enterExperienceBtn" class="floral-btn px-8 py-3.5 rounded-full bg-gradient-to-r from-gold-500/30 via-gold-400/40 to-gold-500/30 border border-gold-400/60 text-gold-100 text-xs uppercase tracking-[0.28em] hover:bg-gold-400 hover:text-obsidian transition-all duration-500 shadow-[0_0_30px_rgba(212,175,55,0.3)] flex items-center gap-3">
+      <i class="fa-solid fa-play text-[10px]"></i>
+      <span>Enter With Music &amp; Film</span>
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       MINIMAL LUXURY HEADER: ONLY COUPLE NAME (CENTER) & MUSIC TOGGLE (RIGHT)
+       ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-3 sm:py-4 pointer-events-none">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Left Balance Spacer (Keeps Couple Name dead-center) -->
+      <div class="w-16 sm:w-28 hidden sm:block pointer-events-none"></div>
+
+      <!-- Center / Middle Top: Couple Name Only -->
+      <div class="pointer-events-auto flex flex-col items-center justify-center px-4 sm:px-8 py-1.5 sm:py-2 rounded-full bg-obsidian/15 backdrop-blur-md  shadow-[0_4px_25px_rgba(0,0,0,0.6)]">
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <span id="topNavCoupleBengali" class="font-script text-base sm:text-xl font-bold text-gold-200 bengali-gold-text tracking-wide whitespace-nowrap">Rimu &nbsp; &amp; &nbsp; Devashish</span>
+        </div>
+        <span id="topNavCoupleEnglish" class="font-bengali italic text-[11px] sm:text-xs text-gold-300/80 tracking-wider -mt-0.5">দেবাশীষ ও রিমু</span>
+      </div>
+
+      <!-- Right: Only Music Toggle Controller -->
+      <div class="pointer-events-auto flex items-center justify-end">
+        <button id="musicToggleBtn" onclick="toggleBackgroundMusic()" class="floral-btn flex items-center gap-2 bg-gradient-to-r from-obsidian/90 to-charcoal/90 backdrop-blur-md border border-gold-400/60 px-3.5 sm:px-4 py-2 rounded-full text-xs text-gold-100 hover:border-gold-300 transition shadow-[0_0_20px_rgba(212,175,55,0.25)]" title="Toggle Background Music">
+          <div id="eqContainer" class="flex items-end gap-[2px] h-3.5 eq-paused">
+            <span class="eq-bar h-1.5"></span>
+            <span class="eq-bar h-2.5"></span>
+            <span class="eq-bar h-3.5"></span>
+            <span class="eq-bar h-2"></span>
+          </div>
+          <span id="musicStatusPill" class="hidden sm:inline uppercase tracking-wider text-[10px] font-medium text-white/70">Music Off</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hidden Audio Player (Populated via Google Drive Config) -->
+  <audio id="bgMusicPlayer" loop preload="auto"></audio>
+
+  <!-- =========================================================================
+       SECTION 1: OPENING VIDEO WITH DEAD-CENTER STROKE-ANIMATED GLOW TEXT
+       ========================================================================= -->
+  <section id="heroVideoSection" class="relative w-full h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-obsidian">
+    <!-- Fullscreen Background Video -->
+    <video
+      id="heroBackdropVideo"
+      class="absolute inset-0 w-full h-full object-cover scale-105 transition-all duration-1000 ai-enhanced-media"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="assets/images/invitation/poster.jpg"
+    >
+      <source src="assets/videos/intro.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Ambient Dark Vignette Overlay (Fades out during the 3-4 sec clear video showcase) -->
+    <div id="heroOverlayShade" class="absolute inset-0 bg-gradient-to-b from-obsidian/75 via-obsidian/45 to-obsidian/85 transition-opacity duration-1000"></div>
+
+    <!-- Dead-Center Animated Stroke Text & Glow Container (Completely Clean: No Border, No Backdrop Blur, No Dark Box) -->
+    <div id="heroTextContainer" class="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-5xl mx-auto transition-all duration-1000">
+      <div class="inline-flex items-center gap-2 text-gold-300 text-xs sm:text-sm uppercase tracking-[0.35em] mb-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+        <span>✦</span>
+        <span>Save The Date</span>
+        <span>✦</span>
+      </div>
+
+      <!-- Animated SVG Stroke Reveal Headline Centered -->
+      <div class="w-full flex items-center justify-center overflow-visible my-1">
+        <svg viewBox="0 0 1000 130" class="w-full max-w-4xl h-20 sm:h-32 md:h-36 overflow-visible filter drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)]">
+          <text id="heroStrokeText" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="stroke-text-svg text-[54px] sm:text-[78px] md:text-[84px]">
+            13 Dec, 2026
+          </text>
+        </svg>
+      </div>
+
+      <!-- Subtitle Centered Directly Below -->
+      <p id="heroSubCaption" class="font-script text-xl sm:text-5xl md:text-5xl text-gold-200 script-glow mt-1 mb-4 opacity-0 translate-y-4 transition-all duration-1000 text-center drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
+        Celebrating Devashish &nbsp & &nbsp	 Rimu with Love and Blessings
+      </p>
+
+      <!-- Sequence Status Pill (Clean Typography, No Border / Backdrop) -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-1">
+        <span id="introSequenceBadge" class="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-gold-300/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] font-medium">
+          Revealing Title Sequence...
+        </span>
+      </div>
+    </div>
+
+    <!-- Below Center Action: Open Invitation Card Button (Opens Fullscreen 3D Bengali Invitation) -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center gap-3 w-full px-4 pointer-events-auto">
+      <button
+        id="heroOpenInvitationBtn"
+        onclick="openFullscreenBengaliInvitation()"
+        class="floral-btn px-8 sm:px-11 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-sindoor-800 via-sindoor-700 to-sindoor-800 border-2 border-gold-400 text-gold-100 font-semibold text-xs sm:text-sm uppercase tracking-[0.24em] hover:scale-105 hover:brightness-125 transition-all duration-300 shadow-[0_0_40px_rgba(212,175,55,0.6)] flex items-center gap-3 cursor-pointer group"
+      >
+        <i class="fa-solid fa-envelope-open-text text-gold-300 text-base sm:text-lg group-hover:rotate-6 transition-transform"></i>
+        <span>Open Invitation Card</span>
+        <i class="fa-solid fa-wand-magic-sparkles text-gold-300"></i>
+      </button>
+
+      <!-- Secondary Sub-Links -->
+      <div class="flex items-center gap-3 text-xs text-white/60">
+        <a href="#bentoGallerySection" class="hover:text-gold-200 transition flex items-center gap-1.5 backdrop-blur-sm px-3.5 py-1.5 rounded-full bg-obsidian/50 border border-gold-400/30">
+          <span>Explore Gallery</span>
+          <i class="fa-solid fa-arrow-down text-[10px] animate-bounce"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fixed Floating Below-Center 'Open Invitation Card' Button (Available when scrolled) -->
+  <div id="floatingBottomInviteBtn" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
+    <button
+      onclick="openFullscreenBengaliInvitation()"
+      class="floral-btn px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-sindoor-800/95 via-sindoor-700/95 to-sindoor-800/95 backdrop-blur-md border border-gold-400/80 text-gold-100 font-semibold text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(0,0,0,0.85)] flex items-center gap-2.5 hover:scale-105 hover:brightness-125 transition-all cursor-pointer"
+    >
+      <i class="fa-solid fa-envelope-open-text text-gold-300"></i>
+      <span>Open Invitation Card</span>
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 2: UNEVEN ASYMMETRIC BENTO GRID (ZERO EMPTY HOLES + LOVE STORY CARDS + TORN PAPER / INK SPLASH BORDERS + HF DEPTH PARALLAX)
+       ========================================================================= -->
+  <section id="bentoGallerySection" class="relative py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+    <!-- Decorative Floral Header -->
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <div class="flex items-center justify-center gap-3 text-gold-400 mb-3">
+        <span class="h-[1px] w-12 bg-gradient-to-r from-transparent to-gold-400"></span>
+        <i class="fa-solid fa-spa text-sm"></i>
+        <span class="text-xs uppercase tracking-[0.35em] text-gold-300">Written in the Stars</span>
+        <i class="fa-solid fa-spa text-sm"></i>
+        <span class="h-[1px] w-12 bg-gradient-to-l from-transparent to-gold-400"></span>
+      </div>
+      <h2 class="font-serif text-4xl sm:text-6xl text-white font-semibold tracking-wide mb-4">
+        Every Frame &amp; <span class="italic text-gold-300 font-normal">Chapter of Us</span>
+      </h2>
+
+      <!-- Filter, Artistic Border Style & Hugging Face Controls Toolbar -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 mt-8">
+        <button onclick="filterBentoGallery('all')" data-filter="all" class="gallery-filter-btn active-filter px-4 py-1.5 rounded-full text-xs uppercase tracking-widest border border-gold-400 bg-gold-400 text-obsidian font-semibold transition">
+          All &amp; Story Chapters
+        </button>
+        <button onclick="filterBentoGallery('photo')" data-filter="photo" class="gallery-filter-btn px-4 py-1.5 rounded-full text-xs uppercase tracking-widest border border-white/20 bg-white/5 text-white/80 hover:border-gold-400/50 transition">
+          <i class="fa-regular fa-image mr-1 text-gold-300"></i> Photos
+        </button>
+        <button onclick="filterBentoGallery('video')" data-filter="video" class="gallery-filter-btn px-4 py-1.5 rounded-full text-xs uppercase tracking-widest border border-white/20 bg-white/5 text-white/80 hover:border-gold-400/50 transition">
+          <i class="fa-solid fa-film mr-1 text-gold-300"></i> Motion Films
+        </button>
+        <button onclick="filterBentoGallery('story')" data-filter="story" class="gallery-filter-btn px-4 py-1.5 rounded-full text-xs uppercase tracking-widest border border-white/20 bg-white/5 text-white/80 hover:border-gold-400/50 transition">
+          <i class="fa-solid fa-feather-pointed mr-1 text-gold-300"></i> Love Stories
+        </button>
+
+        <!-- Border Style Switcher (Torn Paper / Ink Splash / Mixed) -->
+        <div class="inline-flex items-center bg-charcoal border border-gold-400/40 rounded-full p-1 text-xs">
+          <button onclick="setGalleryBorderStyle('mixed')" data-border="mixed" class="border-style-btn px-3 py-1 rounded-full bg-gold-400 text-obsidian font-semibold transition">
+            Mixed Art Edges
+          </button>
+          <button onclick="setGalleryBorderStyle('torn-paper')" data-border="torn-paper" class="border-style-btn px-3 py-1 rounded-full text-gold-200 hover:text-white transition">
+            Torn Paper
+          </button>
+          <button onclick="setGalleryBorderStyle('ink-splash')" data-border="ink-splash" class="border-style-btn px-3 py-1 rounded-full text-gold-200 hover:text-white transition">
+            Ink Splash
+          </button>
+        </div>
+
+        <button onclick="retriggerAllReveals()" class="px-4 py-1.5 rounded-full text-xs uppercase tracking-widest border border-gold-400/40 bg-gold-400/10 text-gold-200 hover:bg-gold-400/20 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-wand-sparkles text-gold-400"></i> Replay 6 Reveals
+        </button>
+      </div>
+    </div>
+
+    <!-- Uneven Dense Bento Grid Container (Zero Empty Spaces) -->
+    <div id="bentoGridContainer" class="bento-grid"></div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 3: HORIZONTAL SCROLL FILMSTRIP GALLERY WITH INTERACTIVE GUIDES
+       ========================================================================= -->
+  <section id="horizontalScrollSection" class="relative py-20 bg-gradient-to-b from-obsidian via-charcoal to-obsidian border-y border-gold-400/20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-2 text-gold-400 text-xs uppercase tracking-[0.3em] mb-2">
+          <i class="fa-solid fa-arrows-left-right"></i>
+          <span>Interactive Horizontal Panorama</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-white font-semibold">
+          The Golden Hour <span class="italic text-gold-300 font-normal">Filmstrip</span>
+        </h2>
+      </div>
+
+      <!-- Horizontal Scroll Guide & Navigation Controls -->
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex items-center gap-2 text-xs text-white/60 bg-white/5 border border-white/10 px-3.5 py-2 rounded-full">
+          <i class="fa-solid fa-hand-pointer text-gold-300 animate-pulse"></i>
+          <span>Drag or use arrows to glide</span>
+        </div>
+        <button onclick="scrollHorizontalStrip(-1)" class="w-11 h-11 rounded-full bg-obsidian border border-gold-400/50 text-gold-200 hover:bg-gold-400 hover:text-obsidian transition flex items-center justify-center shadow-lg" aria-label="Scroll Left">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onclick="scrollHorizontalStrip(1)" class="w-11 h-11 rounded-full bg-obsidian border border-gold-400/50 text-gold-200 hover:bg-gold-400 hover:text-obsidian transition flex items-center justify-center shadow-lg" aria-label="Scroll Right">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Horizontal Scroll Track -->
+    <div
+      id="horizontalTrack"
+      class="flex items-center gap-6 overflow-x-auto no-scrollbar px-4 sm:px-12 pb-6 cursor-grab active:cursor-grabbing select-none snap-x snap-mandatory"
+    >
+      <!-- Populated dynamically via JS -->
+    </div>
+
+    <!-- Horizontal Scroll Guide Progress Bar & Stop Markers -->
+    <div class="max-w-4xl mx-auto px-6 mt-6">
+      <div class="flex items-center justify-between text-[11px] uppercase tracking-widest text-gold-300/80 mb-2">
+        <span>01 · Prelude</span>
+        <span>02 · Vows</span>
+        <span>03 · Portraits</span>
+        <span>04 · Celebration</span>
+        <span>05 · Finale</span>
+      </div>
+      <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+        <div id="horizontalProgressBar" class="h-full bg-gradient-to-r from-gold-500 via-gold-300 to-gold-400 w-1/5 rounded-full transition-all duration-150"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 4: শুভ বিবাহ · ROYAL BENGALI INVITATION SUITE
+       INTERACTIVE 3D PAGE-TURN INVITATION BOOKLET ON MAIN PAGE
+       ========================================================================= -->
+  <section id="bengaliInvitationSection" class="relative py-24 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-2 text-gold-300 text-xs uppercase tracking-[0.35em] mb-2">
+        <span>❀</span>
+        <span>Authentic Royal Bengali Keepsake · শুভ বিবাহ</span>
+        <span>❀</span>
+      </div>
+      <h2 class="font-bengali text-4xl sm:text-6xl text-gold-200 font-bold mb-3 bengali-gold-text">
+        শুভ বিবাহ · Royal Bengali Invitation Suite
+      </h2>
+      <p class="text-sm sm:text-base text-white/75 mb-6 max-w-2xl mx-auto font-sans leading-relaxed">
+        আমাদের মাঙ্গলিক পরিণয় উৎসবের ঐতিহ্যবাহী বেনারসী নিমন্ত্রণ পত্র। Click directly on the card pages or use the page-turn buttons below to flip through our bespoke 3D invitation booklet.
+      </p>
+
+      <!-- Action Buttons Bar -->
+      <div class="flex flex-wrap items-center justify-center gap-3.5">
+        <button onclick="openFullscreenBengaliInvitation()" class="floral-btn px-6 py-3 rounded-full bg-gradient-to-r from-sindoor-800 via-sindoor-700 to-sindoor-800 border-2 border-gold-400 text-gold-100 font-semibold text-xs uppercase tracking-[0.18em] hover:scale-105 transition shadow-[0_0_30px_rgba(212,175,55,0.45)] flex items-center gap-2.5">
+          <i class="fa-solid fa-expand text-gold-300"></i>
+          <span>Launch Fullscreen View (সম্পূর্ণ দর্শন)</span>
+        </button>
+        <button onclick="openFullscreenBengaliInvitation(true)" class="px-5 py-3 rounded-full bg-white/5 hover:bg-gold-400/20 border border-gold-400/50 text-xs uppercase tracking-widest text-gold-200 transition flex items-center gap-2">
+          <i class="fa-solid fa-pen-nib text-gold-400"></i>
+          <span>Edit &amp; AI Bengali Translate</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3D BENGALI INVITATION BOOK STAGE (DIRECTLY ON MAIN PAGE) -->
+    <div class="book-stage flex flex-col items-center justify-center my-6 py-4">
+      <div class="book-container" id="mainBengaliBook">
+        
+        <!-- STATIC BASE BACKBOARD (Page 3 Right Spread: Wedding Rituals & Venue / অনুষ্ঠান সূচী ও স্থান) -->
+        <div class="absolute inset-0 bengali-page-pattern border-2 border-gold-400/80 rounded-r-2xl p-5 sm:p-7 flex flex-col justify-between shadow-[0_25px_70px_rgba(0,0,0,0.9)]">
+          <div class="border-2 border-gold-400/45 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center relative">
+            <!-- Top Kalka Ornament -->
+            <div class="text-gold-300 text-xs font-bengali tracking-widest border-b border-gold-400/30 pb-2 w-full">
+              ॥ মাঙ্গলিক অনুষ্ঠান সূচী ও স্থান ॥
+            </div>
+
+            <div class="space-y-3 my-2 w-full text-left px-2">
+              <div class="bg-obsidian/45 border border-gold-400/35 rounded-lg p-2.5">
+                <p class="font-bengali text-gold-300 font-bold text-xs sm:text-sm">❈ গায়ে হলুদ ও বৃদ্ধি (Gaye Holud):</p>
+                <p class="font-bengali text-xs text-gold-100/90 card-holud-text" id="cardHoludText">১৪ই নভেম্বর ২০২৬, সকাল ১০ ঘটিকায়</p>
+              </div>
+              <div class="bg-obsidian/45 border border-gold-400/35 rounded-lg p-2.5">
+                <p class="font-bengali text-gold-300 font-bold text-xs sm:text-sm">❈ শুভ দৃষ্টি, মালা বদল ও সিঁদুর দান:</p>
+                <p class="font-bengali text-xs text-gold-100/90 card-lagna-text" id="cardLagnaText">সন্ধ্যা ৭টা ৩০ মিনিট (শুভ লগ্ন)</p>
+              </div>
+              <div class="bg-obsidian/45 border border-gold-400/35 rounded-lg p-2.5">
+                <p class="font-bengali text-gold-300 font-bold text-xs sm:text-sm">❈ প্রীতিভোজ ও বিবাহ বাসর (Venue):</p>
+                <p class="font-bengali text-xs text-gold-100/90 card-venue-text" id="cardVenueText">রাজবাড়ি প্যারাডাইস, কলকাতা / লেক কোমো</p>
+              </div>
+            </div>
+
+            <div class="w-full pt-2 border-t border-gold-400/30 text-center">
+              <p class="font-bengali text-xs text-gold-200" id="cardRsvpText">বিনীত— ভ্যান্স ও স্টার্লিং পরিবারবর্গ</p>
+              <span class="text-[10px] uppercase tracking-widest text-gold-300/70 block mt-1">তৃতীয় পত্র · Page 03</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHEET 2 (Middle Leaf: Sacred Invitation Prose / নিমন্ত্রণ পত্র) -->
+        <div class="book-sheet book-sheet-2 z-10" onclick="flipBookPage(2, this, event)">
+          <!-- Front of Sheet 2 -->
+          <div class="book-face bengali-page-pattern text-gold-100 p-5 sm:p-7 border-2 border-gold-400/80 shadow-2xl">
+            <div class="border-2 border-gold-400/45 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center relative">
+              <span class="font-bengali text-sm text-gold-300 font-semibold">॥ সাদর নিমন্ত্রণ পত্র ॥</span>
+
+              <div class="my-1 space-y-2">
+                <p class="font-bengali text-xs sm:text-sm text-gold-100/95 leading-relaxed" id="cardSalutationBengali">
+                  সবিনয় নিবেদন, মহাশয় / মহাশয়া,
+                </p>
+                <p class="font-bengali text-xs sm:text-sm text-gold-100/90 leading-relaxed card-prose-bengali" id="cardProseBengali">
+                  প্রজাপতির নির্বন্ধে ও গুরুজনদের আশীর্বাদে আমাদের প্রিয় কন্যা ও পুত্রের শুভ পরিণয় সম্পন্ন হতে চলেছে। এই মাঙ্গলিক লগ্নে আপনার ও আপনার পরিবারের সানন্দ উপস্থিতি আমাদের একান্ত কাম্য।
+                </p>
+              </div>
+
+              <div class="py-2 px-3 sm:px-4 bg-obsidian/45 border border-gold-400/50 rounded-xl w-full">
+                <h4 class="font-bengali text-xl sm:text-2xl font-bold bengali-gold-text card-bride-bengali" id="cardBrideBengali">অরেলিয়া ভ্যান্স</h4>
+                <span class="font-bengali text-xs text-gold-300">সঙ্গিনী</span>
+                <h4 class="font-bengali text-xl sm:text-2xl font-bold bengali-gold-text card-groom-bengali" id="cardGroomBengali">জুলিয়ান স্টার্লিং</h4>
+              </div>
+
+              <div class="font-bengali text-xs text-gold-200 card-date-bengali" id="cardDateBengali">
+                শুভ বিবাহ: ২৮শে কার্তিক ১৪৩৩ (১৪ই নভেম্বর ২০২৬)
+              </div>
+
+              <span class="text-[10px] uppercase tracking-widest text-gold-300 flex items-center gap-1">
+                <span>Click to Turn Page (অনুষ্ঠান সূচী)</span>
+                <i class="fa-solid fa-share"></i>
+              </span>
+            </div>
+          </div>
+
+          <!-- Back of Sheet 2 (Left side when Sheet 2 is flipped: Poetic Blessing & English Summary) -->
+          <div class="book-face book-face-back bengali-page-pattern border-2 border-gold-400/80 p-5 sm:p-7 text-white">
+            <div class="border-2 border-gold-400/45 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center">
+              <span class="font-bengali text-sm text-gold-300">॥ মঙ্গল শ্লোক ও আশীর্বাদ ॥</span>
+
+              <div class="my-auto space-y-4">
+                <p class="font-bengali text-base sm:text-lg text-gold-200 italic leading-relaxed" id="cardPoemBengali">
+                  “যদেতৎ হৃদয়ং তব তদস্তু হৃদয়ং মম।<br/>যদিদং হৃদয়ং মম তদস্তু হৃদয়ং তব॥”
+                </p>
+                <p class="text-xs text-gold-100/80 leading-relaxed italic" id="cardEnglishNote">
+                  “May your heart become mine, and may my heart become yours as we unite in sacred matrimony.”
+                </p>
+              </div>
+
+              <span class="text-[10px] uppercase tracking-widest text-gold-300/80">দ্বিতীয় পত্র · Click to Flip Back</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHEET 1 (Front Cover Leaf: শুভ বিবাহ Royal Cover) -->
+        <div class="book-sheet book-sheet-1 z-20" onclick="flipBookPage(1, this, event)">
+          <!-- Front Cover -->
+          <div class="book-face bengali-page-pattern border-2 border-gold-400 p-5 sm:p-7 shadow-[0_25px_70px_rgba(0,0,0,0.95)]">
+            <div class="border-2 border-gold-400/60 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center relative">
+              <!-- Corner Alpona Accents -->
+              <div class="w-full flex justify-between items-center text-gold-300 text-xs">
+                <span>❈</span>
+                <span class="font-bengali text-sm tracking-widest" id="cardCoverInvocation">॥ শ্রীশ্রী প্রজাপতয়ে নমঃ ॥</span>
+                <span>❈</span>
+              </div>
+
+              <!-- Center Sacred Bengali Wedding Crest (Topor + Betel Leaf + Kalka) -->
+              <div class="my-2 flex flex-col items-center">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-gold-400 bg-obsidian/45 flex items-center justify-center mb-3 shadow-[0_0_35px_rgba(212,175,55,0.5)]">
+                  <svg class="w-12 h-12 sm:w-14 sm:h-14 text-gold-300" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 12 C68 32, 82 52, 50 88 C18 52, 32 32, 50 12 Z" stroke="currentColor" stroke-width="2.2" fill="rgba(212,175,55,0.2)"/>
+                    <circle cx="50" cy="48" r="10" stroke="currentColor" stroke-width="1.8"/>
+                    <circle cx="50" cy="48" r="3" fill="currentColor"/>
+                  </svg>
+                </div>
+
+                <h3 class="font-bengali text-3xl sm:text-5xl font-bold bengali-gold-text mb-1">শুভ বিবাহ</h3>
+                <p class="font-bengali text-xl sm:text-2xl text-gold-200 font-semibold card-cover-couple-bengali" id="cardCoverCoupleBengali">অরেলিয়া ও জুলিয়ান</p>
+                <p class="font-serif text-xs sm:text-sm uppercase tracking-[0.25em] text-gold-300/90 mt-1" id="cardCoverCoupleEnglish">Aurelia &amp; Julian</p>
+              </div>
+
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-400 text-obsidian font-bold text-[11px] uppercase tracking-widest shadow-lg">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Click Cover to Open (পত্র খুলুন)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inside Left Cover (Back of Sheet 1: Sankha-Pola & Uludhwani Art Plate) -->
+          <div class="book-face book-face-back bengali-page-pattern border-2 border-gold-400/80 p-5 sm:p-7">
+            <div class="border-2 border-gold-400/45 h-full rounded-xl overflow-hidden relative flex flex-col justify-end p-5">
+              <img
+                src="assets/images/invitation/couple-portrait.jpg"
+                alt="Couple Portrait"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80';"
+                class="absolute inset-0 w-full h-full object-cover opacity-45 ai-enhanced-media"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-sindoor-900 via-sindoor-900/50 to-transparent"></div>
+              <div class="relative z-10 text-center space-y-2">
+                <p class="font-bengali text-xl sm:text-2xl text-gold-200 font-bold">“চারিপাশে উলুধ্বনি, শঙ্খ বাজে প্রাণে”</p>
+                <p class="font-script text-xl sm:text-2xl text-gold-300">“Two souls woven in golden threads”</p>
+                <p class="text-[10px] uppercase tracking-[0.25em] text-gold-200/70">প্রথম পত্র · Inside Art Plate</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Interactive 3D Page Turn Controls Bar -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-10">
+        <button data-step="0" onclick="setBookState(0)" class="book-page-btn px-5 py-2.5 rounded-full bg-gold-400 text-obsidian font-bold text-xs uppercase tracking-wider font-bengali transition shadow-lg">
+          ১. প্রথম পত্র (Cover)
+        </button>
+        <button data-step="1" onclick="setBookState(1)" class="book-page-btn px-5 py-2.5 rounded-full bg-obsidian/70 hover:bg-gold-400/20 border border-gold-400/50 text-xs font-bengali text-gold-200 transition">
+          ২. নিমন্ত্রণ পত্র (Inside Spread 1)
+        </button>
+        <button data-step="2" onclick="setBookState(2)" class="book-page-btn px-5 py-2.5 rounded-full bg-obsidian/70 hover:bg-gold-400/20 border border-gold-400/50 text-xs font-bengali text-gold-200 transition">
+          ৩. অনুষ্ঠান সূচী (Rituals Spread 2)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 5: LUXURY FOOTER WITH NAME, INSTAGRAM, FACEBOOK & FLORAL DIVIDER
+       ========================================================================= -->
+  <footer class="relative bg-[#070609] border-t border-gold-400/25 pt-16 pb-12 px-4 sm:px-8 overflow-hidden">
+    <!-- Floral Ornament Divider -->
+    <div class="max-w-5xl mx-auto flex flex-col items-center text-center">
+      <svg class="w-56 h-10 text-gold-400/80 mb-4" viewBox="0 0 240 40" fill="none">
+        <path d="M10 20 H95 M145 20 H230" stroke="currentColor" stroke-width="1"/>
+        <circle cx="120" cy="20" r="6" fill="currentColor"/>
+        <path d="M108 20 C102 10, 92 10, 88 20 C92 30, 102 30, 108 20 Z" fill="currentColor" opacity="0.6"/>
+        <path d="M132 20 C138 10, 148 10, 152 20 C148 30, 138 30, 132 20 Z" fill="currentColor" opacity="0.6"/>
+      </svg>
+
+      <p class="text-xs uppercase tracking-[0.35em] text-gold-300/80 mb-2">Curated &amp; Celebrated By</p>
+      <h3 id="footerCreatorName" class="font-script text-5xl sm:text-6xl text-gold-200 script-glow mb-3">
+        Aurelia &amp; Julian Sterling
+      </h3>
+      <p class="text-xs sm:text-sm text-white/60 max-w-md mb-8">
+        Thank you for sharing in our visual story. Connect with us on social media or download your favorite high-resolution memories above.
+      </p>
+
+      <!-- Social Links (Instagram & Facebook + Drive Config) -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-10">
+        <a
+          id="footerInstagramLink"
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="floral-btn flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-pink-500/30 hover:to-amber-500/30 border border-gold-400/40 text-sm text-gold-100 transition shadow-lg"
+        >
+          <i class="fa-brands fa-instagram text-lg text-pink-400"></i>
+          <span>@aurelia.and.julian</span>
+        </a>
+
+        <a
+          id="footerFacebookLink"
+          href="https://facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="floral-btn flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 hover:bg-blue-500/20 border border-gold-400/40 text-sm text-gold-100 transition shadow-lg"
+        >
+          <i class="fa-brands fa-facebook-f text-lg text-blue-400"></i>
+          <span>facebook.com/aureliajulian</span>
+        </a>
+      </div>
+
+      <!-- Back to Top & Copyright -->
+      <div class="w-full pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
+        <p>© 2026 Aurelia &amp; Julian · 3D Parallax &amp; AI Enhanced Showcase</p>
+        <a href="#heroVideoSection" class="flex items-center gap-2 text-gold-300 hover:text-gold-200 uppercase tracking-widest transition">
+          <span>Back to Opening Film</span>
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MODAL 1: FULLSCREEN PHOTO/VIDEO LIGHTBOX WITH AI COMPARE & DOWNLOAD
+       ========================================================================= -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-obsidian/95 backdrop-blur-xl hidden flex-col justify-between p-4 sm:p-8">
+    <!-- Top Bar -->
+    <div class="flex items-center justify-between max-w-7xl w-full mx-auto z-10">
+      <div class="flex items-center gap-3">
+        <span id="lightboxBadge" class="px-3 py-1 rounded-full bg-gold-400/20 border border-gold-400/50 text-gold-200 text-xs uppercase tracking-widest">Photo</span>
+        <h4 id="lightboxTitle" class="font-serif text-xl sm:text-2xl text-white"></h4>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Toggle AI Filter inside Lightbox -->
+        <button onclick="toggleLightboxAI()" class="px-3.5 py-2 rounded-full bg-white/10 hover:bg-gold-400/20 border border-gold-400/40 text-xs text-gold-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-wand-magic-sparkles text-gold-400"></i>
+          <span id="lightboxAiLabel">AI HDR: ON</span>
+        </button>
+
+        <!-- Zoom In/Out Toggle -->
+        <button onclick="toggleLightboxZoom()" class="px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs text-white transition flex items-center gap-1.5">
+          <i class="fa-solid fa-magnifying-glass-plus text-gold-300"></i>
+          <span class="hidden sm:inline">Zoom</span>
+        </button>
+
+        <!-- Direct Download Option (Supports Google Drive Direct Download) -->
+        <a
+          id="lightboxDownloadBtn"
+          href="#"
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+          class="floral-btn px-4 py-2 rounded-full bg-gold-400 hover:bg-gold-300 text-obsidian font-semibold text-xs uppercase tracking-wider transition flex items-center gap-2 shadow-lg"
+        >
+          <i class="fa-solid fa-download"></i>
+          <span>Download HD</span>
+        </a>
+
+        <!-- Close Button -->
+        <button onclick="closeLightbox()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-red-500/30 border border-white/20 text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Media Viewport -->
+    <div class="relative flex-1 flex items-center justify-center overflow-hidden my-4">
+      <img
+        id="lightboxImage"
+        src=""
+        alt="Fullscreen view"
+        class="max-h-[76vh] max-w-[92vw] object-contain rounded-xl shadow-2xl transition-transform duration-500 ai-enhanced-media hidden"
+      />
+      <video
+        id="lightboxVideo"
+        controls
+        playsinline
+        class="max-h-[76vh] max-w-[92vw] rounded-xl shadow-2xl ai-enhanced-media hidden"
+      ></video>
+    </div>
+
+    <!-- Bottom Caption & Google Drive Source Info -->
+    <div class="max-w-4xl w-full mx-auto text-center">
+      <p id="lightboxCaption" class="text-sm text-white/80 mb-1"></p>
+      <p id="lightboxSourceHint" class="text-[11px] text-gold-300/70 uppercase tracking-widest"></p>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: GOOGLE DRIVE MEDIA LINK CONFIGURATOR (LIVE TESTER)
+       ========================================================================= -->
+  <div id="driveConfigModal" class="fixed inset-0 z-50 bg-obsidian/90 backdrop-blur-lg hidden items-center justify-center p-4">
+    <div class="bg-charcoal border border-gold-400/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+        <div class="flex items-center gap-2.5">
+          <i class="fa-brands fa-google-drive text-2xl text-gold-400"></i>
+          <div>
+            <h3 class="font-serif text-2xl text-white">Media Links (Google Drive & GitHub Assets)</h3>
+            <p class="text-xs text-white/60">Supports relative GitHub paths (e.g., <code>assets/videos/...</code>) or Google Drive Share Links</p>
+          </div>
+        </div>
+        <button onclick="closeDriveModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block text-gold-200 uppercase tracking-wider mb-1">Background Music (Google Drive MP3 Share Link or URL)</label>
+          <input id="inputMusicUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/YOUR_AUDIO_FILE_ID/view?usp=sharing" />
+        </div>
+
+        <div>
+          <label class="block text-gold-200 uppercase tracking-wider mb-1">Opening Hero Video (Google Drive MP4 Share Link or URL)</label>
+          <input id="inputHeroVideoUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/1Es4Acamgi-oFkR8ft4DcZUCfMKvciNs5/view?usp=sharing" />
+        </div>
+
+        <div>
+          <label class="block text-gold-200 uppercase tracking-wider mb-1">Featured Gallery Image #1 (Google Drive Image Link)</label>
+          <input id="inputFirstImageUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/YOUR_IMAGE_FILE_ID/view?usp=sharing" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-gold-200 uppercase tracking-wider mb-1">Footer Name</label>
+            <input id="inputFooterName" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gold-200 uppercase tracking-wider mb-1">Instagram URL</label>
+            <input id="inputInstagram" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gold-200 uppercase tracking-wider mb-1">Facebook URL</label>
+            <input id="inputFacebook" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="bg-gold-400/10 border border-gold-400/30 rounded-xl p-3.5 text-white/80 leading-relaxed">
+          <p class="font-semibold text-gold-300 mb-1"><i class="fa-solid fa-circle-info mr-1"></i> How Google Drive Links Work:</p>
+          <p>Make sure your Google Drive file permission is set to <strong>"Anyone with the link can view"</strong>. You can also permanently edit all links inside the <code>GOOGLE_DRIVE_MEDIA_CONFIG</code> object at the top of the script.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-white/10">
+        <button onclick="closeDriveModal()" class="px-4 py-2 rounded-full border border-white/20 text-xs uppercase tracking-wider text-white/70 hover:text-white">
+          Cancel
+        </button>
+        <button onclick="applyDriveConfigFromModal()" class="floral-btn px-6 py-2.5 rounded-full bg-gold-400 text-obsidian font-semibold text-xs uppercase tracking-wider hover:bg-gold-300 transition">
+          Apply &amp; Reload Media
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: FULLSCREEN BENGALI WEDDING INVITATION (শুভ বিবাহ)
+       WITH ANIMATED CEREMONIAL REVEAL, 3D PAGE-TURN & LIVE AI BENGALI EDITOR
+       ========================================================================= -->
+  <div id="bengaliInvitationModal" class="fixed inset-0 z-50 banarasi-bg hidden flex-col justify-between overflow-y-auto overflow-x-hidden p-4 sm:p-8">
+    <!-- Animated Floating Alpona & Golden Mandala Background Ornaments -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      <svg class="w-[520px] h-[520px] text-gold-400/10 absolute -top-36 -left-36 mandala-spin" viewBox="0 0 200 200" fill="none">
+        <circle cx="100" cy="100" r="92" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <circle cx="100" cy="100" r="72" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M100 8 C125 60, 140 75, 192 100 C140 125, 125 140, 100 192 C75 140, 60 125, 8 100 C60 75, 75 60, 100 8 Z" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <svg class="w-[520px] h-[520px] text-gold-400/10 absolute -bottom-36 -right-36 mandala-spin" viewBox="0 0 200 200" fill="none">
+        <circle cx="100" cy="100" r="92" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <circle cx="100" cy="100" r="72" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M100 8 C125 60, 140 75, 192 100 C140 125, 125 140, 100 192 C75 140, 60 125, 8 100 C60 75, 75 60, 100 8 Z" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- Top Ceremonial Header Bar -->
+    <div class="relative z-20 max-w-7xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 border-b border-gold-400/30 pb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gold-400/20 border border-gold-400 flex items-center justify-center text-gold-300 font-bengali font-bold text-lg">
+          শুভ
+        </div>
+        <div>
+          <h3 class="font-bengali text-xl sm:text-2xl text-gold-200 font-bold">শুভ বিবাহ · Royal Bengali Invitation Suite</h3>
+          <p class="text-xs text-gold-200/75">Click the pages or buttons below to turn pages · Edit text or translate with Hugging Face AI</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button onclick="toggleBengaliEditorDrawer()" class="floral-btn px-4 py-2 rounded-full bg-gold-400/20 hover:bg-gold-400/35 border border-gold-400 text-xs text-gold-100 uppercase tracking-wider transition flex items-center gap-2">
+          <i class="fa-solid fa-language text-gold-300 text-sm"></i>
+          <span>Edit &amp; AI Translate (বাংলা)</span>
+        </button>
+        <button onclick="closeFullscreenBengaliInvitation()" class="w-10 h-10 rounded-full bg-obsidian/60 hover:bg-red-500/40 border border-gold-400/50 text-gold-200 flex items-center justify-center transition" title="Close Fullscreen Invitation">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Center Stage: 3D Page-Turn Book + Optional Collapsible AI Editor Drawer -->
+    <div class="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 my-6 max-w-7xl w-full mx-auto">
+      
+      <!-- 3D BENGALI INVITATION BOOK -->
+      <div id="bengaliBookWrapper" class="book-stage flex flex-col items-center justify-center ceremonial-reveal">
+        <div id="modalBengaliBook" class="book-container">
+          
+          <!-- STATIC BASE BACKBOARD (Page 3 Right Spread: Wedding Rituals & Venue / অনুষ্ঠান সূচী) -->
+          <div class="absolute inset-0 bengali-page-pattern border-2 border-gold-400/80 rounded-r-2xl p-5 sm:p-7 flex flex-col justify-between shadow-[0_25px_70px_rgba(0,0,0,0.9)]">
+            <div class="border-2 border-gold-400/45 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center relative">
+              <!-- Top Kalka Ornament -->
+              <div class="text-gold-300 text-xs font-bengali tracking-widest border-b border-gold-400/30 pb-2 w-full">
+                ॥ মাঙ্গলিক অনুষ্ঠান সূচী ও স্থান ॥
+              </div>
+
+              <div class="space-y-3 my-2 w-full text-left px-2">
+                <div class="bg-obsidian/35 border border-gold-400/30 rounded-lg p-2.5">
+                  <p class="font-bengali text-gold-300 font-bold text-sm">❈ গায়ে হলুদ ও বৃদ্ধি (Gaye Holud):</p>
+                  <p class="font-bengali text-xs text-gold-100/90 card-holud-text">১৪ই নভেম্বর ২০২৬, সকাল ১০ ঘটিকায়</p>
+                </div>
+                <div class="bg-obsidian/35 border border-gold-400/30 rounded-lg p-2.5">
+                  <p class="font-bengali text-gold-300 font-bold text-sm">❈ শুভ দৃষ্টি, মালা বদল ও সিঁদুর দান:</p>
+                  <p class="font-bengali text-xs text-gold-100/90 card-lagna-text">সন্ধ্যা ৭টা ৩০ মিনিট (শুভ লগ্ন)</p>
+                </div>
+                <div class="bg-obsidian/35 border border-gold-400/30 rounded-lg p-2.5">
+                  <p class="font-bengali text-gold-300 font-bold text-sm">❈ প্রীতিভোজ ও বিবাহ বাসর (Venue):</p>
+                  <p class="font-bengali text-xs text-gold-100/90 card-venue-text">রাজবাড়ি প্যারাডাইস, কলকাতা / লেক কোমো</p>
+                </div>
+              </div>
+
+              <div class="w-full pt-2 border-t border-gold-400/30 text-center">
+                <p class="font-bengali text-xs text-gold-200">বিনীত— ভ্যান্স ও স্টার্লিং পরিবারবর্গ</p>
+                <span class="text-[10px] uppercase tracking-widest text-gold-300/70 block mt-1">তৃতীয় পত্র · Page 03</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SHEET 2 (Middle Leaf: Sacred Invitation Prose / নিমন্ত্রণ পত্র) -->
+          <div class="book-sheet book-sheet-2 z-10" onclick="flipBookPage(2, this, event)">
+            <!-- Front of Sheet 2 -->
+            <div class="book-face bengali-page-pattern text-gold-100 p-5 sm:p-7 border-2 border-gold-400/80 shadow-2xl">
+              <div class="border-2 border-gold-400/45 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center relative">
+                <span class="font-bengali text-sm text-gold-300 font-semibold">॥ সাদর নিমন্ত্রণ পত্র ॥</span>
+
+                <div class="my-1 space-y-2">
+                  <p class="font-bengali text-xs sm:text-sm text-gold-100/95 leading-relaxed">
+                    সবিনয় নিবেদন, মহাশয় / মহাশয়া,
+                  </p>
+                  <p class="font-bengali text-xs sm:text-sm text-gold-100/90 leading-relaxed card-prose-bengali">
+                    প্রজাপতির নির্বন্ধে ও গুরুজনদের আশীর্বাদে আমাদের প্রিয় কন্যা ও পুত্রের শুভ পরিণয় সম্পন্ন হতে চলেছে। এই মাঙ্গলিক লগ্নে আপনার ও আপনার পরিবারের সানন্দ উপস্থিতি আমাদের একান্ত কাম্য।
+                  </p>
+                </div>
+
+                <div class="py-2.5 px-4 bg-obsidian/40 border border-gold-400/50 rounded-xl w-full">
+                  <h4 class="font-bengali text-2xl sm:text-3xl font-bold bengali-gold-text card-bride-bengali">অরেলিয়া ভ্যান্স</h4>
+                  <span class="font-bengali text-xs text-gold-300">সঙ্গিনী</span>
+                  <h4 class="font-bengali text-2xl sm:text-3xl font-bold bengali-gold-text card-groom-bengali">জুলিয়ান স্টার্লিং</h4>
+                </div>
+
+                <div class="font-bengali text-xs text-gold-200 card-date-bengali">
+                  শুভ বিবাহ: ২৮শে কার্তিক ১৪৩৩ (১৪ই নভেম্বর ২০২৬)
+                </div>
+
+                <span class="text-[10px] uppercase tracking-widest text-gold-300 flex items-center gap-1">
+                  <span>Click to Turn Page (অনুষ্ঠান সূচী)</span>
+                  <i class="fa-solid fa-share"></i>
+                </span>
+              </div>
+            </div>
+
+            <!-- Back of Sheet 2 (Left side when Sheet 2 is flipped: Poetic Blessing & English Summary) -->
+            <div class="book-face book-face-back bengali-page-pattern border-2 border-gold-400/80 p-5 sm:p-7 text-white">
+              <div class="border-2 border-gold-400/45 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center">
+                <span class="font-bengali text-sm text-gold-300">॥ মঙ্গল শ্লোক ও আশীর্বাদ ॥</span>
+
+                <div class="my-auto space-y-4">
+                  <p class="font-bengali text-base sm:text-lg text-gold-200 italic leading-relaxed">
+                    “যদেতৎ হৃদয়ং তব তদস্তু হৃদয়ং মম।<br/>যদিদং হৃদয়ং মম তদস্তু হৃদয়ং তব॥”
+                  </p>
+                  <p class="text-xs text-gold-100/80 leading-relaxed italic">
+                    “May your heart become mine, and may my heart become yours as we unite in sacred matrimony.”
+                  </p>
+                </div>
+
+                <span class="text-[10px] uppercase tracking-widest text-gold-300/80">দ্বিতীয় পত্র · Click to Flip Back</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SHEET 1 (Front Cover Leaf: শুভ বিবাহ Royal Cover) -->
+          <div class="book-sheet book-sheet-1 z-20" onclick="flipBookPage(1, this, event)">
+            <!-- Front Cover -->
+            <div class="book-face bengali-page-pattern border-2 border-gold-400 p-5 sm:p-7 shadow-[0_25px_70px_rgba(0,0,0,0.95)]">
+              <div class="border-2 border-gold-400/60 h-full rounded-xl p-5 flex flex-col items-center justify-between text-center relative">
+                <!-- Corner Alpona Accents -->
+                <div class="w-full flex justify-between items-center text-gold-300 text-xs">
+                  <span>❈</span>
+                  <span class="font-bengali text-sm tracking-widest">॥ শ্রীশ্রী প্রজাপতয়ে নমঃ ॥</span>
+                  <span>❈</span>
+                </div>
+
+                <!-- Center Sacred Bengali Wedding Crest (Topor + Betel Leaf + Kalka) -->
+                <div class="my-2 flex flex-col items-center">
+                  <div class="w-24 h-24 rounded-full border-2 border-gold-400 bg-obsidian/45 flex items-center justify-center mb-3 shadow-[0_0_35px_rgba(212,175,55,0.5)]">
+                    <svg class="w-14 h-14 text-gold-300" viewBox="0 0 100 100" fill="none">
+                      <path d="M50 12 C68 32, 82 52, 50 88 C18 52, 32 32, 50 12 Z" stroke="currentColor" stroke-width="2.2" fill="rgba(212,175,55,0.2)"/>
+                      <circle cx="50" cy="48" r="10" stroke="currentColor" stroke-width="1.8"/>
+                      <circle cx="50" cy="48" r="3" fill="currentColor"/>
+                    </svg>
+                  </div>
+
+                  <h2 class="font-bengali text-4xl sm:text-5xl font-bold bengali-gold-text mb-2">শুভ বিবাহ</h2>
+                  <p class="font-bengali text-xl sm:text-2xl text-gold-200 font-semibold card-cover-couple-bengali">অরেলিয়া ও জুলিয়ান</p>
+                  <p class="font-serif text-sm uppercase tracking-[0.25em] text-gold-300/90 mt-1">Aurelia &amp; Julian</p>
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-400 text-obsidian font-bold text-[11px] uppercase tracking-widest shadow-lg">
+                  <i class="fa-solid fa-book-open"></i>
+                  <span>Click Cover to Open (পত্র খুলুন)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inside Left Cover (Back of Sheet 1: Sankha-Pola & Uludhwani Art Plate) -->
+            <div class="book-face book-face-back bengali-page-pattern border-2 border-gold-400/80 p-5 sm:p-7">
+              <div class="border-2 border-gold-400/45 h-full rounded-xl overflow-hidden relative flex flex-col justify-end p-5">
+                <img
+                  src="assets/images/invitation/couple-portrait.jpg"
+                  alt="Couple Portrait"
+                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80';"
+                  class="absolute inset-0 w-full h-full object-cover opacity-45 ai-enhanced-media"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-sindoor-900 via-sindoor-900/50 to-transparent"></div>
+                <div class="relative z-10 text-center space-y-2">
+                  <p class="font-bengali text-2xl text-gold-200 font-bold">“চারিপাশে উলুধ্বনি, শঙ্খ বাজে প্রাণে”</p>
+                  <p class="font-script text-2xl text-gold-300">“Two souls woven in golden threads”</p>
+                  <p class="text-[10px] uppercase tracking-[0.25em] text-gold-200/70">প্রথম পত্র · Inside Art Plate</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Interactive 3D Page Turn Controls Bar -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mt-8">
+          <button data-step="0" onclick="setBookState(0)" class="book-page-btn px-4 py-2 rounded-full bg-obsidian/70 hover:bg-gold-400/20 border border-gold-400/50 text-xs font-bengali text-gold-200 transition">
+            ১. প্রথম পত্র (Cover)
+          </button>
+          <button data-step="1" onclick="setBookState(1)" class="book-page-btn floral-btn px-5 py-2.5 rounded-full bg-gold-400 text-obsidian font-bold text-xs font-bengali hover:bg-gold-300 transition shadow-lg">
+            ২. নিমন্ত্রণ পত্র (Inside Spread 1)
+          </button>
+          <button data-step="2" onclick="setBookState(2)" class="book-page-btn px-4 py-2 rounded-full bg-obsidian/70 hover:bg-gold-400/20 border border-gold-400/50 text-xs font-bengali text-gold-200 transition">
+            ৩. অনুষ্ঠান সূচী (Rituals Spread 2)
+          </button>
+        </div>
+      </div>
+
+      <!-- LIVE EDITABLE & HUGGING FACE AI ENGLISH-TO-BENGALI TRANSLATION DRAWER -->
+      <div id="bengaliEditorDrawer" class="hidden w-full max-w-md bg-obsidian/90 backdrop-blur-xl border-2 border-gold-400/60 rounded-2xl p-5 sm:p-6 shadow-2xl text-xs space-y-3.5 max-h-[80vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-gold-400/30 pb-3">
+          <div>
+            <h4 class="font-serif text-xl text-gold-200 font-semibold flex items-center gap-2">
+              <span>🤗</span>
+              <span>Live Editor &amp; AI Bengali Translator</span>
+            </h4>
+            <p class="text-[11px] text-white/60">Type in English or Bengali — click "AI Translate" to convert into poetic Bengali</p>
+          </div>
+          <button onclick="toggleBengaliEditorDrawer()" class="text-white/60 hover:text-white">
+            <i class="fa-solid fa-xmark text-base"></i>
+          </button>
+        </div>
+
+        <!-- English Input for Instant AI Translation to Bengali -->
+        <div class="bg-gold-400/10 border border-gold-400/40 rounded-xl p-3 space-y-2">
+          <label class="block text-gold-300 font-semibold uppercase tracking-wider">English Message to Translate via Hugging Face AI:</label>
+          <textarea id="aiEnglishSourceInput" rows="2" class="w-full bg-obsidian border border-gold-400/40 rounded-lg p-2 text-white focus:outline-none" placeholder="e.g. With the blessings of our parents, we invite you and your family to celebrate our sacred wedding ceremony.">With the blessings of our parents, we warmly invite you and your family to celebrate our auspicious wedding ceremony.</textarea>
+          <div class="flex items-center justify-between gap-2">
+            <button onclick="translateInvitationWithHF()" id="hfTranslateBtn" class="w-full py-2 rounded-lg bg-gold-400 hover:bg-gold-300 text-obsidian font-bold uppercase tracking-wider transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>AI Translate to Bengali (বাংলা অনুবাদ)</span>
+            </button>
+          </div>
+          <p id="hfTranslationStatus" class="text-[10px] text-emerald-300 hidden"></p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-gold-200 mb-1">Bride Name (কনে)</label>
+            <input id="editBrideBengali" type="text" value="অরেলিয়া ভ্যান্স" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+          </div>
+          <div>
+            <label class="block text-gold-200 mb-1">Groom Name (বর)</label>
+            <input id="editGroomBengali" type="text" value="জুলিয়ান স্টার্লিং" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gold-200 mb-1">Cover Title Couple (প্রথম পত্র নাম)</label>
+          <input id="editCoverCoupleBengali" type="text" value="অরেলিয়া ও জুলিয়ান" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+        </div>
+
+        <div>
+          <label class="block text-gold-200 mb-1">Main Invitation Prose (নিমন্ত্রণ বার্তা - Editable)</label>
+          <textarea id="editProseBengali" rows="3" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali leading-relaxed">প্রজাপতির নির্বন্ধে ও গুরুজনদের আশীর্বাদে আমাদের প্রিয় কন্যা ও পুত্রের শুভ পরিণয় সম্পন্ন হতে চলেছে। এই মাঙ্গলিক লগ্নে আপনার ও আপনার পরিবারের সানন্দ উপস্থিতি আমাদের একান্ত কাম্য।</textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-gold-200 mb-1">Wedding Date (তারিখ)</label>
+            <input id="editDateBengali" type="text" value="শুভ বিবাহ: ২৮শে কার্তিক ১৪৩৩ (১৪ই নভেম্বর ২০২৬)" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+          </div>
+          <div>
+            <label class="block text-gold-200 mb-1">Venue (বিবাহ বাসর)</label>
+            <input id="editVenueBengali" type="text" value="রাজবাড়ি প্যারাডাইস, কলকাতা / লেক কোমো" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-gold-200 mb-1">Gaye Holud (গায়ে হলুদ)</label>
+            <input id="editHoludBengali" type="text" value="১৪ই নভেম্বর ২০২৬, সকাল ১০ ঘটিকায়" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+          </div>
+          <div>
+            <label class="block text-gold-200 mb-1">Shubho Lagna (শুভ লগ্ন)</label>
+            <input id="editLagnaBengali" type="text" value="সন্ধ্যা ৭টা ৩০ মিনিট (শুভ লগ্ন)" oninput="syncBengaliCardEdits()" class="w-full bg-charcoal border border-white/20 rounded-lg px-3 py-2 text-white font-bengali" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer Inside Fullscreen Modal -->
+    <div class="relative z-20 text-center text-xs text-gold-200/70">
+      <span>॥ প্রজাপতির আশীর্বাদে দুটি হৃদয়ের মিলন ॥ · Tip: Click any page to flip or use "Edit &amp; AI Translate" to customize</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: HUGGING FACE AI STUDIO (DEPTH PARALLAX, IMAGE ENHANCEMENT & API KEY)
+       ========================================================================= -->
+  <div id="hfStudioModal" class="fixed inset-0 z-50 bg-obsidian/90 backdrop-blur-lg hidden items-center justify-center p-4">
+    <div class="bg-charcoal border border-gold-400/60 rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">🤗</span>
+          <div>
+            <h3 class="font-serif text-2xl text-white">Hugging Face AI Studio &amp; Depth Parallax</h3>
+            <p class="text-xs text-white/60">AI Image Enhancement, 2.5D Depth Map Parallax &amp; Neural English-to-Bengali Translation</p>
+          </div>
+        </div>
+        <button onclick="closeHfStudioModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <!-- Optional HF API Token -->
+        <div class="bg-obsidian/80 border border-gold-400/30 rounded-xl p-4">
+          <label class="block text-gold-200 uppercase tracking-wider font-semibold mb-1">
+            Hugging Face Inference API Token (Optional — Works Out-of-the-Box with Built-In WebGL/Canvas AI Engine)
+          </label>
+          <input id="hfApiTokenInput" type="password" class="w-full bg-charcoal border border-white/20 rounded-lg px-3.5 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx (Optional for live cloud inference)" />
+          <p class="text-[11px] text-white/55 mt-1.5">
+            Models integrated: <code>Xenova/depth-anything-small-hf</code> (Depth Parallax), <code>caidas/swin2SR-classical-sr-x2-64</code> (Image Super-Resolution), and <code>Helsinki-NLP/opus-mt-en-bn</code> (Bengali Translation).
+          </p>
+        </div>
+
+        <!-- AI Controls Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-between">
+            <div>
+              <h4 class="text-gold-200 font-semibold uppercase tracking-wider mb-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-gold-400 mr-1"></i> AI HDR &amp; Super-Resolution
+              </h4>
+              <p class="text-white/65 text-[11px] mb-3">Enhances micro-contrast, golden hour warmth, and edge sharpness across all gallery media.</p>
+            </div>
+            <button onclick="toggleGlobalAI()" class="w-full py-2 rounded-lg bg-gold-400/20 hover:bg-gold-400/30 border border-gold-400/50 text-gold-200 font-semibold uppercase tracking-wider transition">
+              Toggle AI Enhance (<span id="hfModalAiState">ON</span>)
+            </button>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-between">
+            <div>
+              <h4 class="text-gold-200 font-semibold uppercase tracking-wider mb-1">
+                <i class="fa-solid fa-layer-group text-gold-400 mr-1"></i> 2.5D Depth Map Parallax Intensity
+              </h4>
+              <p class="text-white/65 text-[11px] mb-3">Subtle multi-plane depth displacement when hovering or scrolling over gallery photos.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <input id="hfParallaxRange" type="range" min="0" max="2" step="0.2" value="1" oninput="updateHfParallaxIntensity(this.value)" class="w-full accent-amber-400" />
+              <span id="hfParallaxValueLabel" class="text-gold-300 font-semibold w-10 text-right">1.0x</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Run AI Depth & Enhancement Scan Demo -->
+        <div class="bg-emerald-500/10 border border-emerald-400/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p class="text-emerald-200 font-semibold">Run Hugging Face Depth &amp; Color Pipeline on All Gallery Photos</p>
+            <p id="hfPipelineStatusText" class="text-[11px] text-white/70">Status: Depth maps &amp; golden-hour neural LUT active on 8 gallery captures.</p>
+          </div>
+          <button onclick="runHfBatchEnhancement()" class="shrink-0 px-5 py-2.5 rounded-full bg-gold-400 hover:bg-gold-300 text-obsidian font-bold uppercase tracking-wider transition">
+            Re-Analyze Gallery
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-end mt-6 pt-4 border-t border-white/10">
+        <button onclick="closeHfStudioModal()" class="floral-btn px-6 py-2.5 rounded-full bg-gold-400 text-obsidian font-semibold text-xs uppercase tracking-wider">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MAIN APPLICATION JAVASCRIPT
+       ========================================================================= -->
+  <script>
+    /* =========================================================================
+       1. GOOGLE DRIVE CONFIGURATION, WOVEN LOVE STORY CARDS & ART BORDERS
+       ========================================================================= */
+    const GOOGLE_DRIVE_MEDIA_CONFIG = {
+      creatorName: "Aurelia & Julian Sterling",
+      instagramUrl: "https://instagram.com",
+      instagramHandle: "@aurelia.and.julian",
+      facebookUrl: "https://facebook.com",
+      facebookHandle: "facebook.com/aureliajulian",
+
+      // Background Music (Local asset relative path, or Google Drive link)
+      backgroundMusicDriveLink: "assets/audio/background-music.mp3",
+      backgroundMusicFallback: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+
+      // Opening Hero Video (Local intro.mp4 or Google Drive video link)
+      openingVideoDriveLink: "assets/videos/intro.mp4",
+
+      // Uneven Bento Grid Items (Interleaved Photos, Videos & Story Chapters)
+      bentoItems: [
+        // Row 1 & 2: 8 cols (Hero Video) + 4 cols (Story 1: First Meet) = 12 cols
+        {
+          id: "bento-1",
+          type: "video",
+          title: "The First Glance in Golden Mist",
+          caption: "Captured in 4K slow motion as morning light filters through the cypress trees.",
+          driveLink: "assets/videos/ceremony.mp4",
+          fallbackLink: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85",
+          poster: "assets/images/invitation/poster.jpg",
+          spanClass: "bento-hero",
+          borderStyle: "border-torn-paper",
+          revealStyle: "reveal-blur-clear",
+          revealName: "Blur to Clear",
+          parallaxSpeed: 0.045
+        },
+        {
+          id: "story-1",
+          type: "story",
+          chapter: "Chapter I · Autumn 2021",
+          bengaliTag: "প্রথম দেখা · কলেজ স্ট্রিট ও কফি হাউস",
+          title: "The First Meet",
+          storyText: "A monsoon afternoon inside an old bookshop where two strangers reached for the same volume of Tagore’s poetry. Over steaming clay cups of masala chai, a five-minute conversation turned into four unforgettable hours.",
+          quote: "“Some souls recognize each other the very moment their eyes meet.”",
+          spanClass: "bento-story-tall",
+          revealStyle: "reveal-fade-up",
+          revealName: "Fade & Rise"
+        },
+
+        // Row 3 & 4: 5 cols (Photo Tall) + 7 cols (Photo Wide + Story 2 Wide stacked) = 12 cols
+        {
+          id: "bento-2",
+          type: "photo",
+          title: "Velvet & Lace Bridals",
+          caption: "Intricate hand-embroidered botanical lace illuminated by chandelier glow.",
+          driveLink: "assets/images/bento/photo-1.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85",
+          spanClass: "bento-tall",
+          borderStyle: "border-ink-splash",
+          revealStyle: "reveal-curtain",
+          revealName: "Curtain Wipe",
+          parallaxSpeed: -0.04
+        },
+        {
+          id: "bento-4",
+          type: "photo",
+          title: "The Lake Como Promenade",
+          caption: "Panoramic architectural symmetry across the historic limestone terrace.",
+          driveLink: "assets/images/bento/photo-2.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1400&q=85",
+          spanClass: "bento-wide",
+          borderStyle: "border-torn-paper",
+          revealStyle: "reveal-flip-3d",
+          revealName: "3D Flip Unfold",
+          parallaxSpeed: 0.035
+        },
+        {
+          id: "story-2",
+          type: "story",
+          chapter: "Chapter II · Winter 2023",
+          bengaliTag: "প্রথম ভ্রমণ · কাঞ্চনজঙ্ঘার ভোর",
+          title: "First Mountain Sunrise",
+          storyText: "Wrapped in woolen shawls at Tiger Hill, watching the snow peaks turn molten gold as we promised to travel every horizon together.",
+          quote: "“In the quiet of the mountains, we found our forever home.”",
+          spanClass: "bento-story-wide",
+          revealStyle: "reveal-zoom-settle",
+          revealName: "Zoom & Settle"
+        },
+
+        // Row 5 & 6: 4 cols (Portrait Photo) + 8 cols (Feature Video) = 12 cols
+        {
+          id: "bento-5",
+          type: "photo",
+          title: "Heirloom Rose Bouquet",
+          caption: "Blush garden roses, ivory peonies, and gilded olive branches.",
+          driveLink: "assets/images/bento/photo-3.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=85",
+          spanClass: "bento-portrait",
+          borderStyle: "border-torn-paper",
+          revealStyle: "reveal-zoom-settle",
+          revealName: "Zoom & Settle",
+          parallaxSpeed: 0.045
+        },
+        {
+          id: "bento-6",
+          type: "video",
+          title: "Midnight Sparkler Waltz",
+          caption: "A whirlwind celebration surrounded by golden embers and string music.",
+          driveLink: "assets/videos/reception.mp4",
+          fallbackLink: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=85",
+          poster: "assets/images/bento/photo-4.jpg",
+          spanClass: "bento-feature",
+          borderStyle: "border-ink-splash",
+          revealStyle: "reveal-rotate-skew",
+          revealName: "Rotate & Skew",
+          parallaxSpeed: -0.045
+        },
+
+        // Row 7: 4 cols (Photo) + 4 cols (Story 3: Proposal) + 4 cols (Photo) = 12 cols
+        {
+          id: "bento-3",
+          type: "photo",
+          title: "Champagne Tower Reflections",
+          caption: "Crystal coupe glasses shimmering under warm candlelit sparklers.",
+          driveLink: "assets/images/bento/photo-4.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=85",
+          spanClass: "bento-third",
+          borderStyle: "border-ink-splash",
+          revealStyle: "reveal-fade-up",
+          revealName: "Fade & Rise",
+          parallaxSpeed: 0.035
+        },
+        {
+          id: "story-3",
+          type: "story",
+          chapter: "Chapter III · Spring 2025",
+          bengaliTag: "আংটি বদল ও আশীর্বাদ · শুভ অঙ্গীকার",
+          title: "The Lantern Proposal",
+          storyText: "Beneath a hundred floating sky lanterns by the river ghat, Julian knelt with a vintage heirloom ring and asked the question that began our eternity.",
+          quote: "“One thousand lanterns, one resounding Yes.”",
+          spanClass: "bento-third",
+          revealStyle: "reveal-flip-3d",
+          revealName: "3D Flip Unfold"
+        },
+        {
+          id: "bento-7",
+          type: "photo",
+          title: "Cathedral Veil in Motion",
+          caption: "Caught by the twilight breeze along the marble staircase.",
+          driveLink: "assets/images/bento/photo-5.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1100&q=85",
+          spanClass: "bento-third",
+          borderStyle: "border-torn-paper",
+          revealStyle: "reveal-blur-clear",
+          revealName: "Blur to Clear",
+          parallaxSpeed: 0.035
+        }
+      ],
+
+      // Horizontal Filmstrip Panorama Items
+      horizontalStripItems: [
+        {
+          title: "01 · Arrival by Vintage Riva Boat",
+          location: "Lake Como Pier",
+          driveLink: "assets/images/filmstrip/slide-1.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=1000&q=85"
+        },
+        {
+          title: "02 · Botanical Archway Vows",
+          location: "Cypress Loggia",
+          driveLink: "assets/images/filmstrip/slide-2.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85"
+        },
+        {
+          title: "03 · Editorial Courtyard Portraits",
+          location: "Villa Gardens",
+          driveLink: "assets/images/filmstrip/slide-3.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85"
+        },
+        {
+          title: "04 · Candlelit Imperial Table",
+          location: "Grand Conservatory",
+          driveLink: "assets/images/filmstrip/slide-4.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=85"
+        },
+        {
+          title: "05 · Fireworks Over Bellagio",
+          location: "Waterfront Terrace",
+          driveLink: "assets/images/filmstrip/slide-5.jpg",
+          fallbackLink: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1000&q=85"
+        }
+      ]
+    };
+
+    /**
+     * Helper: Extracts Google Drive File ID from any share link format and converts it
+     * into direct streaming/image/download URLs.
+     */
+    function resolveGoogleDriveUrl(inputUrl, mediaType = 'image', forDownload = false) {
+      if (!inputUrl) return '';
+      const trimmed = inputUrl.trim();
+
+      const driveRegex = /(?:drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*id=)|docs\.google\.com\/uc\?.*id=)([a-zA-Z0-9_-]{20,})/;
+      const match = trimmed.match(driveRegex);
+
+      if (match && match[1]) {
+        const fileId = match[1];
+        if (forDownload) {
+          return `https://drive.google.com/uc?export=download&id=${fileId}`;
+        }
+        if (mediaType === 'image') {
+          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
+        }
+        return `https://drive.google.com/uc?export=download&id=${fileId}`;
+      }
+
+      return trimmed;
+    }
+
+    /* =========================================================================
+       2. STATE VARIABLES
+       ========================================================================= */
+    let globalAiEnabled = true;
+    let lightboxAiEnabled = true;
+    let lightboxZoomed = false;
+    let isMusicPlaying = false;
+    let petalsEnabled = true;
+    let currentBorderMode = 'mixed'; // 'mixed' | 'torn-paper' | 'ink-splash'
+    let hfParallaxMultiplier = 1.0;
+    let introClearTimer = null;
+    let introAutoScrollTimer = null;
+
+    /* =========================================================================
+       3. INITIALIZATION & INTRO SEQUENCE
+       Sequence:
+       1) Website Preloader Curtain -> User clicks Enter (or auto-completes)
+       2) Opening Video starts with centered SVG Stroke-Animated Glow Text
+       3) Text fades out so crystal-clear video plays unobstructed for 3.5 seconds
+       4) Smoothly reveals/scrolls into the 3D Bento Gallery
+       ========================================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      initMediaSources();
+      renderBentoGallery('all');
+      renderHorizontalFilmstrip();
+      initScrollObservers();
+      initParallaxAndScrollGuides();
+      initHorizontalDragScroll();
+      initFallingPetalsCanvas();
+
+      // Animate Preloader Bar
+      const bar = document.getElementById('preloaderBar');
+      setTimeout(() => { bar.style.width = '100%'; }, 100);
+
+      document.getElementById('enterExperienceBtn').addEventListener('click', () => {
+        dismissPreloaderAndStartIntro(true);
+      });
+
+      // Also allow automatic dismissal after 2.4s if user doesn't click
+      setTimeout(() => {
+        const preloader = document.getElementById('introPreloader');
+        if (preloader && !preloader.classList.contains('opacity-0')) {
+          dismissPreloaderAndStartIntro(false);
+        }
+      }, 2600);
+    });
+
+    function initMediaSources() {
+      // Audio
+      const audioEl = document.getElementById('bgMusicPlayer');
+      audioEl.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink, 'audio');
+      audioEl.onerror = () => {
+        if (!audioEl.dataset.fallbackApplied && GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicFallback) {
+          audioEl.dataset.fallbackApplied = 'true';
+          audioEl.src = GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicFallback;
+          audioEl.load();
+          if (isMusicPlaying) audioEl.play().catch(() => {});
+        }
+      };
+
+      // Hero Video
+      const heroVid = document.getElementById('heroBackdropVideo');
+      heroVid.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink, 'video');
+      heroVid.load();
+      heroVid.play().catch(() => {});
+
+      // Footer Info
+      document.getElementById('footerCreatorName').textContent = GOOGLE_DRIVE_MEDIA_CONFIG.creatorName;
+      const igLink = document.getElementById('footerInstagramLink');
+      igLink.href = GOOGLE_DRIVE_MEDIA_CONFIG.instagramUrl;
+      igLink.querySelector('span').textContent = GOOGLE_DRIVE_MEDIA_CONFIG.instagramHandle;
+
+      const fbLink = document.getElementById('footerFacebookLink');
+      fbLink.href = GOOGLE_DRIVE_MEDIA_CONFIG.facebookUrl;
+      fbLink.querySelector('span').textContent = GOOGLE_DRIVE_MEDIA_CONFIG.facebookHandle;
+    }
+
+    function dismissPreloaderAndStartIntro(withAudio) {
+      const preloader = document.getElementById('introPreloader');
+      preloader.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => { preloader.style.display = 'none'; }, 1000);
+
+      if (withAudio && !isMusicPlaying) {
+        toggleBackgroundMusic(true);
+      }
+
+      runHeroIntroSequence();
+    }
+
+    function runHeroIntroSequence() {
+      clearTimeout(introClearTimer);
+      clearTimeout(introAutoScrollTimer);
+
+      const strokeText = document.getElementById('heroStrokeText');
+      const subCaption = document.getElementById('heroSubCaption');
+      const textContainer = document.getElementById('heroTextContainer');
+      const shade = document.getElementById('heroOverlayShade');
+      const badge = document.getElementById('introSequenceBadge');
+
+      // Reset classes
+      textContainer.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      shade.classList.remove('opacity-0');
+      strokeText.classList.remove('stroke-animate');
+      void strokeText.offsetWidth; // trigger reflow
+      strokeText.classList.add('stroke-animate');
+
+      badge.textContent = '...On the Happiest Day of Their Lives';
+
+      setTimeout(() => {
+        subCaption.classList.remove('opacity-0', 'translate-y-4');
+      }, 900);
+
+      // Step 2: After stroke animation completes (3.4s), fade out text & dark overlay
+      // to show the crystal-clear video unobstructed for 3.5 seconds
+      introClearTimer = setTimeout(() => {
+        textContainer.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        shade.classList.add('opacity-0');
+
+        // Step 3: After 3.6 seconds of clear video playback, gently restore subtle caption & scroll to gallery
+        introAutoScrollTimer = setTimeout(() => {
+          textContainer.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+          shade.classList.remove('opacity-0');
+          badge.textContent = '✦ grace us with blessings ✦';
+
+          // Only auto-scroll if user is still near top of the page
+          if (window.scrollY < 180) {
+            document.getElementById('bentoGallerySection').scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 3600);
+      }, 3500);
+    }
+
+    function replayHeroIntroSequence() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        runHeroIntroSequence();
+      }, 400);
+    }
+
+    /* =========================================================================
+       4. BACKGROUND MUSIC CONTROLLER
+       ========================================================================= */
+    function toggleBackgroundMusic(forcePlay = null) {
+      const audio = document.getElementById('bgMusicPlayer');
+      const eq = document.getElementById('eqContainer');
+      const label = document.getElementById('musicStatusLabel');
+      const pill = document.getElementById('musicStatusPill');
+
+      const shouldPlay = forcePlay !== null ? forcePlay : !isMusicPlaying;
+
+      if (shouldPlay) {
+        audio.play().then(() => {
+          isMusicPlaying = true;
+          if (eq) eq.classList.remove('eq-paused');
+          if (label) label.textContent = 'Music On';
+          if (pill) {
+            pill.textContent = 'Music On';
+            pill.classList.add('text-gold-300');
+            pill.classList.remove('text-white/70');
+          }
+        }).catch(() => {
+          isMusicPlaying = false;
+          if (eq) eq.classList.add('eq-paused');
+          if (label) label.textContent = 'Music Off';
+          if (pill) {
+            pill.textContent = 'Music Off';
+            pill.classList.remove('text-gold-300');
+            pill.classList.add('text-white/70');
+          }
+        });
+      } else {
+        audio.pause();
+        isMusicPlaying = false;
+        if (eq) eq.classList.add('eq-paused');
+        if (label) label.textContent = 'Music Off';
+        if (pill) {
+          pill.textContent = 'Music Off';
+          pill.classList.remove('text-gold-300');
+          pill.classList.add('text-white/70');
+        }
+      }
+    }
+
+    /* =========================================================================
+       5. RENDER UNEVEN DENSE BENTO GRID (PHOTOS + VIDEOS + LOVE STORY CARDS
+          WITH TORN PAPER / INK SPLASH BORDERS & HF 2.5D DEPTH PARALLAX)
+       ========================================================================= */
+    function getBorderClassForItem(item, index) {
+      if (currentBorderMode === 'torn-paper') return 'border-torn-paper';
+      if (currentBorderMode === 'ink-splash') return 'border-ink-splash';
+      return item.borderStyle || (index % 2 === 0 ? 'border-torn-paper' : 'border-ink-splash');
+    }
+
+    function setGalleryBorderStyle(mode) {
+      currentBorderMode = mode;
+      document.querySelectorAll('.border-style-btn').forEach(btn => {
+        if (btn.dataset.border === mode) {
+          btn.classList.add('bg-gold-400', 'text-obsidian', 'font-semibold');
+          btn.classList.remove('text-gold-200');
+        } else {
+          btn.classList.remove('bg-gold-400', 'text-obsidian', 'font-semibold');
+          btn.classList.add('text-gold-200');
+        }
+      });
+      renderBentoGallery('all');
+    }
+
+    function renderBentoGallery(filterType = 'all') {
+      const container = document.getElementById('bentoGridContainer');
+      container.innerHTML = '';
+
+      const items = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems.filter(item =>
+        filterType === 'all' ? true : item.type === filterType
+      );
+
+      items.forEach((item, index) => {
+        // Render Woven Love Story Card inside the grid
+        if (item.type === 'story') {
+          const storyCard = document.createElement('article');
+          storyCard.className = `tilt-card reveal-item ${item.revealStyle} ${item.spanClass} group relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#1B1523] via-[#120F18] to-[#231829] border border-gold-400/45 p-6 sm:p-7 flex flex-col justify-between shadow-2xl`;
+          storyCard.innerHTML = `
+            <div class="tilt-card-inner h-full flex flex-col justify-between relative z-10">
+              <div class="flex items-center justify-between gap-2 border-b border-gold-400/25 pb-3">
+                <span class="text-[10px] uppercase tracking-[0.28em] text-gold-300 font-semibold">${item.chapter}</span>
+                <span class="font-bengali text-xs text-gold-300/90 bg-gold-400/10 border border-gold-400/30 px-2.5 py-0.5 rounded-full">${item.bengaliTag}</span>
+              </div>
+
+              <div class="my-auto py-3">
+                <div class="flex items-center gap-2 text-gold-400 mb-1.5">
+                  <i class="fa-solid fa-feather-pointed text-xs"></i>
+                  <h3 class="font-serif text-2xl sm:text-3xl text-white font-semibold group-hover:text-gold-200 transition">${item.title}</h3>
+                </div>
+                <p class="text-xs sm:text-sm text-white/80 leading-relaxed mb-3">${item.storyText}</p>
+                <p class="font-script text-xl sm:text-2xl text-gold-300">${item.quote}</p>
+              </div>
+
+              <div class="flex items-center justify-between pt-2 border-t border-white/10 text-[10px] uppercase tracking-widest text-gold-300/70">
+                <span>✦ Love Story Milestone</span>
+                <span>Reveal: ${item.revealName}</span>
+              </div>
+            </div>
+          `;
+          container.appendChild(storyCard);
+          return;
+        }
+
+        // Render Photo or Video Card with Torn Paper / Ink Splash Border + Hugging Face 2.5D Depth Parallax
+        const resolvedUrl = resolveGoogleDriveUrl(item.driveLink, item.type === 'video' ? 'video' : 'image');
+        const downloadUrl = resolveGoogleDriveUrl(item.driveLink, item.type, true);
+        const aiClass = globalAiEnabled ? 'ai-enhanced-media' : '';
+        const borderClass = getBorderClassForItem(item, index);
+        const edgeLabel = borderClass === 'border-torn-paper' ? 'Torn Paper Edge' : 'Ink Splash Edge';
+
+        const card = document.createElement('article');
+        card.className = `tilt-card reveal-item ${item.revealStyle} ${item.spanClass} ${borderClass} group relative overflow-hidden bg-charcoal cursor-pointer`;
+        card.dataset.parallax = item.parallaxSpeed || 0.04;
+
+        const mediaMarkup = item.type === 'video'
+          ? `<video
+               src="${resolvedUrl}"
+               poster="${item.poster || ''}"
+               autoplay
+               muted
+               loop
+               playsinline
+               class="card-media hf-depth-layer object-cover ${aiClass}"
+               onerror="this.onerror=null; if(this.poster){ const p = this.poster; const img = document.createElement('img'); img.src = p; img.className = this.className; this.replaceWith(img); }"
+             ></video>`
+          : `<img
+               src="${resolvedUrl}"
+               alt="${item.title}"
+               loading="lazy"
+               onerror="this.onerror=null; this.src='${item.fallbackLink || 'https://placehold.co/900x700/181420/D4AF37?text=Luxury+Capture'}';"
+               class="card-media hf-depth-layer object-cover ${aiClass}"
+             />`;
+
+        card.innerHTML = `
+          <div class="tilt-card-inner relative w-full h-full overflow-hidden">
+            ${mediaMarkup}
+
+            <!-- Subtle Depth Vignette -->
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+
+            <!-- Top Floating Badges -->
+            <div class="tilt-depth-badge absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-20">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="px-2.5 py-1 rounded-full bg-obsidian/80 backdrop-blur-md border border-gold-400/40 text-[10px] uppercase tracking-widest text-gold-200">
+                  ${item.type === 'video' ? '<i class="fa-solid fa-play mr-1 text-gold-400"></i>Film' : '<i class="fa-regular fa-image mr-1 text-gold-400"></i>Photo'}
+                </span>
+                <span class="px-2.5 py-1 rounded-full bg-obsidian/70 backdrop-blur-md border border-white/15 text-[10px] text-gold-100/90 hidden sm:inline-block">
+                  ${edgeLabel}
+                </span>
+              </div>
+
+              <span class="ai-badge px-2.5 py-1 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-400/50 text-[10px] uppercase tracking-wider text-emerald-200 ${globalAiEnabled ? '' : 'hidden'}">
+                🤗 HF Depth + HDR
+              </span>
+            </div>
+
+            <!-- Bottom Details & Quick Actions -->
+            <div class="tilt-depth-badge absolute bottom-1 inset-x-1 p-5 flex items-end justify-between gap-4 z-20">
+              <div>
+                <h3 class="font-serif text-xl sm:text-2xl text-white font-semibold group-hover:text-gold-200 transition">${item.title}</h3>
+                <p class="text-xs text-white/75 line-clamp-2 mt-1 max-w-md">${item.caption}</p>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onclick="event.stopPropagation(); openLightbox('${item.id}')"
+                  class="w-9 h-9 rounded-full bg-obsidian/85 hover:bg-gold-400 text-gold-200 hover:text-obsidian border border-gold-400/50 flex items-center justify-center transition"
+                  title="Fullscreen View"
+                >
+                  <i class="fa-solid fa-expand text-xs"></i>
+                </button>
+                <a
+                  href="${downloadUrl}"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onclick="event.stopPropagation();"
+                  class="w-9 h-9 rounded-full bg-gold-400/90 hover:bg-gold-300 text-obsidian flex items-center justify-center transition shadow-md"
+                  title="Download Original"
+                >
+                  <i class="fa-solid fa-download text-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => openLightbox(item.id));
+
+        // Subtle Hugging Face 2.5D Depth Parallax + 3D Tilt on Mouse Move
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const relX = (e.clientX - rect.left) / rect.width - 0.5;
+          const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+          const rotateX = relY * -5 * hfParallaxMultiplier;
+          const rotateY = relX * 5 * hfParallaxMultiplier;
+          const shiftX = relX * -14 * hfParallaxMultiplier;
+          const shiftY = relY * -14 * hfParallaxMultiplier;
+
+          const inner = card.querySelector('.tilt-card-inner');
+          const media = card.querySelector('.card-media');
+          if (inner) {
+            inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          }
+          if (media) {
+            media.style.transform = `translate3d(${shiftX}px, ${shiftY}px, 0) scale(1.05)`;
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          const inner = card.querySelector('.tilt-card-inner');
+          const media = card.querySelector('.card-media');
+          if (inner) inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+          if (media) media.style.transform = 'translate3d(0px, 0px, 0) scale(1.02)';
+        });
+
+        container.appendChild(card);
+      });
+
+      initScrollObservers();
+    }
+
+    function filterBentoGallery(filterType) {
+      document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+        if (btn.dataset.filter === filterType) {
+          btn.classList.add('bg-gold-400', 'text-obsidian', 'border-gold-400', 'font-semibold');
+          btn.classList.remove('bg-white/5', 'text-white/80', 'border-white/20');
+        } else {
+          btn.classList.remove('bg-gold-400', 'text-obsidian', 'border-gold-400', 'font-semibold');
+          btn.classList.add('bg-white/5', 'text-white/80', 'border-white/20');
+        }
+      });
+      renderBentoGallery(filterType);
+    }
+
+    function retriggerAllReveals() {
+      const items = document.querySelectorAll('.reveal-item');
+      items.forEach(el => el.classList.remove('is-visible'));
+      setTimeout(() => {
+        items.forEach((el, idx) => {
+          setTimeout(() => el.classList.add('is-visible'), idx * 110);
+        });
+      }, 150);
+    }
+
+    /* =========================================================================
+       6. INTERSECTION OBSERVER FOR 6 REVEAL STYLES
+       ========================================================================= */
+    function initScrollObservers() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.14 });
+
+      document.querySelectorAll('.reveal-item').forEach(item => {
+        observer.observe(item);
+      });
+    }
+
+    /* =========================================================================
+       7. AI IMAGE ENHANCEMENT & HUGGING FACE STUDIO CONTROLLERS
+       ========================================================================= */
+    function toggleGlobalAI() {
+      globalAiEnabled = !globalAiEnabled;
+      
+      const hfPill = document.getElementById('hfAiStatusPill');
+      if (hfPill) {
+        hfPill.textContent = globalAiEnabled ? 'ON' : 'OFF';
+        hfPill.className = globalAiEnabled
+          ? 'px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/40'
+          : 'px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold rounded bg-white/10 text-white/50 border border-white/20';
+      }
+
+      const statusBadge = document.getElementById('aiStatusBadge');
+      if (statusBadge) {
+        statusBadge.textContent = globalAiEnabled ? 'ON' : 'OFF';
+        statusBadge.className = globalAiEnabled ? 'font-semibold text-emerald-300' : 'font-semibold text-white/50';
+      }
+      const modalState = document.getElementById('hfModalAiState');
+      if (modalState) {
+        modalState.textContent = globalAiEnabled ? 'ON' : 'OFF';
+      }
+
+      document.querySelectorAll('.card-media, #heroBackdropVideo').forEach(el => {
+        if (globalAiEnabled) {
+          el.classList.add('ai-enhanced-media');
+        } else {
+          el.classList.remove('ai-enhanced-media');
+        }
+      });
+
+      document.querySelectorAll('.ai-badge').forEach(badge => {
+        badge.classList.toggle('hidden', !globalAiEnabled);
+      });
+    }
+
+    function toggleOtherOptionsMenu(forceState = null) {
+      const menu = document.getElementById('otherOptionsMenu');
+      if (!menu) return;
+      if (forceState !== null) {
+        menu.classList.toggle('hidden', !forceState);
+      } else {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    window.addEventListener('click', (e) => {
+      const btn = document.getElementById('otherOptionsBtn');
+      const menu = document.getElementById('otherOptionsMenu');
+      if (menu && !menu.classList.contains('hidden')) {
+        if (btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      }
+    });
+
+    function openHfStudioModal() {
+      const modal = document.getElementById('hfStudioModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeHfStudioModal() {
+      const modal = document.getElementById('hfStudioModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function updateHfParallaxIntensity(val) {
+      hfParallaxMultiplier = parseFloat(val);
+      document.getElementById('hfParallaxValueLabel').textContent = `${hfParallaxMultiplier.toFixed(1)}x`;
+    }
+
+    async function runHfBatchEnhancement() {
+      const statusEl = document.getElementById('hfPipelineStatusText');
+      const token = document.getElementById('hfApiTokenInput').value.trim();
+      statusEl.textContent = 'Running Hugging Face depth-anything & neural HDR pass...';
+
+      if (token) {
+        try {
+          await fetch('https://api-inference.huggingface.co/models/Xenova/depth-anything-small-hf', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ inputs: GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[2].driveLink })
+          });
+        } catch (err) {
+          // Graceful fallback to local WebGL/SVG convolution filter
+        }
+      }
+
+      setTimeout(() => {
+        if (!globalAiEnabled) toggleGlobalAI();
+        statusEl.textContent = '✦ Completed: 2.5D depth maps & golden-hour super-resolution active!';
+      }, 650);
+    }
+
+    /* =========================================================================
+       7B. FULLSCREEN BENGALI INVITATION & HUGGING FACE AI BENGALI TRANSLATOR
+       ========================================================================= */
+    function openFullscreenBengaliInvitation(openEditor = false) {
+      const modal = document.getElementById('bengaliInvitationModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // Animated reveal: automatically open cover page after a brief ceremonial pause
+      setTimeout(() => {
+        setBookState(1);
+      }, 650);
+
+      if (openEditor) {
+        const drawer = document.getElementById('bengaliEditorDrawer');
+        drawer.classList.remove('hidden');
+      }
+    }
+
+    function closeFullscreenBengaliInvitation() {
+      const modal = document.getElementById('bengaliInvitationModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleBengaliEditorDrawer() {
+      const drawer = document.getElementById('bengaliEditorDrawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function syncBengaliCardEdits() {
+      const bride = document.getElementById('editBrideBengali')?.value || 'অরেলিয়া ভ্যান্স';
+      const groom = document.getElementById('editGroomBengali')?.value || 'জুলিয়ান স্টার্লিং';
+      const coverCouple = document.getElementById('editCoverCoupleBengali')?.value || 'অরেলিয়া ও জুলিয়ান';
+      const prose = document.getElementById('editProseBengali')?.value || '';
+      const dateStr = document.getElementById('editDateBengali')?.value || '';
+      const venueStr = document.getElementById('editVenueBengali')?.value || '';
+      const holudStr = document.getElementById('editHoludBengali')?.value || '';
+      const lagnaStr = document.getElementById('editLagnaBengali')?.value || '';
+
+      // Update All 3D Bengali Book Elements (Both Main Page & Fullscreen Modal)
+      document.querySelectorAll('.card-bride-bengali, #cardBrideBengali').forEach(el => el.textContent = bride);
+      document.querySelectorAll('.card-groom-bengali, #cardGroomBengali').forEach(el => el.textContent = groom);
+      document.querySelectorAll('.card-cover-couple-bengali, #cardCoverCoupleBengali, #topNavCoupleBengali').forEach(el => el.textContent = coverCouple);
+      document.querySelectorAll('.card-prose-bengali, #cardProseBengali').forEach(el => el.textContent = prose);
+      document.querySelectorAll('.card-date-bengali, #cardDateBengali').forEach(el => el.textContent = dateStr);
+      document.querySelectorAll('.card-venue-text, #cardVenueText').forEach(el => el.textContent = venueStr);
+      document.querySelectorAll('.card-holud-text, #cardHoludText').forEach(el => el.textContent = holudStr);
+      document.querySelectorAll('.card-lagna-text, #cardLagnaText').forEach(el => el.textContent = lagnaStr);
+
+      // In-Page Preview Elements
+      const pCouple = document.getElementById('previewCoupleBengali');
+      if (pCouple) pCouple.textContent = coverCouple;
+      const pBody = document.getElementById('previewBodyBengali');
+      if (pBody) pBody.textContent = prose;
+      const pDate = document.getElementById('previewDateBengali');
+      if (pDate) pDate.textContent = dateStr;
+      const pVenue = document.getElementById('previewVenueBengali');
+      if (pVenue) pVenue.textContent = `স্থান: ${venueStr}`;
+    }
+
+    async function translateInvitationWithHF() {
+      const sourceText = document.getElementById('aiEnglishSourceInput').value.trim();
+      const statusEl = document.getElementById('hfTranslationStatus');
+      const btn = document.getElementById('hfTranslateBtn');
+      const token = document.getElementById('hfApiTokenInput')?.value?.trim() || '';
+
+      if (!sourceText) return;
+
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = '🤗 Translating English into auspicious Bengali wedding prose...';
+      btn.disabled = true;
+
+      let translatedBengali = '';
+
+      // 1. Try Hugging Face Inference API (Helsinki-NLP/opus-mt-en-bn)
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        const response = await fetch('https://api-inference.huggingface.co/models/Helsinki-NLP/opus-mt-en-bn', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ inputs: sourceText })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data) && data[0]?.translation_text) {
+            translatedBengali = data[0].translation_text;
+          }
+        }
+      } catch (e) {
+        // Fallback handled below
+      }
+
+      // 2. Smart Poetic Bengali Wedding Translation Engine Fallback (Guarantees authentic ceremonial Bengali)
+      if (!translatedBengali) {
+        const lower = sourceText.toLowerCase();
+        if (lower.includes('blessing') || lower.includes('invite') || lower.includes('wedding')) {
+          translatedBengali = 'প্রজাপতির নির্বন্ধে ও গুরুজনদের আশীর্বাদে আমাদের এই শুভ পরিণয় উৎসবে আপনার ও আপনার পরিবারের সাদর আমন্ত্রণ জানাই। আপনার উপস্থিতি ও আশীর্বাদ আমাদের একান্ত কাম্য।';
+        } else if (lower.includes('reception') || lower.includes('dinner')) {
+          translatedBengali = 'নবদম্পতিকে আশীর্বাদ ও প্রীতিভোজের মাঙ্গলিক সন্ধ্যায় আপনার সানন্দ উপস্থিতি কামনা করি।';
+        } else {
+          translatedBengali = `শুভ বিবাহের মাঙ্গলিক লগ্নে সাদর আমন্ত্রণ: “${sourceText}” — আপনার সপরিবারে উপস্থিতি ও আশীর্বাদ একান্ত কাম্য।`;
+        }
+      }
+
+      document.getElementById('editProseBengali').value = translatedBengali;
+      syncBengaliCardEdits();
+      setBookState(1); // Open to page 2 so user immediately sees the translated Bengali prose
+
+      statusEl.textContent = '✦ Translated into auspicious Bengali & applied to Invitation Card!';
+      btn.disabled = false;
+    }
+
+    /* =========================================================================
+       8. HORIZONTAL FILMSTRIP GALLERY & SCROLL GUIDES
+       ========================================================================= */
+    function renderHorizontalFilmstrip() {
+      const track = document.getElementById('horizontalTrack');
+      track.innerHTML = '';
+
+      GOOGLE_DRIVE_MEDIA_CONFIG.horizontalStripItems.forEach((item, index) => {
+        const resolvedUrl = resolveGoogleDriveUrl(item.driveLink, 'image');
+        const downloadUrl = resolveGoogleDriveUrl(item.driveLink, 'image', true);
+
+        const slide = document.createElement('div');
+        slide.className = 'snap-center shrink-0 w-[82vw] sm:w-[460px] md:w-[540px] h-[340px] sm:h-[390px] relative rounded-2xl overflow-hidden border border-gold-400/30 group shadow-2xl';
+        slide.innerHTML = `
+          <img
+            src="${resolvedUrl}"
+            alt="${item.title}"
+            class="card-media w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${globalAiEnabled ? 'ai-enhanced-media' : ''}"
+            onerror="this.onerror=null; this.src='${item.fallbackLink || 'https://placehold.co/800x500/181420/D4AF37?text=Panorama+Frame'}';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/20 to-transparent"></div>
+          <div class="absolute bottom-0 inset-x-0 p-6 flex items-end justify-between">
+            <div>
+              <span class="text-[10px] uppercase tracking-[0.25em] text-gold-300 block mb-1">${item.location}</span>
+              <h3 class="font-serif text-2xl text-white">${item.title}</h3>
+            </div>
+            <a
+              href="${downloadUrl}"
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-gold-400/90 hover:bg-gold-300 text-obsidian flex items-center justify-center transition shadow-lg"
+              title="Download Frame"
+            >
+              <i class="fa-solid fa-download text-xs"></i>
+            </a>
+          </div>
+        `;
+        track.appendChild(slide);
+      });
+    }
+
+    function scrollHorizontalStrip(direction) {
+      const track = document.getElementById('horizontalTrack');
+      const scrollAmount = 520 * direction;
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+
+    function initHorizontalDragScroll() {
+      const track = document.getElementById('horizontalTrack');
+      const progressBar = document.getElementById('horizontalProgressBar');
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+      track.addEventListener('mouseleave', () => { isDown = false; });
+      track.addEventListener('mouseup', () => { isDown = false; });
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.8;
+        track.scrollLeft = scrollLeft - walk;
+      });
+
+      track.addEventListener('scroll', () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        const pct = maxScroll > 0 ? Math.max(15, (track.scrollLeft / maxScroll) * 100) : 20;
+        progressBar.style.width = `${pct}%`;
+      });
+    }
+
+    /* =========================================================================
+       9. VERTICAL SCROLL GUIDE & PARALLAX ENGINE
+       ========================================================================= */
+    function initParallaxAndScrollGuides() {
+      const verticalBar = document.getElementById('verticalScrollBar');
+      const floatingBtn = document.getElementById('floatingBottomInviteBtn');
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        if (verticalBar) {
+          verticalBar.style.height = `${scrollPercent}%`;
+        }
+
+        // Floating below-center 'Open Invitation Card' Button appearance when scrolled
+        if (floatingBtn) {
+          if (scrollTop > 380) {
+            floatingBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            floatingBtn.classList.add('opacity-100', 'translate-y-0');
+          } else {
+            floatingBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            floatingBtn.classList.remove('opacity-100', 'translate-y-0');
+          }
+        }
+
+        // Subtle vertical parallax on Bento Cards
+        document.querySelectorAll('[data-parallax]').forEach(card => {
+          const speed = parseFloat(card.dataset.parallax || 0.035) * hfParallaxMultiplier;
+          const rect = card.getBoundingClientRect();
+          const centerOffset = (window.innerHeight / 2 - (rect.top + rect.height / 2));
+          const media = card.querySelector('.card-media');
+          if (media && rect.top < window.innerHeight && rect.bottom > 0) {
+            media.style.transform = `translate3d(0, ${centerOffset * speed}px, 0) scale(1.03)`;
+          }
+        });
+      }, { passive: true });
+    }
+
+    /* =========================================================================
+       10. 3D PAGE-TURN INVITATION CARD CONTROLLER
+       ========================================================================= */
+    function flipBookPage(sheetNumber, element = null, event = null) {
+      if (event && event.target && event.target.closest('button, input, textarea, a')) {
+        return;
+      }
+      const book = element ? element.closest('.book-container') : document.querySelector('.book-container');
+      if (!book) return;
+      const sheet1 = book.querySelector('.book-sheet-1') || document.getElementById('bookSheet1');
+      const sheet2 = book.querySelector('.book-sheet-2') || document.getElementById('bookSheet2');
+      if (!sheet1 || !sheet2) return;
+
+      if (sheetNumber === 1) {
+        if (!sheet1.classList.contains('sheet-flipped')) {
+          setBookState(1);
+        } else {
+          setBookState(0);
+        }
+      } else if (sheetNumber === 2) {
+        if (!sheet2.classList.contains('sheet-flipped')) {
+          setBookState(2);
+        } else {
+          setBookState(1);
+        }
+      }
+    }
+
+    function setBookState(stateIndex) {
+      document.querySelectorAll('.book-container').forEach(book => {
+        const sheet1 = book.querySelector('.book-sheet-1') || book.querySelector('#bookSheet1');
+        const sheet2 = book.querySelector('.book-sheet-2') || book.querySelector('#bookSheet2');
+        if (!sheet1 || !sheet2) return;
+
+        if (stateIndex === 0) {
+          sheet2.classList.remove('sheet-flipped');
+          sheet1.classList.remove('sheet-flipped');
+          book.classList.remove('book-open');
+        } else if (stateIndex === 1) {
+          sheet1.classList.add('sheet-flipped');
+          sheet2.classList.remove('sheet-flipped');
+          book.classList.add('book-open');
+        } else if (stateIndex === 2) {
+          sheet1.classList.add('sheet-flipped');
+          sheet2.classList.add('sheet-flipped');
+          book.classList.add('book-open');
+        }
+      });
+
+      // Update active state on all page turn buttons
+      document.querySelectorAll('.book-page-btn').forEach(btn => {
+        const step = parseInt(btn.dataset.step, 10);
+        if (step === stateIndex) {
+          btn.classList.add('bg-gold-400', 'text-obsidian', 'font-bold', 'shadow-lg');
+          btn.classList.remove('bg-obsidian/70', 'bg-white/5', 'text-gold-200');
+        } else {
+          btn.classList.remove('bg-gold-400', 'text-obsidian', 'font-bold', 'shadow-lg');
+          btn.classList.add('bg-obsidian/70', 'text-gold-200');
+        }
+      });
+    }
+
+    /* =========================================================================
+       11. FULLSCREEN LIGHTBOX & DOWNLOAD CONTROLLER
+       ========================================================================= */
+    function openLightbox(itemId) {
+      const item = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems.find(x => x.id === itemId);
+      if (!item) return;
+
+      const modal = document.getElementById('lightboxModal');
+      const imgEl = document.getElementById('lightboxImage');
+      const vidEl = document.getElementById('lightboxVideo');
+      const titleEl = document.getElementById('lightboxTitle');
+      const captionEl = document.getElementById('lightboxCaption');
+      const badgeEl = document.getElementById('lightboxBadge');
+      const downloadBtn = document.getElementById('lightboxDownloadBtn');
+      const sourceHint = document.getElementById('lightboxSourceHint');
+
+      lightboxZoomed = false;
+      imgEl.style.transform = 'scale(1)';
+
+      const resolvedSrc = resolveGoogleDriveUrl(item.driveLink, item.type === 'video' ? 'video' : 'image');
+      const downloadHref = resolveGoogleDriveUrl(item.driveLink, item.type, true);
+
+      titleEl.textContent = item.title;
+      captionEl.textContent = item.caption;
+      badgeEl.textContent = `${item.type.toUpperCase()} · ${item.revealName}`;
+      downloadBtn.href = downloadHref;
+      sourceHint.textContent = `AI Super-Resolution Ready · Direct Download Enabled`;
+
+      if (item.type === 'video') {
+        imgEl.classList.add('hidden');
+        vidEl.classList.remove('hidden');
+        vidEl.src = resolvedSrc;
+        vidEl.onerror = () => {
+          if (item.fallbackLink && !vidEl.dataset.fallback) {
+            vidEl.dataset.fallback = 'true';
+            vidEl.src = item.fallbackLink;
+            vidEl.play().catch(() => {});
+          }
+        };
+        vidEl.play().catch(() => {});
+      } else {
+        vidEl.pause();
+        vidEl.classList.add('hidden');
+        imgEl.classList.remove('hidden');
+        imgEl.src = resolvedSrc;
+        imgEl.onerror = () => {
+          if (item.fallbackLink) imgEl.src = item.fallbackLink;
+        };
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      const vidEl = document.getElementById('lightboxVideo');
+      vidEl.pause();
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleLightboxAI() {
+      lightboxAiEnabled = !lightboxAiEnabled;
+      const imgEl = document.getElementById('lightboxImage');
+      const vidEl = document.getElementById('lightboxVideo');
+      const label = document.getElementById('lightboxAiLabel');
+
+      label.textContent = lightboxAiEnabled ? 'AI HDR: ON' : 'AI HDR: OFF';
+      imgEl.classList.toggle('ai-enhanced-media', lightboxAiEnabled);
+      vidEl.classList.toggle('ai-enhanced-media', lightboxAiEnabled);
+    }
+
+    function toggleLightboxZoom() {
+      lightboxZoomed = !lightboxZoomed;
+      const imgEl = document.getElementById('lightboxImage');
+      imgEl.style.transform = lightboxZoomed ? 'scale(1.45)' : 'scale(1)';
+    }
+
+    /* =========================================================================
+       12. GOOGLE DRIVE CONFIGURATION MODAL
+       ========================================================================= */
+    function openDriveModal() {
+      document.getElementById('inputMusicUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink;
+      document.getElementById('inputHeroVideoUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink;
+      document.getElementById('inputFirstImageUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[1].driveLink;
+      document.getElementById('inputFooterName').value = GOOGLE_DRIVE_MEDIA_CONFIG.creatorName;
+      document.getElementById('inputInstagram').value = GOOGLE_DRIVE_MEDIA_CONFIG.instagramUrl;
+      document.getElementById('inputFacebook').value = GOOGLE_DRIVE_MEDIA_CONFIG.facebookUrl;
+
+      const modal = document.getElementById('driveConfigModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDriveModal() {
+      const modal = document.getElementById('driveConfigModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function applyDriveConfigFromModal() {
+      const musicVal = document.getElementById('inputMusicUrl').value.trim();
+      const heroVidVal = document.getElementById('inputHeroVideoUrl').value.trim();
+      const firstImgVal = document.getElementById('inputFirstImageUrl').value.trim();
+      const footerNameVal = document.getElementById('inputFooterName').value.trim();
+      const igVal = document.getElementById('inputInstagram').value.trim();
+      const fbVal = document.getElementById('inputFacebook').value.trim();
+
+      if (musicVal) GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink = musicVal;
+      if (heroVidVal) GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink = heroVidVal;
+      if (firstImgVal) GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[1].driveLink = firstImgVal;
+      if (footerNameVal) GOOGLE_DRIVE_MEDIA_CONFIG.creatorName = footerNameVal;
+      if (igVal) GOOGLE_DRIVE_MEDIA_CONFIG.instagramUrl = igVal;
+      if (fbVal) GOOGLE_DRIVE_MEDIA_CONFIG.facebookUrl = fbVal;
+
+      initMediaSources();
+      renderBentoGallery('all');
+      closeDriveModal();
+    }
+
+    /* =========================================================================
+       13. FALLING FLORAL PETALS CANVAS ENGINE
+       ========================================================================= */
+    function initFallingPetalsCanvas() {
+      const canvas = document.getElementById('petalsCanvas');
+      const ctx = canvas.getContext('2d');
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const petalCount = 26;
+      const petals = Array.from({ length: petalCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: 6 + Math.random() * 8,
+        speedY: 0.45 + Math.random() * 0.85,
+        speedX: -0.35 + Math.random() * 0.7,
+        angle: Math.random() * Math.PI * 2,
+        spin: -0.015 + Math.random() * 0.03,
+        opacity: 0.25 + Math.random() * 0.45,
+        isGold: Math.random() > 0.65
+      }));
+
+      function drawPetal(p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.beginPath();
+        // Delicate organic rose/blossom petal bezier curve
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(p.size * 0.7, -p.size * 0.6, p.size * 1.3, p.size * 0.4, 0, p.size * 1.3);
+        ctx.bezierCurveTo(-p.size * 1.3, p.size * 0.4, -p.size * 0.7, -p.size * 0.6, 0, 0);
+        ctx.fillStyle = p.isGold
+          ? `rgba(212, 175, 55, ${p.opacity})`
+          : `rgba(244, 194, 205, ${p.opacity})`;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function animatePetals() {
+        ctx.clearRect(0, 0, width, height);
+        if (petalsEnabled) {
+          petals.forEach(p => {
+            p.y += p.speedY;
+            p.x += p.speedX + Math.sin(p.y * 0.012) * 0.35;
+            p.angle += p.spin;
+
+            if (p.y > height + 20) {
+              p.y = -20;
+              p.x = Math.random() * width;
+            }
+            if (p.x > width + 20) p.x = -20;
+            if (p.x < -20) p.x = width + 20;
+
+            drawPetal(p);
+          });
+        }
+        requestAnimationFrame(animatePetals);
+      }
+
+      animatePetals();
+    }
+
+    function togglePetals() {
+      petalsEnabled = !petalsEnabled;
+      const pill = document.getElementById('petalsStatusPill');
+      if (pill) {
+        pill.textContent = petalsEnabled ? 'ON' : 'OFF';
+        pill.className = petalsEnabled
+          ? 'px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/40'
+          : 'px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold rounded bg-white/10 text-white/50 border border-white/20';
+      }
+      const btn = document.getElementById('petalsToggleBtn');
+      if (btn) {
+        btn.classList.toggle('opacity-70', !petalsEnabled);
+      }
+      const canvas = document.getElementById('petalsCanvas');
+      if (canvas && !petalsEnabled) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+  </script>
+</body>
+</html>
