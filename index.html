@@ -715,6 +715,9 @@
           <i class="fa-solid fa-wand-sparkles text-gold-400"></i> Replay 6 Reveals
         </button>
       </div>
+
+      <!-- Location Filter Bar (Populated dynamically from data.json) -->
+      <div id="locationFilterContainer" class="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs"></div>
     </div>
 
     <!-- Uneven Dense Bento Grid Container (Zero Empty Spaces) -->
@@ -1009,11 +1012,17 @@
 
       <!-- Back to Top & Copyright -->
       <div class="w-full pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
-        <p>© 2026 Aurelia &amp; Julian · 3D Parallax &amp; AI Enhanced Showcase</p>
-        <a href="#heroVideoSection" class="flex items-center gap-2 text-gold-300 hover:text-gold-200 uppercase tracking-widest transition">
-          <span>Back to Opening Film</span>
-          <i class="fa-solid fa-arrow-up"></i>
-        </a>
+        <p id="footerCopyright">© 2026 Devashish &amp; Rimu · 3D Parallax &amp; AI Enhanced Showcase</p>
+        <div class="flex items-center gap-4">
+          <a href="admin.html" class="flex items-center gap-1.5 text-gold-400 hover:text-gold-300 uppercase tracking-widest transition">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Media Studio Admin</span>
+          </a>
+          <a href="#heroVideoSection" class="flex items-center gap-2 text-gold-300 hover:text-gold-200 uppercase tracking-widest transition">
+            <span>Back to Opening Film</span>
+            <i class="fa-solid fa-arrow-up"></i>
+          </a>
+        </div>
       </div>
     </div>
   </footer>
@@ -1024,8 +1033,10 @@
   <div id="lightboxModal" class="fixed inset-0 z-50 bg-obsidian/95 backdrop-blur-xl hidden flex-col justify-between p-4 sm:p-8">
     <!-- Top Bar -->
     <div class="flex items-center justify-between max-w-7xl w-full mx-auto z-10">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2.5 flex-wrap">
         <span id="lightboxBadge" class="px-3 py-1 rounded-full bg-gold-400/20 border border-gold-400/50 text-gold-200 text-xs uppercase tracking-widest">Photo</span>
+        <span id="lightboxResBadge" class="hidden px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-gold-300 font-mono text-[11px] items-center gap-1"><i class="fa-solid fa-film text-gold-400"></i><span id="lightboxResText"></span></span>
+        <span id="lightboxLocationBadge" class="hidden px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-[11px] items-center gap-1"><i class="fa-solid fa-location-dot text-gold-400"></i><span id="lightboxLocationText"></span></span>
         <h4 id="lightboxTitle" class="font-serif text-xl sm:text-2xl text-white"></h4>
       </div>
 
@@ -1082,77 +1093,6 @@
     <div class="max-w-4xl w-full mx-auto text-center">
       <p id="lightboxCaption" class="text-sm text-white/80 mb-1"></p>
       <p id="lightboxSourceHint" class="text-[11px] text-gold-300/70 uppercase tracking-widest"></p>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       MODAL 2: GOOGLE DRIVE MEDIA LINK CONFIGURATOR (LIVE TESTER)
-       ========================================================================= -->
-  <div id="driveConfigModal" class="fixed inset-0 z-50 bg-obsidian/90 backdrop-blur-lg hidden items-center justify-center p-4">
-    <div class="bg-charcoal border border-gold-400/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
-        <div class="flex items-center gap-2.5">
-          <i class="fa-brands fa-google-drive text-2xl text-gold-400"></i>
-          <div>
-            <h3 class="font-serif text-2xl text-white">Media Links (Google Drive & GitHub Assets)</h3>
-            <p class="text-xs text-white/60">Supports relative GitHub paths (e.g., <code>assets/videos/...</code>) or Google Drive Share Links</p>
-          </div>
-        </div>
-        <button onclick="closeDriveModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="space-y-4 text-xs">
-        <div>
-          <label class="block text-gold-200 uppercase tracking-wider mb-1">Curtain Raiser Video (MP4 Asset Path or Google Drive URL)</label>
-          <input id="inputCurtainVideoUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="assets/videos/entry_intro.mp4" />
-        </div>
-
-        <div>
-          <label class="block text-gold-200 uppercase tracking-wider mb-1">Background Music (Google Drive MP3 Share Link or URL)</label>
-          <input id="inputMusicUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/YOUR_AUDIO_FILE_ID/view?usp=sharing" />
-        </div>
-
-        <div>
-          <label class="block text-gold-200 uppercase tracking-wider mb-1">Opening Hero Video (Google Drive MP4 Share Link or URL)</label>
-          <input id="inputHeroVideoUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/1Es4Acamgi-oFkR8ft4DcZUCfMKvciNs5/view?usp=sharing" />
-        </div>
-
-        <div>
-          <label class="block text-gold-200 uppercase tracking-wider mb-1">Featured Gallery Image #1 (Google Drive Image Link)</label>
-          <input id="inputFirstImageUrl" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none" placeholder="https://drive.google.com/file/d/YOUR_IMAGE_FILE_ID/view?usp=sharing" />
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="block text-gold-200 uppercase tracking-wider mb-1">Footer Name</label>
-            <input id="inputFooterName" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
-          </div>
-          <div>
-            <label class="block text-gold-200 uppercase tracking-wider mb-1">Instagram URL</label>
-            <input id="inputInstagram" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
-          </div>
-          <div>
-            <label class="block text-gold-200 uppercase tracking-wider mb-1">Facebook URL</label>
-            <input id="inputFacebook" type="text" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
-          </div>
-        </div>
-
-        <div class="bg-gold-400/10 border border-gold-400/30 rounded-xl p-3.5 text-white/80 leading-relaxed">
-          <p class="font-semibold text-gold-300 mb-1"><i class="fa-solid fa-circle-info mr-1"></i> How Google Drive Links Work:</p>
-          <p>Make sure your Google Drive file permission is set to <strong>"Anyone with the link can view"</strong>. You can also permanently edit all links inside the <code>GOOGLE_DRIVE_MEDIA_CONFIG</code> object at the top of the script.</p>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-white/10">
-        <button onclick="closeDriveModal()" class="px-4 py-2 rounded-full border border-white/20 text-xs uppercase tracking-wider text-white/70 hover:text-white">
-          Cancel
-        </button>
-        <button onclick="applyDriveConfigFromModal()" class="floral-btn px-6 py-2.5 rounded-full bg-gold-400 text-obsidian font-semibold text-xs uppercase tracking-wider hover:bg-gold-300 transition">
-          Apply &amp; Reload Media
-        </button>
-      </div>
     </div>
   </div>
 
@@ -1519,205 +1459,290 @@
        ========================================================================= -->
   <script>
     /* =========================================================================
-       1. GOOGLE DRIVE CONFIGURATION, WOVEN LOVE STORY CARDS & ART BORDERS
+       WEDDING MEDIA DATA ARCHITECTURE (Dynamic data.json + Studio Admin Integration)
        ========================================================================= */
-    const GOOGLE_DRIVE_MEDIA_CONFIG = {
-      creatorName: "Aurelia & Julian Sterling",
-      instagramUrl: "https://instagram.com",
-      instagramHandle: "@aurelia.and.julian",
-      facebookUrl: "https://facebook.com",
-      facebookHandle: "facebook.com/aureliajulian",
+    const FALLBACK_DATA = {
+  "siteConfig": {
+    "title": "Our Wedding · Devashish & Rimu",
+    "theme": "luxury-gold",
+    "enablePetals": true,
+    "enableAIHDR": true
+  },
+  "couple": {
+    "groomName": "Devashish",
+    "brideName": "Rimu",
+    "coupleTitleEnglish": "Devashish & Rimu",
+    "coupleTitleBengali": "দেবাশীষ ও রিমু",
+    "weddingDateEnglish": "December 13, 2026",
+    "weddingDateBengali": "২৭শে অগ্রহায়ণ, ১৪৩৩ · ১৩ই ডিসেম্বর, ২০২৬",
+    "venue": "The Grand Palace Conservatory",
+    "instagramUrl": "https://instagram.com",
+    "instagramHandle": "@debashish_and_rimu",
+    "facebookUrl": "https://facebook.com",
+    "facebookHandle": "facebook.com/debashishandrimu"
+  },
+  "audio": {
+    "backgroundMusicPath": "assets/audio/background-music.mp3",
+    "fallbackUrl": "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+    "title": "Royal Shehnai & Celtic Strings",
+    "autoPlay": false,
+    "defaultMuted": false
+  },
+  "openingIntroVideo": {
+    "openingIntroVideoPath": "assets/videos/entry_intro.mp4",
+    "posterPath": "assets/images/invitation/poster.jpg",
+    "resolution": "1080p 60fps",
+    "downloadable": true,
+    "defaultAudio": false,
+    "title": "Welcome Curtain Raiser Prelude"
+  },
+  "homepageIntroVideo": {
+    "homepageIntroVideoPath": "assets/videos/intro.mp4",
+    "posterPath": "assets/images/invitation/poster.jpg",
+    "resolution": "1080p 60fps",
+    "downloadable": true,
+    "defaultAudio": false,
+    "title": "Cinematic Opening Prelude",
+    "tagline": "✦ Save The Date ✦",
+    "strokeHeadline": "13 Dec, 2026",
+    "subCaption": "Celebrating Devashish & Rimu with Love and Blessings",
+    "clearPlaybackSeconds": 3.5
+  },
+  "invitation": {
+    "subTitle": "শুভ বিবাহ · Royal Bengali Invitation Suite",
+    "mantra": "“ওঁ প্রজাপতয়ে নমঃ · ওঁ যদেতৎ হৃদয়ং তব তদেতৎ হৃদয়ং মম”",
+    "cardCoverTag": "শ্রীশ্রীপ্রজাপতয়ে নমঃ",
+    "dateBengali": "২৭শে অগ্রহায়ণ, ১৪৩৩ · ১৩ই ডিসেম্বর, ২০২৬",
+    "couplePortraitPath": "assets/images/invitation/couple-portrait.jpg",
+    "couplePortraitFallback": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+    "quoteLeft": "“চারিপাশে উলুধ্বনি, শঙ্খ বাজে প্রাণে”",
+    "quoteEnglish": "“Two souls woven in golden threads”"
+  },
+  "bentoGallery": [
+    {
+      "id": "bento-1",
+      "type": "video",
+      "title": "The First Glance in Golden Mist",
+      "caption": "Captured in 4K slow motion as morning light filters through the cypress trees.",
+      "src": "assets/videos/ceremony.mp4",
+      "fallbackSrc": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85",
+      "poster": "assets/images/invitation/poster.jpg",
+      "location": "Lake Como",
+      "resolution": "4K HDR",
+      "downloadable": true,
+      "defaultAudio": false,
+      "spanClass": "bento-hero",
+      "borderStyle": "border-torn-paper",
+      "revealStyle": "reveal-blur-clear",
+      "revealName": "Blur to Clear",
+      "parallaxSpeed": 0.045
+    },
+    {
+      "id": "story-1",
+      "type": "story",
+      "chapter": "Chapter I · Autumn 2021",
+      "bengaliTag": "প্রথম দেখা · কলেজ স্ট্রিট ও কফি হাউস",
+      "title": "The First Meet",
+      "storyText": "A monsoon afternoon inside an old bookshop where two strangers reached for the same volume of Tagore’s poetry. Over steaming clay cups of masala chai, a five-minute conversation turned into four unforgettable hours.",
+      "quote": "“Some souls recognize each other the very moment their eyes meet.”",
+      "location": "Kolkata",
+      "spanClass": "bento-story-tall",
+      "revealStyle": "reveal-fade-up",
+      "revealName": "Fade & Rise"
+    },
+    {
+      "id": "bento-2",
+      "type": "photo",
+      "title": "Velvet & Lace Bridals",
+      "caption": "Intricate hand-embroidered botanical lace illuminated by chandelier glow.",
+      "src": "assets/images/bento/photo-1.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85",
+      "location": "Kolkata",
+      "resolution": "Ultra-HD",
+      "downloadable": true,
+      "spanClass": "bento-tall",
+      "borderStyle": "border-ink-splash",
+      "revealStyle": "reveal-curtain",
+      "revealName": "Curtain Wipe",
+      "parallaxSpeed": -0.04
+    },
+    {
+      "id": "bento-4",
+      "type": "photo",
+      "title": "The Lake Como Promenade",
+      "caption": "Panoramic architectural symmetry across the historic limestone terrace.",
+      "src": "assets/images/bento/photo-2.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1400&q=85",
+      "location": "Lake Como",
+      "resolution": "4K UHD",
+      "downloadable": true,
+      "spanClass": "bento-wide",
+      "borderStyle": "border-torn-paper",
+      "revealStyle": "reveal-flip-3d",
+      "revealName": "3D Flip Unfold",
+      "parallaxSpeed": 0.035
+    },
+    {
+      "id": "story-2",
+      "type": "story",
+      "chapter": "Chapter II · Winter 2023",
+      "bengaliTag": "প্রথম ভ্রমণ · কাঞ্চনজঙ্ঘার ভোর",
+      "title": "First Mountain Sunrise",
+      "storyText": "Wrapped in woolen shawls at Tiger Hill, watching the snow peaks turn molten gold as we promised to travel every horizon together.",
+      "quote": "“In the quiet of the mountains, we found our forever home.”",
+      "location": "Tiger Hill",
+      "spanClass": "bento-story-wide",
+      "revealStyle": "reveal-zoom-settle",
+      "revealName": "Zoom & Settle"
+    },
+    {
+      "id": "bento-5",
+      "type": "photo",
+      "title": "Heirloom Rose Bouquet",
+      "caption": "Blush garden roses, ivory peonies, and gilded olive branches.",
+      "src": "assets/images/bento/photo-3.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=85",
+      "location": "Darjeeling",
+      "resolution": "Ultra-HD",
+      "downloadable": true,
+      "spanClass": "bento-portrait",
+      "borderStyle": "border-torn-paper",
+      "revealStyle": "reveal-zoom-settle",
+      "revealName": "Zoom & Settle",
+      "parallaxSpeed": 0.045
+    },
+    {
+      "id": "bento-6",
+      "type": "video",
+      "title": "Midnight Sparkler Waltz",
+      "caption": "A whirlwind celebration surrounded by golden embers and string music.",
+      "src": "assets/videos/reception.mp4",
+      "fallbackSrc": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=85",
+      "poster": "assets/images/bento/photo-4.jpg",
+      "location": "Grand Conservatory",
+      "resolution": "1080p 60fps",
+      "downloadable": true,
+      "defaultAudio": false,
+      "spanClass": "bento-feature",
+      "borderStyle": "border-ink-splash",
+      "revealStyle": "reveal-rotate-skew",
+      "revealName": "Rotate & Skew",
+      "parallaxSpeed": -0.045
+    },
+    {
+      "id": "bento-3",
+      "type": "photo",
+      "title": "Champagne Tower Reflections",
+      "caption": "Crystal coupe glasses shimmering under warm candlelit sparklers.",
+      "src": "assets/images/bento/photo-4.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=85",
+      "location": "Bellagio",
+      "resolution": "Ultra-HD",
+      "downloadable": true,
+      "spanClass": "bento-third",
+      "borderStyle": "border-ink-splash",
+      "revealStyle": "reveal-fade-up",
+      "revealName": "Fade & Rise",
+      "parallaxSpeed": 0.035
+    },
+    {
+      "id": "story-3",
+      "type": "story",
+      "chapter": "Chapter III · Spring 2025",
+      "bengaliTag": "আংটি বদল ও আশীর্বাদ · শুভ অঙ্গীকার",
+      "title": "The Lantern Proposal",
+      "storyText": "Beneath a hundred floating sky lanterns by the river ghat, Julian knelt with a vintage heirloom ring and asked the question that began our eternity.",
+      "quote": "“One thousand lanterns, one resounding Yes.”",
+      "location": "River Ghat",
+      "spanClass": "bento-third",
+      "revealStyle": "reveal-flip-3d",
+      "revealName": "3D Flip Unfold"
+    },
+    {
+      "id": "bento-7",
+      "type": "photo",
+      "title": "Cathedral Veil in Motion",
+      "caption": "Caught by the twilight breeze along the marble staircase.",
+      "src": "assets/images/bento/photo-5.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1100&q=85",
+      "location": "Bellagio",
+      "resolution": "4K UHD",
+      "downloadable": true,
+      "spanClass": "bento-third",
+      "borderStyle": "border-torn-paper",
+      "revealStyle": "reveal-blur-clear",
+      "revealName": "Blur to Clear",
+      "parallaxSpeed": 0.035
+    }
+  ],
+  "horizontalFilmstrip": [
+    {
+      "id": "filmstrip-1",
+      "title": "01 · Arrival by Vintage Riva Boat",
+      "location": "Lake Como Pier",
+      "src": "assets/images/filmstrip/slide-1.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=1000&q=85",
+      "resolution": "Panoramic 4K",
+      "downloadable": true
+    },
+    {
+      "id": "filmstrip-2",
+      "title": "02 · Botanical Archway Vows",
+      "location": "Cypress Loggia",
+      "src": "assets/images/filmstrip/slide-2.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85",
+      "resolution": "Panoramic 4K",
+      "downloadable": true
+    },
+    {
+      "id": "filmstrip-3",
+      "title": "03 · Editorial Courtyard Portraits",
+      "location": "Villa Gardens",
+      "src": "assets/images/filmstrip/slide-3.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85",
+      "resolution": "Panoramic 4K",
+      "downloadable": true
+    },
+    {
+      "id": "filmstrip-4",
+      "title": "04 · Candlelit Imperial Table",
+      "location": "Grand Conservatory",
+      "src": "assets/images/filmstrip/slide-4.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=85",
+      "resolution": "Panoramic 4K",
+      "downloadable": true
+    },
+    {
+      "id": "filmstrip-5",
+      "title": "05 · Fireworks Over Bellagio",
+      "location": "Waterfront Terrace",
+      "src": "assets/images/filmstrip/slide-5.jpg",
+      "fallbackSrc": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1000&q=85",
+      "resolution": "Panoramic 4K",
+      "downloadable": true
+    }
+  ]
+};
 
-      // Curtain Raiser Video (Background for opening welcome curtain)
-      curtainVideoDriveLink: "assets/videos/entry_intro.mp4",
+    let DATA = null;
+    let activeTypeFilter = 'all';
+    let activeLocationFilter = 'all';
 
-      // Background Music (Local asset relative path, or Google Drive link)
-      backgroundMusicDriveLink: "assets/audio/background-music.mp3",
-      backgroundMusicFallback: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
-
-      // Opening Hero Video (Local intro.mp4 or Google Drive video link)
-      openingVideoDriveLink: "assets/videos/intro.mp4",
-
-      // Uneven Bento Grid Items (Interleaved Photos, Videos & Story Chapters)
-      bentoItems: [
-        // Row 1 & 2: 8 cols (Hero Video) + 4 cols (Story 1: First Meet) = 12 cols
-        {
-          id: "bento-1",
-          type: "video",
-          title: "The First Glance in Golden Mist",
-          caption: "Captured in 4K slow motion as morning light filters through the cypress trees.",
-          driveLink: "assets/videos/ceremony.mp4",
-          fallbackLink: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85",
-          poster: "assets/images/invitation/poster.jpg",
-          spanClass: "bento-hero",
-          borderStyle: "border-torn-paper",
-          revealStyle: "reveal-blur-clear",
-          revealName: "Blur to Clear",
-          parallaxSpeed: 0.045
-        },
-        {
-          id: "story-1",
-          type: "story",
-          chapter: "Chapter I · Autumn 2021",
-          bengaliTag: "প্রথম দেখা · কলেজ স্ট্রিট ও কফি হাউস",
-          title: "The First Meet",
-          storyText: "A monsoon afternoon inside an old bookshop where two strangers reached for the same volume of Tagore’s poetry. Over steaming clay cups of masala chai, a five-minute conversation turned into four unforgettable hours.",
-          quote: "“Some souls recognize each other the very moment their eyes meet.”",
-          spanClass: "bento-story-tall",
-          revealStyle: "reveal-fade-up",
-          revealName: "Fade & Rise"
-        },
-
-        // Row 3 & 4: 5 cols (Photo Tall) + 7 cols (Photo Wide + Story 2 Wide stacked) = 12 cols
-        {
-          id: "bento-2",
-          type: "photo",
-          title: "Velvet & Lace Bridals",
-          caption: "Intricate hand-embroidered botanical lace illuminated by chandelier glow.",
-          driveLink: "assets/images/bento/photo-1.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85",
-          spanClass: "bento-tall",
-          borderStyle: "border-ink-splash",
-          revealStyle: "reveal-curtain",
-          revealName: "Curtain Wipe",
-          parallaxSpeed: -0.04
-        },
-        {
-          id: "bento-4",
-          type: "photo",
-          title: "The Lake Como Promenade",
-          caption: "Panoramic architectural symmetry across the historic limestone terrace.",
-          driveLink: "assets/images/bento/photo-2.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1400&q=85",
-          spanClass: "bento-wide",
-          borderStyle: "border-torn-paper",
-          revealStyle: "reveal-flip-3d",
-          revealName: "3D Flip Unfold",
-          parallaxSpeed: 0.035
-        },
-        {
-          id: "story-2",
-          type: "story",
-          chapter: "Chapter II · Winter 2023",
-          bengaliTag: "প্রথম ভ্রমণ · কাঞ্চনজঙ্ঘার ভোর",
-          title: "First Mountain Sunrise",
-          storyText: "Wrapped in woolen shawls at Tiger Hill, watching the snow peaks turn molten gold as we promised to travel every horizon together.",
-          quote: "“In the quiet of the mountains, we found our forever home.”",
-          spanClass: "bento-story-wide",
-          revealStyle: "reveal-zoom-settle",
-          revealName: "Zoom & Settle"
-        },
-
-        // Row 5 & 6: 4 cols (Portrait Photo) + 8 cols (Feature Video) = 12 cols
-        {
-          id: "bento-5",
-          type: "photo",
-          title: "Heirloom Rose Bouquet",
-          caption: "Blush garden roses, ivory peonies, and gilded olive branches.",
-          driveLink: "assets/images/bento/photo-3.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=85",
-          spanClass: "bento-portrait",
-          borderStyle: "border-torn-paper",
-          revealStyle: "reveal-zoom-settle",
-          revealName: "Zoom & Settle",
-          parallaxSpeed: 0.045
-        },
-        {
-          id: "bento-6",
-          type: "video",
-          title: "Midnight Sparkler Waltz",
-          caption: "A whirlwind celebration surrounded by golden embers and string music.",
-          driveLink: "assets/videos/reception.mp4",
-          fallbackLink: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=85",
-          poster: "assets/images/bento/photo-4.jpg",
-          spanClass: "bento-feature",
-          borderStyle: "border-ink-splash",
-          revealStyle: "reveal-rotate-skew",
-          revealName: "Rotate & Skew",
-          parallaxSpeed: -0.045
-        },
-
-        // Row 7: 4 cols (Photo) + 4 cols (Story 3: Proposal) + 4 cols (Photo) = 12 cols
-        {
-          id: "bento-3",
-          type: "photo",
-          title: "Champagne Tower Reflections",
-          caption: "Crystal coupe glasses shimmering under warm candlelit sparklers.",
-          driveLink: "assets/images/bento/photo-4.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=85",
-          spanClass: "bento-third",
-          borderStyle: "border-ink-splash",
-          revealStyle: "reveal-fade-up",
-          revealName: "Fade & Rise",
-          parallaxSpeed: 0.035
-        },
-        {
-          id: "story-3",
-          type: "story",
-          chapter: "Chapter III · Spring 2025",
-          bengaliTag: "আংটি বদল ও আশীর্বাদ · শুভ অঙ্গীকার",
-          title: "The Lantern Proposal",
-          storyText: "Beneath a hundred floating sky lanterns by the river ghat, Julian knelt with a vintage heirloom ring and asked the question that began our eternity.",
-          quote: "“One thousand lanterns, one resounding Yes.”",
-          spanClass: "bento-third",
-          revealStyle: "reveal-flip-3d",
-          revealName: "3D Flip Unfold"
-        },
-        {
-          id: "bento-7",
-          type: "photo",
-          title: "Cathedral Veil in Motion",
-          caption: "Caught by the twilight breeze along the marble staircase.",
-          driveLink: "assets/images/bento/photo-5.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1100&q=85",
-          spanClass: "bento-third",
-          borderStyle: "border-torn-paper",
-          revealStyle: "reveal-blur-clear",
-          revealName: "Blur to Clear",
-          parallaxSpeed: 0.035
-        }
-      ],
-
-      // Horizontal Filmstrip Panorama Items
-      horizontalStripItems: [
-        {
-          title: "01 · Arrival by Vintage Riva Boat",
-          location: "Lake Como Pier",
-          driveLink: "assets/images/filmstrip/slide-1.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=1000&q=85"
-        },
-        {
-          title: "02 · Botanical Archway Vows",
-          location: "Cypress Loggia",
-          driveLink: "assets/images/filmstrip/slide-2.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85"
-        },
-        {
-          title: "03 · Editorial Courtyard Portraits",
-          location: "Villa Gardens",
-          driveLink: "assets/images/filmstrip/slide-3.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=85"
-        },
-        {
-          title: "04 · Candlelit Imperial Table",
-          location: "Grand Conservatory",
-          driveLink: "assets/images/filmstrip/slide-4.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=85"
-        },
-        {
-          title: "05 · Fireworks Over Bellagio",
-          location: "Waterfront Terrace",
-          driveLink: "assets/images/filmstrip/slide-5.jpg",
-          fallbackLink: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1000&q=85"
-        }
-      ]
-    };
+    // Application state
+    let globalAiEnabled = true;
+    let lightboxAiEnabled = true;
+    let lightboxZoomed = false;
+    let isMusicPlaying = false;
+    let petalsEnabled = true;
+    let currentBorderMode = 'mixed'; // 'mixed' | 'torn-paper' | 'ink-splash'
+    let hfParallaxMultiplier = 1.0;
+    let introClearTimer = null;
+    let introAutoScrollTimer = null;
 
     /**
-     * Helper: Extracts Google Drive File ID from any share link format and converts it
-     * into direct streaming/image/download URLs.
+     * Helper: Resolves any media path (relative local path, remote URL, or Google Drive share link)
      */
-    function resolveGoogleDriveUrl(inputUrl, mediaType = 'image', forDownload = false) {
+    function resolveMediaUrl(inputUrl, mediaType = 'image', forDownload = false) {
       if (!inputUrl) return '';
       const trimmed = inputUrl.trim();
 
@@ -1738,258 +1763,237 @@
       return trimmed;
     }
 
-    /* =========================================================================
-       2. STATE VARIABLES
-       ========================================================================= */
-    let globalAiEnabled = true;
-    let lightboxAiEnabled = true;
-    let lightboxZoomed = false;
-    let isMusicPlaying = false;
-    let petalsEnabled = true;
-    let currentBorderMode = 'mixed'; // 'mixed' | 'torn-paper' | 'ink-splash'
-    let hfParallaxMultiplier = 1.0;
-    let introClearTimer = null;
-    let introAutoScrollTimer = null;
+    /**
+     * Loads wedding data dynamically from data.json, falling back to embedded config if offline
+     */
+    async function loadWeddingData() {
+      try {
+        const response = await fetch('data.json', { cache: 'no-cache' });
+        if (response.ok) {
+          DATA = await response.json();
+          return DATA;
+        }
+      } catch (err) {
+        console.warn('data.json fetch notice (using embedded data):', err);
+      }
+      DATA = FALLBACK_DATA;
+      return DATA;
+    }
 
-    /* =========================================================================
-       3. INITIALIZATION & INTRO SEQUENCE
-       Sequence:
-       1) Website Preloader Curtain -> User clicks Enter (or auto-completes)
-       2) Opening Video starts with centered SVG Stroke-Animated Glow Text
-       3) Text fades out so crystal-clear video plays unobstructed for 3.5 seconds
-       4) Smoothly reveals/scrolls into the 3D Bento Gallery
-       ========================================================================= */
-    window.addEventListener('DOMContentLoaded', () => {
-      initMediaSources();
-      renderBentoGallery('all');
-      renderHorizontalFilmstrip();
-      initScrollObservers();
-      initParallaxAndScrollGuides();
-      initHorizontalDragScroll();
-      initFallingPetalsCanvas();
+    /**
+     * Binds wedding data to DOM elements across opening screen, hero video, footer & invitation
+     */
+    function applyDataToDom() {
+      if (!DATA) return;
 
-      // Animate Preloader Bar tracking Curtain Video
-      const bar = document.getElementById('preloaderBar');
-      const curtainVid = document.getElementById('curtainBgVideo');
-
-      if (curtainVid) {
-        curtainVid.addEventListener('timeupdate', () => {
-          if (curtainVid.duration && bar) {
-            const pct = Math.min(100, Math.round((curtainVid.currentTime / curtainVid.duration) * 100));
-            bar.style.width = pct + '%';
-          }
-        });
-      } else if (bar) {
-        setTimeout(() => { bar.style.width = '100%'; }, 100);
+      if (DATA.siteConfig?.title) {
+        document.title = DATA.siteConfig.title;
       }
 
-      document.getElementById('enterExperienceBtn').addEventListener('click', () => {
-        dismissPreloaderAndStartIntro(true);
-      });
-
-      // Allow automatic smooth transition after the intro video completes (~8s) if user doesn't click
-      setTimeout(() => {
-        const preloader = document.getElementById('introPreloader');
-        if (preloader && !preloader.classList.contains('opacity-0')) {
-          dismissPreloaderAndStartIntro(false);
-        }
-      }, 8200);
-    });
-
-    function initMediaSources() {
-      // Curtain Raiser Video
+      // 1. Curtain Raiser Video
       const curtainVid = document.getElementById('curtainBgVideo');
-      if (curtainVid) {
-        curtainVid.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.curtainVideoDriveLink || 'assets/videos/entry_intro.mp4', 'video');
+      if (curtainVid && DATA.openingIntroVideo) {
+        if (DATA.openingIntroVideo.posterPath) curtainVid.poster = DATA.openingIntroVideo.posterPath;
+        const cSrc = resolveMediaUrl(DATA.openingIntroVideo.openingIntroVideoPath || 'assets/videos/entry_intro.mp4', 'video');
+        curtainVid.src = cSrc;
+        curtainVid.muted = DATA.openingIntroVideo.defaultAudio === true ? false : true;
         curtainVid.load();
         curtainVid.play().catch(() => {});
       }
 
-      // Audio
-      const audioEl = document.getElementById('bgMusicPlayer');
-      audioEl.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink, 'audio');
-      audioEl.onerror = () => {
-        if (!audioEl.dataset.fallbackApplied && GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicFallback) {
-          audioEl.dataset.fallbackApplied = 'true';
-          audioEl.src = GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicFallback;
-          audioEl.load();
-          if (isMusicPlaying) audioEl.play().catch(() => {});
-        }
-      };
-
-      // Hero Video
+      // 2. Hero Backdrop Video
       const heroVid = document.getElementById('heroBackdropVideo');
-      heroVid.src = resolveGoogleDriveUrl(GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink, 'video');
-      heroVid.load();
-      heroVid.play().catch(() => {});
+      if (heroVid && DATA.homepageIntroVideo) {
+        if (DATA.homepageIntroVideo.posterPath) heroVid.poster = DATA.homepageIntroVideo.posterPath;
+        const hSrc = resolveMediaUrl(DATA.homepageIntroVideo.homepageIntroVideoPath || 'assets/videos/intro.mp4', 'video');
+        heroVid.src = hSrc;
+        heroVid.load();
+        heroVid.play().catch(() => {});
 
-      // Footer Info
-      document.getElementById('footerCreatorName').textContent = GOOGLE_DRIVE_MEDIA_CONFIG.creatorName;
-      const igLink = document.getElementById('footerInstagramLink');
-      igLink.href = GOOGLE_DRIVE_MEDIA_CONFIG.instagramUrl;
-      igLink.querySelector('span').textContent = GOOGLE_DRIVE_MEDIA_CONFIG.instagramHandle;
-
-      const fbLink = document.getElementById('footerFacebookLink');
-      fbLink.href = GOOGLE_DRIVE_MEDIA_CONFIG.facebookUrl;
-      fbLink.querySelector('span').textContent = GOOGLE_DRIVE_MEDIA_CONFIG.facebookHandle;
-    }
-
-    function dismissPreloaderAndStartIntro(withAudio) {
-      const preloader = document.getElementById('introPreloader');
-      const curtainVideo = document.getElementById('curtainBgVideo');
-      if (!preloader || preloader.classList.contains('opacity-0')) return;
-
-      preloader.classList.add('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        preloader.style.display = 'none';
-        if (curtainVideo) {
-          curtainVideo.pause();
+        const strokeText = document.getElementById('heroStrokeText');
+        if (strokeText && DATA.homepageIntroVideo.strokeHeadline) {
+          strokeText.textContent = DATA.homepageIntroVideo.strokeHeadline;
         }
-      }, 1000);
 
-      if (withAudio && !isMusicPlaying) {
-        toggleBackgroundMusic(true);
+        const subCap = document.getElementById('heroSubCaption');
+        if (subCap && DATA.homepageIntroVideo.subCaption) {
+          subCap.textContent = DATA.homepageIntroVideo.subCaption;
+        }
       }
 
-      runHeroIntroSequence();
-    }
-
-    function runHeroIntroSequence() {
-      clearTimeout(introClearTimer);
-      clearTimeout(introAutoScrollTimer);
-
-      const strokeText = document.getElementById('heroStrokeText');
-      const subCaption = document.getElementById('heroSubCaption');
-      const textContainer = document.getElementById('heroTextContainer');
-      const shade = document.getElementById('heroOverlayShade');
-      const badge = document.getElementById('introSequenceBadge');
-
-      // Reset classes
-      textContainer.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-      shade.classList.remove('opacity-0');
-      strokeText.classList.remove('stroke-animate');
-      void strokeText.offsetWidth; // trigger reflow
-      strokeText.classList.add('stroke-animate');
-
-      badge.textContent = '...On the Happiest Day of Their Lives';
-
-      setTimeout(() => {
-        subCaption.classList.remove('opacity-0', 'translate-y-4');
-      }, 900);
-
-      // Step 2: After stroke animation completes (3.4s), fade out text & dark overlay
-      // to show the crystal-clear video unobstructed for 3.5 seconds
-      introClearTimer = setTimeout(() => {
-        textContainer.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-        shade.classList.add('opacity-0');
-
-        // Step 3: After 3.6 seconds of clear video playback, gently restore subtle caption & scroll to gallery
-        introAutoScrollTimer = setTimeout(() => {
-          textContainer.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-          shade.classList.remove('opacity-0');
-          badge.textContent = '✦ grace us with blessings ✦';
-
-          // Only auto-scroll if user is still near top of the page
-          if (window.scrollY < 180) {
-            document.getElementById('bentoGallerySection').scrollIntoView({ behavior: 'smooth' });
+      // 3. Background Audio Player
+      const audioEl = document.getElementById('bgMusicPlayer');
+      if (audioEl && DATA.audio) {
+        audioEl.src = resolveMediaUrl(DATA.audio.backgroundMusicPath, 'audio');
+        audioEl.onerror = () => {
+          if (!audioEl.dataset.fallbackApplied && DATA.audio.fallbackUrl) {
+            audioEl.dataset.fallbackApplied = 'true';
+            audioEl.src = DATA.audio.fallbackUrl;
+            audioEl.load();
+            if (isMusicPlaying) audioEl.play().catch(() => {});
           }
-        }, 3600);
-      }, 3500);
-    }
+        };
+      }
 
-    function replayHeroIntroSequence() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-        runHeroIntroSequence();
-      }, 400);
-    }
+      // 4. Footer Links & Copyright
+      if (DATA.couple) {
+        const creatorEl = document.getElementById('footerCreatorName');
+        if (creatorEl) creatorEl.textContent = DATA.couple.coupleTitleEnglish || 'Devashish & Rimu';
 
-    /* =========================================================================
-       4. BACKGROUND MUSIC CONTROLLER
-       ========================================================================= */
-    function toggleBackgroundMusic(forcePlay = null) {
-      const audio = document.getElementById('bgMusicPlayer');
-      const eq = document.getElementById('eqContainer');
-      const label = document.getElementById('musicStatusLabel');
-      const pill = document.getElementById('musicStatusPill');
+        const igLink = document.getElementById('footerInstagramLink');
+        if (igLink && DATA.couple.instagramUrl) {
+          igLink.href = DATA.couple.instagramUrl;
+          const igSpan = igLink.querySelector('span');
+          if (igSpan) igSpan.textContent = DATA.couple.instagramHandle || '@debashish_and_rimu';
+        }
 
-      const shouldPlay = forcePlay !== null ? forcePlay : !isMusicPlaying;
+        const fbLink = document.getElementById('footerFacebookLink');
+        if (fbLink && DATA.couple.facebookUrl) {
+          fbLink.href = DATA.couple.facebookUrl;
+          const fbSpan = fbLink.querySelector('span');
+          if (fbSpan) fbSpan.textContent = DATA.couple.facebookHandle || 'facebook.com/debashishandrimu';
+        }
 
-      if (shouldPlay) {
-        audio.play().then(() => {
-          isMusicPlaying = true;
-          if (eq) eq.classList.remove('eq-paused');
-          if (label) label.textContent = 'Music On';
-          if (pill) {
-            pill.textContent = 'Music On';
-            pill.classList.add('text-gold-300');
-            pill.classList.remove('text-white/70');
-          }
-        }).catch(() => {
-          isMusicPlaying = false;
-          if (eq) eq.classList.add('eq-paused');
-          if (label) label.textContent = 'Music Off';
-          if (pill) {
-            pill.textContent = 'Music Off';
-            pill.classList.remove('text-gold-300');
-            pill.classList.add('text-white/70');
-          }
-        });
-      } else {
-        audio.pause();
-        isMusicPlaying = false;
-        if (eq) eq.classList.add('eq-paused');
-        if (label) label.textContent = 'Music Off';
-        if (pill) {
-          pill.textContent = 'Music Off';
-          pill.classList.remove('text-gold-300');
-          pill.classList.add('text-white/70');
+        const copyEl = document.getElementById('footerCopyright');
+        if (copyEl) {
+          copyEl.textContent = `© 2026 ${DATA.couple.coupleTitleEnglish || 'Devashish & Rimu'} · 3D Parallax & AI Enhanced Showcase`;
+        }
+
+        // Fullscreen Bengali Suite & Card previews
+        if (DATA.couple.coupleTitleBengali) {
+          document.querySelectorAll('.card-cover-couple-bengali, #cardCoverCoupleBengali, #topNavCoupleBengali').forEach(el => {
+            el.textContent = DATA.couple.coupleTitleBengali;
+          });
+        }
+        if (DATA.couple.coupleTitleEnglish) {
+          document.querySelectorAll('#cardCoverCoupleEnglish').forEach(el => {
+            el.textContent = DATA.couple.coupleTitleEnglish;
+          });
+        }
+        if (DATA.couple.groomName) {
+          document.querySelectorAll('.card-groom-bengali, #cardGroomBengali').forEach(el => el.textContent = DATA.couple.groomName);
+        }
+        if (DATA.couple.brideName) {
+          document.querySelectorAll('.card-bride-bengali, #cardBrideBengali').forEach(el => el.textContent = DATA.couple.brideName);
+        }
+        if (DATA.couple.weddingDateBengali) {
+          document.querySelectorAll('.card-date-bengali, #cardDateBengali').forEach(el => el.textContent = DATA.couple.weddingDateBengali);
+        }
+        if (DATA.couple.venue) {
+          document.querySelectorAll('.card-venue-text, #cardVenueText').forEach(el => el.textContent = DATA.couple.venue);
         }
       }
     }
 
-    /* =========================================================================
-       5. RENDER UNEVEN DENSE BENTO GRID (PHOTOS + VIDEOS + LOVE STORY CARDS
-          WITH TORN PAPER / INK SPLASH BORDERS & HF 2.5D DEPTH PARALLAX)
-       ========================================================================= */
-    function getBorderClassForItem(item, index) {
-      if (currentBorderMode === 'torn-paper') return 'border-torn-paper';
-      if (currentBorderMode === 'ink-splash') return 'border-ink-splash';
-      return item.borderStyle || (index % 2 === 0 ? 'border-torn-paper' : 'border-ink-splash');
-    }
+    /**
+     * Dynamically populates location filter badges in Section 2 toolbar
+     */
+    function renderLocationFilters() {
+      const container = document.getElementById('locationFilterContainer');
+      if (!container || !DATA || !DATA.bentoGallery) return;
 
-    function setGalleryBorderStyle(mode) {
-      currentBorderMode = mode;
-      document.querySelectorAll('.border-style-btn').forEach(btn => {
-        if (btn.dataset.border === mode) {
-          btn.classList.add('bg-gold-400', 'text-obsidian', 'font-semibold');
-          btn.classList.remove('text-gold-200');
-        } else {
-          btn.classList.remove('bg-gold-400', 'text-obsidian', 'font-semibold');
-          btn.classList.add('text-gold-200');
+      const locations = ['all'];
+      DATA.bentoGallery.forEach(item => {
+        if (item.location && !locations.includes(item.location)) {
+          locations.push(item.location);
         }
       });
-      renderBentoGallery('all');
+
+      if (locations.length <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      const buttonsHtml = locations.map(loc => {
+        const isActive = loc === activeLocationFilter;
+        const label = loc === 'all' ? 'All Locations' : loc;
+        return `
+          <button
+            onclick="filterBentoByLocation('${loc}')"
+            data-location="${loc}"
+            class="location-filter-btn px-3 py-1 rounded-full text-[11px] uppercase tracking-wider transition flex items-center gap-1 ${
+              isActive
+                ? 'bg-gold-400 text-obsidian font-semibold border border-gold-400 shadow-md'
+                : 'bg-white/5 text-white/70 border border-white/15 hover:border-gold-400/40 hover:text-white'
+            }"
+          >
+            ${loc !== 'all' ? '<i class="fa-solid fa-location-dot text-[10px] ' + (isActive ? 'text-obsidian' : 'text-gold-400') + '"></i>' : ''}
+            <span>${label}</span>
+          </button>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <span class="text-gold-300/80 font-mono text-[11px] uppercase tracking-wider mr-1 flex items-center gap-1">
+          <i class="fa-solid fa-earth-americas text-gold-400"></i> Location:
+        </span>
+        ${buttonsHtml}
+      `;
     }
 
-    function renderBentoGallery(filterType = 'all') {
+    function filterBentoByLocation(loc) {
+      activeLocationFilter = loc;
+      renderLocationFilters();
+      renderBentoGallery(activeTypeFilter, activeLocationFilter);
+    }
+
+    function filterBentoGallery(filterType) {
+      activeTypeFilter = filterType;
+      document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+        if (btn.dataset.filter === filterType) {
+          btn.classList.add('bg-gold-400', 'text-obsidian', 'border-gold-400', 'font-semibold');
+          btn.classList.remove('bg-white/5', 'text-white/80', 'border-white/20');
+        } else {
+          btn.classList.remove('bg-gold-400', 'text-obsidian', 'border-gold-400', 'font-semibold');
+          btn.classList.add('bg-white/5', 'text-white/80', 'border-white/20');
+        }
+      });
+      renderBentoGallery(activeTypeFilter, activeLocationFilter);
+    }
+
+    function resetBentoFilters() {
+      activeLocationFilter = 'all';
+      filterBentoGallery('all');
+      renderLocationFilters();
+    }
+
+    /**
+     * Renders Uneven Bento Grid with Category Filtering, Location Filtering, Resolution Badges & Parallax
+     */
+    function renderBentoGallery(filterType = 'all', locationFilter = 'all') {
       const container = document.getElementById('bentoGridContainer');
+      if (!container || !DATA || !DATA.bentoGallery) return;
       container.innerHTML = '';
 
-      const items = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems.filter(item =>
-        filterType === 'all' ? true : item.type === filterType
-      );
+      const items = DATA.bentoGallery.filter(item => {
+        const matchType = filterType === 'all' ? true : item.type === filterType;
+        const matchLoc = locationFilter === 'all' ? true : item.location === locationFilter;
+        return matchType && matchLoc;
+      });
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-12 py-16 text-center text-white/60">
+            <i class="fa-solid fa-filter text-2xl text-gold-400/50 mb-3"></i>
+            <p class="font-serif text-lg text-gold-200">No media found for the selected filter.</p>
+            <button onclick="resetBentoFilters()" class="mt-4 px-4 py-1.5 rounded-full bg-gold-400 text-obsidian text-xs uppercase tracking-wider font-semibold">
+              Reset Filters
+            </button>
+          </div>
+        `;
+        return;
+      }
 
       items.forEach((item, index) => {
         // Render Woven Love Story Card inside the grid
         if (item.type === 'story') {
           const storyCard = document.createElement('article');
-          storyCard.className = `tilt-card reveal-item ${item.revealStyle} ${item.spanClass} group relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#1B1523] via-[#120F18] to-[#231829] border border-gold-400/45 p-6 sm:p-7 flex flex-col justify-between shadow-2xl`;
+          storyCard.className = `tilt-card reveal-item ${item.revealStyle || 'reveal-fade-up'} ${item.spanClass || 'bento-story-tall'} group relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#1B1523] via-[#120F18] to-[#231829] border border-gold-400/45 p-6 sm:p-7 flex flex-col justify-between shadow-2xl`;
           storyCard.innerHTML = `
             <div class="tilt-card-inner h-full flex flex-col justify-between relative z-10">
               <div class="flex items-center justify-between gap-2 border-b border-gold-400/25 pb-3">
-                <span class="text-[10px] uppercase tracking-[0.28em] text-gold-300 font-semibold">${item.chapter}</span>
-                <span class="font-bengali text-xs text-gold-300/90 bg-gold-400/10 border border-gold-400/30 px-2.5 py-0.5 rounded-full">${item.bengaliTag}</span>
+                <span class="text-[10px] uppercase tracking-[0.28em] text-gold-300 font-semibold">${item.chapter || ''}</span>
+                <span class="font-bengali text-xs text-gold-300/90 bg-gold-400/10 border border-gold-400/30 px-2.5 py-0.5 rounded-full">${item.bengaliTag || ''}</span>
               </div>
 
               <div class="my-auto py-3">
@@ -1997,13 +2001,13 @@
                   <i class="fa-solid fa-feather-pointed text-xs"></i>
                   <h3 class="font-serif text-2xl sm:text-3xl text-white font-semibold group-hover:text-gold-200 transition">${item.title}</h3>
                 </div>
-                <p class="text-xs sm:text-sm text-white/80 leading-relaxed mb-3">${item.storyText}</p>
-                <p class="font-script text-xl sm:text-2xl text-gold-300">${item.quote}</p>
+                <p class="text-xs sm:text-sm text-white/80 leading-relaxed mb-3">${item.storyText || ''}</p>
+                <p class="font-script text-xl sm:text-2xl text-gold-300">${item.quote || ''}</p>
               </div>
 
               <div class="flex items-center justify-between pt-2 border-t border-white/10 text-[10px] uppercase tracking-widest text-gold-300/70">
-                <span>✦ Love Story Milestone</span>
-                <span>Reveal: ${item.revealName}</span>
+                <span>✦ ${item.location ? '<i class="fa-solid fa-location-dot mr-1"></i>' + item.location : 'Love Story Milestone'}</span>
+                <span>Reveal: ${item.revealName || 'Ceremonial'}</span>
               </div>
             </div>
           `;
@@ -2012,14 +2016,14 @@
         }
 
         // Render Photo or Video Card with Torn Paper / Ink Splash Border + Hugging Face 2.5D Depth Parallax
-        const resolvedUrl = resolveGoogleDriveUrl(item.driveLink, item.type === 'video' ? 'video' : 'image');
-        const downloadUrl = resolveGoogleDriveUrl(item.driveLink, item.type, true);
+        const resolvedUrl = resolveMediaUrl(item.src, item.type === 'video' ? 'video' : 'image');
+        const downloadUrl = resolveMediaUrl(item.src, item.type, true);
         const aiClass = globalAiEnabled ? 'ai-enhanced-media' : '';
         const borderClass = getBorderClassForItem(item, index);
         const edgeLabel = borderClass === 'border-torn-paper' ? 'Torn Paper Edge' : 'Ink Splash Edge';
 
         const card = document.createElement('article');
-        card.className = `tilt-card reveal-item ${item.revealStyle} ${item.spanClass} ${borderClass} group relative overflow-hidden bg-charcoal cursor-pointer`;
+        card.className = `tilt-card reveal-item ${item.revealStyle || 'reveal-scale-up'} ${item.spanClass || 'bento-tall'} ${borderClass} group relative overflow-hidden bg-charcoal cursor-pointer`;
         card.dataset.parallax = item.parallaxSpeed || 0.04;
 
         const mediaMarkup = item.type === 'video'
@@ -2037,9 +2041,35 @@
                src="${resolvedUrl}"
                alt="${item.title}"
                loading="lazy"
-               onerror="this.onerror=null; this.src='${item.fallbackLink || 'https://placehold.co/900x700/181420/D4AF37?text=Luxury+Capture'}';"
+               onerror="this.onerror=null; this.src='${item.fallbackSrc || 'https://placehold.co/900x700/181420/D4AF37?text=Luxury+Capture'}';"
                class="card-media hf-depth-layer object-cover ${aiClass}"
              />`;
+
+        const resolutionBadge = item.resolution ? `
+          <span class="px-2 py-0.5 rounded-full bg-obsidian/80 backdrop-blur-md border border-gold-400/30 text-[10px] font-mono text-gold-300">
+            ${item.resolution}
+          </span>
+        ` : '';
+
+        const locationBadge = item.location ? `
+          <span class="px-2 py-0.5 rounded-full bg-obsidian/75 backdrop-blur-md border border-white/15 text-[10px] text-white/80">
+            <i class="fa-solid fa-location-dot text-gold-400 mr-1"></i>${item.location}
+          </span>
+        ` : '';
+
+        const downloadButtonMarkup = item.downloadable !== false ? `
+          <a
+            href="${downloadUrl}"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            onclick="event.stopPropagation();"
+            class="w-9 h-9 rounded-full bg-gold-400/90 hover:bg-gold-300 text-obsidian flex items-center justify-center transition shadow-md"
+            title="Download Original"
+          >
+            <i class="fa-solid fa-download text-xs"></i>
+          </a>
+        ` : '';
 
         card.innerHTML = `
           <div class="tilt-card-inner relative w-full h-full overflow-hidden">
@@ -2054,7 +2084,9 @@
                 <span class="px-2.5 py-1 rounded-full bg-obsidian/80 backdrop-blur-md border border-gold-400/40 text-[10px] uppercase tracking-widest text-gold-200">
                   ${item.type === 'video' ? '<i class="fa-solid fa-play mr-1 text-gold-400"></i>Film' : '<i class="fa-regular fa-image mr-1 text-gold-400"></i>Photo'}
                 </span>
-                <span class="px-2.5 py-1 rounded-full bg-obsidian/70 backdrop-blur-md border border-white/15 text-[10px] text-gold-100/90 hidden sm:inline-block">
+                ${resolutionBadge}
+                ${locationBadge}
+                <span class="px-2 py-0.5 rounded-full bg-obsidian/70 backdrop-blur-md border border-white/15 text-[10px] text-gold-100/90 hidden md:inline-block">
                   ${edgeLabel}
                 </span>
               </div>
@@ -2068,7 +2100,7 @@
             <div class="tilt-depth-badge absolute bottom-1 inset-x-1 p-5 flex items-end justify-between gap-4 z-20">
               <div>
                 <h3 class="font-serif text-xl sm:text-2xl text-white font-semibold group-hover:text-gold-200 transition">${item.title}</h3>
-                <p class="text-xs text-white/75 line-clamp-2 mt-1 max-w-md">${item.caption}</p>
+                <p class="text-xs text-white/75 line-clamp-2 mt-1 max-w-md">${item.caption || ''}</p>
               </div>
 
               <div class="flex items-center gap-2 shrink-0">
@@ -2080,17 +2112,7 @@
                 >
                   <i class="fa-solid fa-expand text-xs"></i>
                 </button>
-                <a
-                  href="${downloadUrl}"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onclick="event.stopPropagation();"
-                  class="w-9 h-9 rounded-full bg-gold-400/90 hover:bg-gold-300 text-obsidian flex items-center justify-center transition shadow-md"
-                  title="Download Original"
-                >
-                  <i class="fa-solid fa-download text-xs"></i>
-                </a>
+                ${downloadButtonMarkup}
               </div>
             </div>
           </div>
@@ -2132,17 +2154,24 @@
       initScrollObservers();
     }
 
-    function filterBentoGallery(filterType) {
-      document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
-        if (btn.dataset.filter === filterType) {
-          btn.classList.add('bg-gold-400', 'text-obsidian', 'border-gold-400', 'font-semibold');
-          btn.classList.remove('bg-white/5', 'text-white/80', 'border-white/20');
+    function getBorderClassForItem(item, index) {
+      if (currentBorderMode === 'torn-paper') return 'border-torn-paper';
+      if (currentBorderMode === 'ink-splash') return 'border-ink-splash';
+      return item.borderStyle || (index % 2 === 0 ? 'border-torn-paper' : 'border-ink-splash');
+    }
+
+    function setGalleryBorderStyle(mode) {
+      currentBorderMode = mode;
+      document.querySelectorAll('.border-style-btn').forEach(btn => {
+        if (btn.dataset.border === mode) {
+          btn.classList.add('bg-gold-400', 'text-obsidian', 'font-semibold');
+          btn.classList.remove('text-gold-200');
         } else {
-          btn.classList.remove('bg-gold-400', 'text-obsidian', 'border-gold-400', 'font-semibold');
-          btn.classList.add('bg-white/5', 'text-white/80', 'border-white/20');
+          btn.classList.remove('bg-gold-400', 'text-obsidian', 'font-semibold');
+          btn.classList.add('text-gold-200');
         }
       });
-      renderBentoGallery(filterType);
+      renderBentoGallery(activeTypeFilter, activeLocationFilter);
     }
 
     function retriggerAllReveals() {
@@ -2155,9 +2184,6 @@
       }, 150);
     }
 
-    /* =========================================================================
-       6. INTERSECTION OBSERVER FOR 6 REVEAL STYLES
-       ========================================================================= */
     function initScrollObservers() {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -2172,12 +2198,359 @@
       });
     }
 
-    /* =========================================================================
-       7. AI IMAGE ENHANCEMENT & HUGGING FACE STUDIO CONTROLLERS
-       ========================================================================= */
+    /**
+     * Renders Section 3: Horizontal Scroll Filmstrip Gallery
+     */
+    function renderHorizontalFilmstrip() {
+      const track = document.getElementById('horizontalTrack');
+      if (!track || !DATA || !DATA.horizontalFilmstrip) return;
+      track.innerHTML = '';
+
+      DATA.horizontalFilmstrip.forEach((item) => {
+        const resolvedUrl = resolveMediaUrl(item.src, 'image');
+        const downloadUrl = resolveMediaUrl(item.src, 'image', true);
+
+        const resolutionBadge = item.resolution ? `
+          <span class="px-2 py-0.5 rounded-full bg-obsidian/80 backdrop-blur-md border border-gold-400/30 text-[9px] font-mono text-gold-300">
+            ${item.resolution}
+          </span>
+        ` : '';
+
+        const downloadMarkup = item.downloadable !== false ? `
+          <a
+            href="${downloadUrl}"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-full bg-gold-400/90 hover:bg-gold-300 text-obsidian flex items-center justify-center transition shadow-lg shrink-0"
+            title="Download Frame"
+          >
+            <i class="fa-solid fa-download text-xs"></i>
+          </a>
+        ` : '';
+
+        const slide = document.createElement('div');
+        slide.className = 'snap-center shrink-0 w-[82vw] sm:w-[460px] md:w-[540px] h-[340px] sm:h-[390px] relative rounded-2xl overflow-hidden border border-gold-400/30 group shadow-2xl';
+        slide.innerHTML = `
+          <img
+            src="${resolvedUrl}"
+            alt="${item.title}"
+            class="card-media w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${globalAiEnabled ? 'ai-enhanced-media' : ''}"
+            onerror="this.onerror=null; this.src='${item.fallbackSrc || 'https://placehold.co/800x500/181420/D4AF37?text=Panorama+Frame'}';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/20 to-transparent"></div>
+          <div class="absolute bottom-0 inset-x-0 p-6 flex items-end justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                <span class="text-[10px] uppercase tracking-[0.25em] text-gold-300 block">
+                  <i class="fa-solid fa-location-dot mr-1"></i>${item.location || ''}
+                </span>
+                ${resolutionBadge}
+              </div>
+              <h3 class="font-serif text-2xl text-white font-semibold group-hover:text-gold-200 transition">${item.title}</h3>
+            </div>
+            ${downloadMarkup}
+          </div>
+        `;
+        track.appendChild(slide);
+      });
+    }
+
+    function scrollHorizontalStrip(direction) {
+      const track = document.getElementById('horizontalTrack');
+      if (track) {
+        const scrollAmount = 520 * direction;
+        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
+
+    function initHorizontalDragScroll() {
+      const track = document.getElementById('horizontalTrack');
+      const progressBar = document.getElementById('horizontalProgressBar');
+      if (!track) return;
+
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+      track.addEventListener('mouseleave', () => { isDown = false; });
+      track.addEventListener('mouseup', () => { isDown = false; });
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.8;
+        track.scrollLeft = scrollLeft - walk;
+      });
+
+      track.addEventListener('scroll', () => {
+        if (!progressBar) return;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        const pct = maxScroll > 0 ? Math.max(15, (track.scrollLeft / maxScroll) * 100) : 20;
+        progressBar.style.width = `${pct}%`;
+      });
+    }
+
+    /**
+     * Lightbox Controller with Location, Resolution & Download Logic
+     */
+    function openLightbox(itemId) {
+      if (!DATA) return;
+      let item = (DATA.bentoGallery || []).find(x => x.id === itemId);
+      if (!item) {
+        item = (DATA.horizontalFilmstrip || []).find(x => x.id === itemId);
+      }
+      if (!item) return;
+
+      const modal = document.getElementById('lightboxModal');
+      const imgEl = document.getElementById('lightboxImage');
+      const vidEl = document.getElementById('lightboxVideo');
+      const titleEl = document.getElementById('lightboxTitle');
+      const captionEl = document.getElementById('lightboxCaption');
+      const badgeEl = document.getElementById('lightboxBadge');
+      const locBadge = document.getElementById('lightboxLocationBadge');
+      const locText = document.getElementById('lightboxLocationText');
+      const resBadge = document.getElementById('lightboxResBadge');
+      const resText = document.getElementById('lightboxResText');
+      const downloadBtn = document.getElementById('lightboxDownloadBtn');
+      const sourceHint = document.getElementById('lightboxSourceHint');
+
+      lightboxZoomed = false;
+      if (imgEl) imgEl.style.transform = 'scale(1)';
+
+      const resolvedSrc = resolveMediaUrl(item.src, item.type === 'video' ? 'video' : 'image');
+      const downloadHref = resolveMediaUrl(item.src, item.type, true);
+
+      if (titleEl) titleEl.textContent = item.title;
+      if (captionEl) captionEl.textContent = item.caption || item.location || '';
+      if (badgeEl) badgeEl.textContent = `${(item.type || 'PHOTO').toUpperCase()}${item.revealName ? ' · ' + item.revealName : ''}`;
+
+      if (locBadge && locText) {
+        if (item.location) {
+          locText.textContent = item.location;
+          locBadge.classList.remove('hidden');
+          locBadge.classList.add('inline-flex');
+        } else {
+          locBadge.classList.add('hidden');
+          locBadge.classList.remove('inline-flex');
+        }
+      }
+
+      if (resBadge && resText) {
+        if (item.resolution) {
+          resText.textContent = item.resolution;
+          resBadge.classList.remove('hidden');
+          resBadge.classList.add('inline-flex');
+        } else {
+          resBadge.classList.add('hidden');
+          resBadge.classList.remove('inline-flex');
+        }
+      }
+
+      if (downloadBtn) {
+        if (item.downloadable !== false) {
+          downloadBtn.href = downloadHref;
+          downloadBtn.style.display = 'inline-flex';
+        } else {
+          downloadBtn.style.display = 'none';
+        }
+      }
+
+      if (sourceHint) {
+        sourceHint.textContent = item.resolution ? `${item.resolution} · ${item.location || 'Studio Visual Capture'}` : 'High-Resolution Visual Capture';
+      }
+
+      if (item.type === 'video') {
+        if (imgEl) imgEl.classList.add('hidden');
+        if (vidEl) {
+          vidEl.classList.remove('hidden');
+          vidEl.src = resolvedSrc;
+          vidEl.onerror = () => {
+            if (item.fallbackSrc && !vidEl.dataset.fallback) {
+              vidEl.dataset.fallback = 'true';
+              vidEl.src = item.fallbackSrc;
+              vidEl.play().catch(() => {});
+            }
+          };
+          vidEl.play().catch(() => {});
+        }
+      } else {
+        if (vidEl) {
+          vidEl.pause();
+          vidEl.classList.add('hidden');
+        }
+        if (imgEl) {
+          imgEl.classList.remove('hidden');
+          imgEl.src = resolvedSrc;
+          imgEl.onerror = () => {
+            if (item.fallbackSrc) imgEl.src = item.fallbackSrc;
+          };
+        }
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      const vidEl = document.getElementById('lightboxVideo');
+      if (vidEl) vidEl.pause();
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function toggleLightboxAI() {
+      lightboxAiEnabled = !lightboxAiEnabled;
+      const imgEl = document.getElementById('lightboxImage');
+      const vidEl = document.getElementById('lightboxVideo');
+      const label = document.getElementById('lightboxAiLabel');
+
+      if (label) label.textContent = lightboxAiEnabled ? 'AI HDR: ON' : 'AI HDR: OFF';
+      if (imgEl) imgEl.classList.toggle('ai-enhanced-media', lightboxAiEnabled);
+      if (vidEl) vidEl.classList.toggle('ai-enhanced-media', lightboxAiEnabled);
+    }
+
+    function toggleLightboxZoom() {
+      lightboxZoomed = !lightboxZoomed;
+      const imgEl = document.getElementById('lightboxImage');
+      if (imgEl) imgEl.style.transform = lightboxZoomed ? 'scale(1.45)' : 'scale(1)';
+    }
+
+    /**
+     * Intro Sequence: Dismiss curtain & start hero video + 3.5s clear showcase
+     */
+    function dismissPreloaderAndStartIntro(withAudio) {
+      const preloader = document.getElementById('introPreloader');
+      const curtainVideo = document.getElementById('curtainBgVideo');
+      if (!preloader || preloader.classList.contains('opacity-0')) return;
+
+      preloader.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        if (curtainVideo) {
+          curtainVideo.pause();
+        }
+      }, 1000);
+
+      if (withAudio && !isMusicPlaying) {
+        toggleBackgroundMusic(true);
+      }
+
+      runHeroIntroSequence();
+    }
+
+    function runHeroIntroSequence() {
+      clearTimeout(introClearTimer);
+      clearTimeout(introAutoScrollTimer);
+
+      const strokeText = document.getElementById('heroStrokeText');
+      const subCaption = document.getElementById('heroSubCaption');
+      const textContainer = document.getElementById('heroTextContainer');
+      const shade = document.getElementById('heroOverlayShade');
+      const badge = document.getElementById('introSequenceBadge');
+
+      if (textContainer) textContainer.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      if (shade) shade.classList.remove('opacity-0');
+      if (strokeText) {
+        strokeText.classList.remove('stroke-animate');
+        void strokeText.offsetWidth; // trigger reflow
+        strokeText.classList.add('stroke-animate');
+      }
+
+      if (badge) badge.textContent = '...On the Happiest Day of Their Lives';
+
+      setTimeout(() => {
+        if (subCaption) subCaption.classList.remove('opacity-0', 'translate-y-4');
+      }, 900);
+
+      // Step 2: Clear video showcase for ~3.5 seconds
+      const clearDuration = (DATA?.homepageIntroVideo?.clearPlaybackSeconds || 3.5) * 1000;
+
+      introClearTimer = setTimeout(() => {
+        if (textContainer) textContainer.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        if (shade) shade.classList.add('opacity-0');
+
+        introAutoScrollTimer = setTimeout(() => {
+          if (textContainer) textContainer.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+          if (shade) shade.classList.remove('opacity-0');
+          if (badge) badge.textContent = '✦ grace us with blessings ✦';
+
+          if (window.scrollY < 180) {
+            const gallerySection = document.getElementById('bentoGallerySection');
+            if (gallerySection) gallerySection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, clearDuration + 100);
+      }, 3500);
+    }
+
+    function replayHeroIntroSequence() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        runHeroIntroSequence();
+      }, 400);
+    }
+
+    /**
+     * Background Audio Toggle & EQ
+     */
+    function toggleBackgroundMusic(forcePlay = null) {
+      const audio = document.getElementById('bgMusicPlayer');
+      const eq = document.getElementById('eqContainer');
+      const label = document.getElementById('musicStatusLabel');
+      const pill = document.getElementById('musicStatusPill');
+      if (!audio) return;
+
+      const shouldPlay = forcePlay !== null ? forcePlay : !isMusicPlaying;
+
+      if (shouldPlay) {
+        audio.play().then(() => {
+          isMusicPlaying = true;
+          if (eq) eq.classList.remove('eq-paused');
+          if (label) label.textContent = 'Music On';
+          if (pill) {
+            pill.textContent = 'Music On';
+            pill.classList.add('text-gold-300');
+            pill.classList.remove('text-white/70');
+          }
+        }).catch(() => {
+          isMusicPlaying = false;
+          if (eq) eq.classList.add('eq-paused');
+          if (label) label.textContent = 'Music Off';
+          if (pill) {
+            pill.textContent = 'Music Off';
+            pill.classList.remove('text-gold-300');
+            pill.classList.add('text-white/70');
+          }
+        });
+      } else {
+        audio.pause();
+        isMusicPlaying = false;
+        if (eq) eq.classList.add('eq-paused');
+        if (label) label.textContent = 'Music Off';
+        if (pill) {
+          pill.textContent = 'Music Off';
+          pill.classList.remove('text-gold-300');
+          pill.classList.add('text-white/70');
+        }
+      }
+    }
+
+    /**
+     * AI Image Enhancement & Hugging Face Studio Controllers
+     */
     function toggleGlobalAI() {
       globalAiEnabled = !globalAiEnabled;
-      
+
       const hfPill = document.getElementById('hfAiStatusPill');
       if (hfPill) {
         hfPill.textContent = globalAiEnabled ? 'ON' : 'OFF';
@@ -2231,85 +2604,122 @@
 
     function openHfStudioModal() {
       const modal = document.getElementById('hfStudioModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
     }
 
     function closeHfStudioModal() {
       const modal = document.getElementById('hfStudioModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
     }
 
     function updateHfParallaxIntensity(val) {
       hfParallaxMultiplier = parseFloat(val);
-      document.getElementById('hfParallaxValueLabel').textContent = `${hfParallaxMultiplier.toFixed(1)}x`;
+      const label = document.getElementById('hfParallaxValueLabel');
+      if (label) label.textContent = `${hfParallaxMultiplier.toFixed(1)}x`;
     }
 
     async function runHfBatchEnhancement() {
       const statusEl = document.getElementById('hfPipelineStatusText');
-      const token = document.getElementById('hfApiTokenInput').value.trim();
-      statusEl.textContent = 'Running Hugging Face depth-anything & neural HDR pass...';
+      const token = document.getElementById('hfApiTokenInput')?.value.trim();
+      if (statusEl) statusEl.textContent = 'Running Hugging Face depth-anything & neural HDR pass...';
 
-      if (token) {
+      if (token && DATA?.bentoGallery?.[1]?.src) {
         try {
           await fetch('https://api-inference.huggingface.co/models/Xenova/depth-anything-small-hf', {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ inputs: GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[2].driveLink })
+            body: JSON.stringify({ inputs: DATA.bentoGallery[1].src })
           });
-        } catch (err) {
-          // Graceful fallback to local WebGL/SVG convolution filter
-        }
+        } catch (err) {}
       }
 
       setTimeout(() => {
         if (!globalAiEnabled) toggleGlobalAI();
-        statusEl.textContent = '✦ Completed: 2.5D depth maps & golden-hour super-resolution active!';
+        if (statusEl) statusEl.textContent = '✦ Completed: 2.5D depth maps & golden-hour super-resolution active!';
       }, 650);
     }
 
-    /* =========================================================================
-       7B. FULLSCREEN BENGALI INVITATION & HUGGING FACE AI BENGALI TRANSLATOR
-       ========================================================================= */
+    /**
+     * Fullscreen Bengali Invitation & 3D Page Turn
+     */
     function openFullscreenBengaliInvitation(openEditor = false) {
       const modal = document.getElementById('bengaliInvitationModal');
+      if (!modal) return;
       modal.classList.remove('hidden');
       modal.classList.add('flex');
 
-      // Animated reveal: automatically open cover page after a brief ceremonial pause
       setTimeout(() => {
         setBookState(1);
       }, 650);
 
       if (openEditor) {
         const drawer = document.getElementById('bengaliEditorDrawer');
-        drawer.classList.remove('hidden');
+        if (drawer) drawer.classList.remove('hidden');
       }
     }
 
     function closeFullscreenBengaliInvitation() {
       const modal = document.getElementById('bengaliInvitationModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
     }
 
     function toggleBengaliEditorDrawer() {
       const drawer = document.getElementById('bengaliEditorDrawer');
-      drawer.classList.toggle('hidden');
+      if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    let currentBookPage = 0;
+
+    function setBookState(stateIndex) {
+      currentBookPage = stateIndex;
+      const sheet = document.getElementById('bookSheetPage1');
+      if (sheet) {
+        if (stateIndex === 0) {
+          sheet.classList.remove('flipped');
+        } else {
+          sheet.classList.add('flipped');
+        }
+      }
+
+      document.querySelectorAll('.book-page-btn').forEach(btn => {
+        const step = parseInt(btn.dataset.step, 10);
+        if (step === stateIndex) {
+          btn.classList.add('bg-gold-400', 'text-obsidian', 'font-bold', 'shadow-lg');
+          btn.classList.remove('bg-obsidian/70', 'bg-white/5', 'text-gold-200');
+        } else {
+          btn.classList.remove('bg-gold-400', 'text-obsidian', 'font-bold', 'shadow-lg');
+          btn.classList.add('bg-obsidian/70', 'text-gold-200');
+        }
+      });
+    }
+
+    function nextBookPage() {
+      setBookState(currentBookPage === 0 ? 1 : 2);
+    }
+
+    function prevBookPage() {
+      setBookState(currentBookPage === 2 ? 1 : 0);
     }
 
     function syncBengaliCardEdits() {
-      const bride = document.getElementById('editBrideBengali')?.value || 'অরেলিয়া ভ্যান্স';
-      const groom = document.getElementById('editGroomBengali')?.value || 'জুলিয়ান স্টার্লিং';
-      const coverCouple = document.getElementById('editCoverCoupleBengali')?.value || 'অরেলিয়া ও জুলিয়ান';
+      const bride = document.getElementById('editBrideBengali')?.value || 'রিমু';
+      const groom = document.getElementById('editGroomBengali')?.value || 'দেবাশীষ';
+      const coverCouple = document.getElementById('editCoverCoupleBengali')?.value || 'দেবাশীষ ও রিমু';
       const prose = document.getElementById('editProseBengali')?.value || '';
       const dateStr = document.getElementById('editDateBengali')?.value || '';
       const venueStr = document.getElementById('editVenueBengali')?.value || '';
       const holudStr = document.getElementById('editHoludBengali')?.value || '';
       const lagnaStr = document.getElementById('editLagnaBengali')?.value || '';
 
-      // Update All 3D Bengali Book Elements (Both Main Page & Fullscreen Modal)
       document.querySelectorAll('.card-bride-bengali, #cardBrideBengali').forEach(el => el.textContent = bride);
       document.querySelectorAll('.card-groom-bengali, #cardGroomBengali').forEach(el => el.textContent = groom);
       document.querySelectorAll('.card-cover-couple-bengali, #cardCoverCoupleBengali, #topNavCoupleBengali').forEach(el => el.textContent = coverCouple);
@@ -2319,7 +2729,6 @@
       document.querySelectorAll('.card-holud-text, #cardHoludText').forEach(el => el.textContent = holudStr);
       document.querySelectorAll('.card-lagna-text, #cardLagnaText').forEach(el => el.textContent = lagnaStr);
 
-      // In-Page Preview Elements
       const pCouple = document.getElementById('previewCoupleBengali');
       if (pCouple) pCouple.textContent = coverCouple;
       const pBody = document.getElementById('previewBodyBengali');
@@ -2331,20 +2740,21 @@
     }
 
     async function translateInvitationWithHF() {
-      const sourceText = document.getElementById('aiEnglishSourceInput').value.trim();
+      const sourceText = document.getElementById('aiEnglishSourceInput')?.value.trim();
       const statusEl = document.getElementById('hfTranslationStatus');
       const btn = document.getElementById('hfTranslateBtn');
       const token = document.getElementById('hfApiTokenInput')?.value?.trim() || '';
 
       if (!sourceText) return;
 
-      statusEl.classList.remove('hidden');
-      statusEl.textContent = '🤗 Translating English into auspicious Bengali wedding prose...';
-      btn.disabled = true;
+      if (statusEl) {
+        statusEl.classList.remove('hidden');
+        statusEl.textContent = '🤗 Translating English into auspicious Bengali wedding prose...';
+      }
+      if (btn) btn.disabled = true;
 
       let translatedBengali = '';
 
-      // 1. Try Hugging Face Inference API (Helsinki-NLP/opus-mt-en-bn)
       try {
         const headers = { 'Content-Type': 'application/json' };
         if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -2361,11 +2771,8 @@
             translatedBengali = data[0].translation_text;
           }
         }
-      } catch (e) {
-        // Fallback handled below
-      }
+      } catch (e) {}
 
-      // 2. Smart Poetic Bengali Wedding Translation Engine Fallback (Guarantees authentic ceremonial Bengali)
       if (!translatedBengali) {
         const lower = sourceText.toLowerCase();
         if (lower.includes('blessing') || lower.includes('invite') || lower.includes('wedding')) {
@@ -2377,323 +2784,58 @@
         }
       }
 
-      document.getElementById('editProseBengali').value = translatedBengali;
+      const proseInput = document.getElementById('editProseBengali');
+      if (proseInput) proseInput.value = translatedBengali;
       syncBengaliCardEdits();
-      setBookState(1); // Open to page 2 so user immediately sees the translated Bengali prose
+      setBookState(1);
 
-      statusEl.textContent = '✦ Translated into auspicious Bengali & applied to Invitation Card!';
-      btn.disabled = false;
+      if (statusEl) statusEl.textContent = '✦ Translated into auspicious Bengali & applied to Invitation Card!';
+      if (btn) btn.disabled = false;
     }
 
-    /* =========================================================================
-       8. HORIZONTAL FILMSTRIP GALLERY & SCROLL GUIDES
-       ========================================================================= */
-    function renderHorizontalFilmstrip() {
-      const track = document.getElementById('horizontalTrack');
-      track.innerHTML = '';
-
-      GOOGLE_DRIVE_MEDIA_CONFIG.horizontalStripItems.forEach((item, index) => {
-        const resolvedUrl = resolveGoogleDriveUrl(item.driveLink, 'image');
-        const downloadUrl = resolveGoogleDriveUrl(item.driveLink, 'image', true);
-
-        const slide = document.createElement('div');
-        slide.className = 'snap-center shrink-0 w-[82vw] sm:w-[460px] md:w-[540px] h-[340px] sm:h-[390px] relative rounded-2xl overflow-hidden border border-gold-400/30 group shadow-2xl';
-        slide.innerHTML = `
-          <img
-            src="${resolvedUrl}"
-            alt="${item.title}"
-            class="card-media w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${globalAiEnabled ? 'ai-enhanced-media' : ''}"
-            onerror="this.onerror=null; this.src='${item.fallbackLink || 'https://placehold.co/800x500/181420/D4AF37?text=Panorama+Frame'}';"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/20 to-transparent"></div>
-          <div class="absolute bottom-0 inset-x-0 p-6 flex items-end justify-between">
-            <div>
-              <span class="text-[10px] uppercase tracking-[0.25em] text-gold-300 block mb-1">${item.location}</span>
-              <h3 class="font-serif text-2xl text-white">${item.title}</h3>
-            </div>
-            <a
-              href="${downloadUrl}"
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-10 h-10 rounded-full bg-gold-400/90 hover:bg-gold-300 text-obsidian flex items-center justify-center transition shadow-lg"
-              title="Download Frame"
-            >
-              <i class="fa-solid fa-download text-xs"></i>
-            </a>
-          </div>
-        `;
-        track.appendChild(slide);
-      });
-    }
-
-    function scrollHorizontalStrip(direction) {
-      const track = document.getElementById('horizontalTrack');
-      const scrollAmount = 520 * direction;
-      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-
-    function initHorizontalDragScroll() {
-      const track = document.getElementById('horizontalTrack');
-      const progressBar = document.getElementById('horizontalProgressBar');
-      let isDown = false;
-      let startX;
-      let scrollLeft;
-
-      track.addEventListener('mousedown', (e) => {
-        isDown = true;
-        startX = e.pageX - track.offsetLeft;
-        scrollLeft = track.scrollLeft;
-      });
-      track.addEventListener('mouseleave', () => { isDown = false; });
-      track.addEventListener('mouseup', () => { isDown = false; });
-      track.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 1.8;
-        track.scrollLeft = scrollLeft - walk;
-      });
-
-      track.addEventListener('scroll', () => {
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        const pct = maxScroll > 0 ? Math.max(15, (track.scrollLeft / maxScroll) * 100) : 20;
-        progressBar.style.width = `${pct}%`;
-      });
-    }
-
-    /* =========================================================================
-       9. VERTICAL SCROLL GUIDE & PARALLAX ENGINE
-       ========================================================================= */
+    /**
+     * Vertical Scroll Guide & Parallax Engine
+     */
     function initParallaxAndScrollGuides() {
       const verticalBar = document.getElementById('verticalScrollBar');
       const floatingBtn = document.getElementById('floatingBottomInviteBtn');
 
       window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        if (verticalBar) {
-          verticalBar.style.height = `${scrollPercent}%`;
-        }
+        const winHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = winHeight > 0 ? (window.scrollY / winHeight) * 100 : 0;
 
-        // Floating below-center 'Open Invitation Card' Button appearance when scrolled
+        if (verticalBar) verticalBar.style.height = `${Math.min(100, scrolled)}%`;
+
         if (floatingBtn) {
-          if (scrollTop > 380) {
-            floatingBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+          if (window.scrollY > 400) {
+            floatingBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-8');
             floatingBtn.classList.add('opacity-100', 'translate-y-0');
           } else {
-            floatingBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            floatingBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-8');
             floatingBtn.classList.remove('opacity-100', 'translate-y-0');
           }
         }
 
-        // Subtle vertical parallax on Bento Cards
-        document.querySelectorAll('[data-parallax]').forEach(card => {
-          const speed = parseFloat(card.dataset.parallax || 0.035) * hfParallaxMultiplier;
+        document.querySelectorAll('.bento-grid .tilt-card').forEach(card => {
+          const speed = parseFloat(card.dataset.parallax || 0.04);
           const rect = card.getBoundingClientRect();
-          const centerOffset = (window.innerHeight / 2 - (rect.top + rect.height / 2));
-          const media = card.querySelector('.card-media');
-          if (media && rect.top < window.innerHeight && rect.bottom > 0) {
-            media.style.transform = `translate3d(0, ${centerOffset * speed}px, 0) scale(1.03)`;
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            const yOffset = (rect.top - window.innerHeight / 2) * speed;
+            const media = card.querySelector('.card-media');
+            if (media && !card.matches(':hover')) {
+              media.style.transform = `translate3d(0, ${yOffset}px, 0) scale(1.04)`;
+            }
           }
         });
       }, { passive: true });
     }
 
-    /* =========================================================================
-       10. 3D PAGE-TURN INVITATION CARD CONTROLLER
-       ========================================================================= */
-    function flipBookPage(sheetNumber, element = null, event = null) {
-      if (event && event.target && event.target.closest('button, input, textarea, a')) {
-        return;
-      }
-      const book = element ? element.closest('.book-container') : document.querySelector('.book-container');
-      if (!book) return;
-      const sheet1 = book.querySelector('.book-sheet-1') || document.getElementById('bookSheet1');
-      const sheet2 = book.querySelector('.book-sheet-2') || document.getElementById('bookSheet2');
-      if (!sheet1 || !sheet2) return;
-
-      if (sheetNumber === 1) {
-        if (!sheet1.classList.contains('sheet-flipped')) {
-          setBookState(1);
-        } else {
-          setBookState(0);
-        }
-      } else if (sheetNumber === 2) {
-        if (!sheet2.classList.contains('sheet-flipped')) {
-          setBookState(2);
-        } else {
-          setBookState(1);
-        }
-      }
-    }
-
-    function setBookState(stateIndex) {
-      document.querySelectorAll('.book-container').forEach(book => {
-        const sheet1 = book.querySelector('.book-sheet-1') || book.querySelector('#bookSheet1');
-        const sheet2 = book.querySelector('.book-sheet-2') || book.querySelector('#bookSheet2');
-        if (!sheet1 || !sheet2) return;
-
-        if (stateIndex === 0) {
-          sheet2.classList.remove('sheet-flipped');
-          sheet1.classList.remove('sheet-flipped');
-          book.classList.remove('book-open');
-        } else if (stateIndex === 1) {
-          sheet1.classList.add('sheet-flipped');
-          sheet2.classList.remove('sheet-flipped');
-          book.classList.add('book-open');
-        } else if (stateIndex === 2) {
-          sheet1.classList.add('sheet-flipped');
-          sheet2.classList.add('sheet-flipped');
-          book.classList.add('book-open');
-        }
-      });
-
-      // Update active state on all page turn buttons
-      document.querySelectorAll('.book-page-btn').forEach(btn => {
-        const step = parseInt(btn.dataset.step, 10);
-        if (step === stateIndex) {
-          btn.classList.add('bg-gold-400', 'text-obsidian', 'font-bold', 'shadow-lg');
-          btn.classList.remove('bg-obsidian/70', 'bg-white/5', 'text-gold-200');
-        } else {
-          btn.classList.remove('bg-gold-400', 'text-obsidian', 'font-bold', 'shadow-lg');
-          btn.classList.add('bg-obsidian/70', 'text-gold-200');
-        }
-      });
-    }
-
-    /* =========================================================================
-       11. FULLSCREEN LIGHTBOX & DOWNLOAD CONTROLLER
-       ========================================================================= */
-    function openLightbox(itemId) {
-      const item = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems.find(x => x.id === itemId);
-      if (!item) return;
-
-      const modal = document.getElementById('lightboxModal');
-      const imgEl = document.getElementById('lightboxImage');
-      const vidEl = document.getElementById('lightboxVideo');
-      const titleEl = document.getElementById('lightboxTitle');
-      const captionEl = document.getElementById('lightboxCaption');
-      const badgeEl = document.getElementById('lightboxBadge');
-      const downloadBtn = document.getElementById('lightboxDownloadBtn');
-      const sourceHint = document.getElementById('lightboxSourceHint');
-
-      lightboxZoomed = false;
-      imgEl.style.transform = 'scale(1)';
-
-      const resolvedSrc = resolveGoogleDriveUrl(item.driveLink, item.type === 'video' ? 'video' : 'image');
-      const downloadHref = resolveGoogleDriveUrl(item.driveLink, item.type, true);
-
-      titleEl.textContent = item.title;
-      captionEl.textContent = item.caption;
-      badgeEl.textContent = `${item.type.toUpperCase()} · ${item.revealName}`;
-      downloadBtn.href = downloadHref;
-      sourceHint.textContent = `AI Super-Resolution Ready · Direct Download Enabled`;
-
-      if (item.type === 'video') {
-        imgEl.classList.add('hidden');
-        vidEl.classList.remove('hidden');
-        vidEl.src = resolvedSrc;
-        vidEl.onerror = () => {
-          if (item.fallbackLink && !vidEl.dataset.fallback) {
-            vidEl.dataset.fallback = 'true';
-            vidEl.src = item.fallbackLink;
-            vidEl.play().catch(() => {});
-          }
-        };
-        vidEl.play().catch(() => {});
-      } else {
-        vidEl.pause();
-        vidEl.classList.add('hidden');
-        imgEl.classList.remove('hidden');
-        imgEl.src = resolvedSrc;
-        imgEl.onerror = () => {
-          if (item.fallbackLink) imgEl.src = item.fallbackLink;
-        };
-      }
-
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeLightbox() {
-      const modal = document.getElementById('lightboxModal');
-      const vidEl = document.getElementById('lightboxVideo');
-      vidEl.pause();
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function toggleLightboxAI() {
-      lightboxAiEnabled = !lightboxAiEnabled;
-      const imgEl = document.getElementById('lightboxImage');
-      const vidEl = document.getElementById('lightboxVideo');
-      const label = document.getElementById('lightboxAiLabel');
-
-      label.textContent = lightboxAiEnabled ? 'AI HDR: ON' : 'AI HDR: OFF';
-      imgEl.classList.toggle('ai-enhanced-media', lightboxAiEnabled);
-      vidEl.classList.toggle('ai-enhanced-media', lightboxAiEnabled);
-    }
-
-    function toggleLightboxZoom() {
-      lightboxZoomed = !lightboxZoomed;
-      const imgEl = document.getElementById('lightboxImage');
-      imgEl.style.transform = lightboxZoomed ? 'scale(1.45)' : 'scale(1)';
-    }
-
-    /* =========================================================================
-       12. GOOGLE DRIVE CONFIGURATION MODAL
-       ========================================================================= */
-    function openDriveModal() {
-      const curtainInput = document.getElementById('inputCurtainVideoUrl');
-      if (curtainInput) curtainInput.value = GOOGLE_DRIVE_MEDIA_CONFIG.curtainVideoDriveLink || '';
-      document.getElementById('inputMusicUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink;
-      document.getElementById('inputHeroVideoUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink;
-      document.getElementById('inputFirstImageUrl').value = GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[1].driveLink;
-      document.getElementById('inputFooterName').value = GOOGLE_DRIVE_MEDIA_CONFIG.creatorName;
-      document.getElementById('inputInstagram').value = GOOGLE_DRIVE_MEDIA_CONFIG.instagramUrl;
-      document.getElementById('inputFacebook').value = GOOGLE_DRIVE_MEDIA_CONFIG.facebookUrl;
-
-      const modal = document.getElementById('driveConfigModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeDriveModal() {
-      const modal = document.getElementById('driveConfigModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function applyDriveConfigFromModal() {
-      const curtainInput = document.getElementById('inputCurtainVideoUrl');
-      const curtainVidVal = curtainInput ? curtainInput.value.trim() : '';
-      const musicVal = document.getElementById('inputMusicUrl').value.trim();
-      const heroVidVal = document.getElementById('inputHeroVideoUrl').value.trim();
-      const firstImgVal = document.getElementById('inputFirstImageUrl').value.trim();
-      const footerNameVal = document.getElementById('inputFooterName').value.trim();
-      const igVal = document.getElementById('inputInstagram').value.trim();
-      const fbVal = document.getElementById('inputFacebook').value.trim();
-
-      if (curtainVidVal) GOOGLE_DRIVE_MEDIA_CONFIG.curtainVideoDriveLink = curtainVidVal;
-      if (musicVal) GOOGLE_DRIVE_MEDIA_CONFIG.backgroundMusicDriveLink = musicVal;
-      if (heroVidVal) GOOGLE_DRIVE_MEDIA_CONFIG.openingVideoDriveLink = heroVidVal;
-      if (firstImgVal) GOOGLE_DRIVE_MEDIA_CONFIG.bentoItems[1].driveLink = firstImgVal;
-      if (footerNameVal) GOOGLE_DRIVE_MEDIA_CONFIG.creatorName = footerNameVal;
-      if (igVal) GOOGLE_DRIVE_MEDIA_CONFIG.instagramUrl = igVal;
-      if (fbVal) GOOGLE_DRIVE_MEDIA_CONFIG.facebookUrl = fbVal;
-
-      initMediaSources();
-      renderBentoGallery('all');
-      closeDriveModal();
-    }
-
-    /* =========================================================================
-       13. FALLING FLORAL PETALS CANVAS ENGINE
-       ========================================================================= */
+    /**
+     * Falling Floral Petals Canvas Engine
+     */
     function initFallingPetalsCanvas() {
       const canvas = document.getElementById('petalsCanvas');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let width = (canvas.width = window.innerWidth);
       let height = (canvas.height = window.innerHeight);
@@ -2721,7 +2863,6 @@
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
         ctx.beginPath();
-        // Delicate organic rose/blossom petal bezier curve
         ctx.moveTo(0, 0);
         ctx.bezierCurveTo(p.size * 0.7, -p.size * 0.6, p.size * 1.3, p.size * 0.4, 0, p.size * 1.3);
         ctx.bezierCurveTo(-p.size * 1.3, p.size * 0.4, -p.size * 0.7, -p.size * 0.6, 0, 0);
@@ -2775,6 +2916,58 @@
         if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
+
+    /**
+     * Application Bootstrapper
+     */
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. Fetch data.json
+      await loadWeddingData();
+
+      // 2. Apply config to DOM & Videos
+      applyDataToDom();
+
+      // 3. Render Galleries
+      renderLocationFilters();
+      renderBentoGallery('all', 'all');
+      renderHorizontalFilmstrip();
+
+      // 4. Initialise Interactive Engines
+      initScrollObservers();
+      initParallaxAndScrollGuides();
+      initHorizontalDragScroll();
+      initFallingPetalsCanvas();
+
+      // 5. Preloader Curtain Tracking
+      const bar = document.getElementById('preloaderBar');
+      const curtainVid = document.getElementById('curtainBgVideo');
+
+      if (curtainVid) {
+        curtainVid.addEventListener('timeupdate', () => {
+          if (curtainVid.duration && bar) {
+            const pct = Math.min(100, Math.round((curtainVid.currentTime / curtainVid.duration) * 100));
+            bar.style.width = pct + '%';
+          }
+        });
+      } else if (bar) {
+        setTimeout(() => { bar.style.width = '100%'; }, 100);
+      }
+
+      const enterBtn = document.getElementById('enterExperienceBtn');
+      if (enterBtn) {
+        enterBtn.addEventListener('click', () => {
+          dismissPreloaderAndStartIntro(true);
+        });
+      }
+
+      setTimeout(() => {
+        const preloader = document.getElementById('introPreloader');
+        if (preloader && !preloader.classList.contains('opacity-0')) {
+          dismissPreloaderAndStartIntro(false);
+        }
+      }, 8200);
+    });
+
   </script>
 </body>
 </html>

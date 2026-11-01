@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Showcase Studio · Media & Content Admin</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#09060B',
+            charcoal: '#130E18',
+            panel: '#1A1422',
+            panelHover: '#231B2E',
+            gold: {
+              100: '#FBF5E6',
+              200: '#F4E4BA',
+              300: '#EBD08B',
+              400: '#E2BA55',
+              500: '#D4AF37',
+              600: '#AA8824'
+            }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['Fira Code', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    body {
+      background-color: #09060B;
+      color: #E2E8F0;
+      font-family: 'Inter', sans-serif;
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #09060B; }
+    ::-webkit-scrollbar-thumb { background: #2A2135; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+    .glow-gold {
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF0CA 0%, #D4AF37 60%, #AA8824 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-tab.active {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+      border-color: #D4AF37;
+      color: #FBF5E6;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-obsidian text-slate-200">
+
+  <!-- =========================================================================
+       TOP NAV / STUDIO HEADER
+       ========================================================================= -->
+  <header class="sticky top-0 z-40 bg-charcoal/90 backdrop-blur-md border-b border-gold-500/25 px-4 sm:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400/30 to-gold-600/10 border border-gold-400/50 flex items-center justify-center text-gold-300 shadow-md">
+          <i class="fa-solid fa-crown text-base"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-serif text-lg sm:text-xl font-bold tracking-wide text-white">
+              Wedding <span class="gold-gradient-text">Media Studio</span>
+            </h1>
+            <span class="text-[10px] uppercase tracking-wider bg-gold-400/15 border border-gold-400/40 text-gold-300 px-2 py-0.5 rounded-full font-mono">data.json v2.0</span>
+          </div>
+          <p class="text-[11px] text-white/50">Admin dashboard to customize all showcase videos, photos, locations &amp; stories</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Live Site Preview -->
+        <a href="index.html" target="_blank" class="px-3.5 py-1.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white text-xs font-medium transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          <span>Live Site</span>
+        </a>
+
+        <!-- Upload Existing JSON -->
+        <label class="px-3.5 py-1.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white text-xs font-medium transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-upload text-[10px]"></i>
+          <span>Import JSON</span>
+          <input type="file" id="fileUploadInput" accept=".json" class="hidden" onchange="handleFileUpload(event)" />
+        </label>
+
+        <!-- Copy JSON Button -->
+        <button onclick="copyJsonToClipboard()" class="px-4 py-1.5 rounded-lg bg-panel hover:bg-panelHover border border-gold-400/60 text-gold-200 hover:text-white text-xs font-semibold transition flex items-center gap-2 shadow-sm">
+          <i class="fa-regular fa-copy text-gold-400"></i>
+          <span>Copy JSON</span>
+        </button>
+
+        <!-- Download data.json -->
+        <button onclick="downloadJsonFile()" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 hover:from-gold-400 hover:to-gold-300 text-obsidian text-xs font-bold uppercase tracking-wider transition flex items-center gap-2 shadow-md">
+          <i class="fa-solid fa-download text-xs"></i>
+          <span>Download data.json</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN DASHBOARD LAYOUT
+       ========================================================================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6">
+
+    <!-- Status Banner / Toast Alert Container -->
+    <div id="toastMessage" class="hidden px-4 py-3 rounded-xl border flex items-center justify-between text-xs transition-all duration-300">
+      <div class="flex items-center gap-2.5">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-sm"></i>
+        <span id="toastText">Action completed successfully</span>
+      </div>
+      <button onclick="hideToast()" class="text-white/60 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Quick Stats Cards Bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-panel border border-gold-500/20 rounded-xl p-3.5 sm:p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gold-400/10 text-gold-300 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-video"></i>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block">Videos Configured</span>
+          <span id="statVideoCount" class="font-bold text-white text-base sm:text-lg">4 Films</span>
+        </div>
+      </div>
+
+      <div class="bg-panel border border-gold-500/20 rounded-xl p-3.5 sm:p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gold-400/10 text-gold-300 flex items-center justify-center text-lg">
+          <i class="fa-regular fa-image"></i>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block">Photos in Bento</span>
+          <span id="statPhotoCount" class="font-bold text-white text-base sm:text-lg">6 Photos</span>
+        </div>
+      </div>
+
+      <div class="bg-panel border border-gold-500/20 rounded-xl p-3.5 sm:p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gold-400/10 text-gold-300 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block">Filter Locations</span>
+          <span id="statLocationCount" class="font-bold text-white text-base sm:text-lg">5 Places</span>
+        </div>
+      </div>
+
+      <div class="bg-panel border border-gold-500/20 rounded-xl p-3.5 sm:p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gold-400/10 text-gold-300 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-film"></i>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-white/50 block">Filmstrip Frames</span>
+          <span id="statFilmstripCount" class="font-bold text-white text-base sm:text-lg">5 Frames</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 border-b border-white/10 text-xs font-medium">
+      <button onclick="switchTab('videos')" id="tab-videos" class="nav-tab active px-4 py-2.5 rounded-lg border border-transparent hover:border-white/20 transition flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-play text-gold-400"></i>
+        <span>1. Opening &amp; Hero Videos</span>
+      </button>
+
+      <button onclick="switchTab('audio')" id="tab-audio" class="nav-tab px-4 py-2.5 rounded-lg border border-transparent hover:border-white/20 transition flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-music text-gold-400"></i>
+        <span>2. Background Music</span>
+      </button>
+
+      <button onclick="switchTab('bento')" id="tab-bento" class="nav-tab px-4 py-2.5 rounded-lg border border-transparent hover:border-white/20 transition flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-shapes text-gold-400"></i>
+        <span>3. Bento Media &amp; Stories</span>
+      </button>
+
+      <button onclick="switchTab('filmstrip')" id="tab-filmstrip" class="nav-tab px-4 py-2.5 rounded-lg border border-transparent hover:border-white/20 transition flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-film text-gold-400"></i>
+        <span>4. Horizontal Filmstrip</span>
+      </button>
+
+      <button onclick="switchTab('couple')" id="tab-couple" class="nav-tab px-4 py-2.5 rounded-lg border border-transparent hover:border-white/20 transition flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-heart text-gold-400"></i>
+        <span>5. Couple &amp; Invitation</span>
+      </button>
+
+      <button onclick="switchTab('json')" id="tab-json" class="nav-tab px-4 py-2.5 rounded-lg border border-transparent hover:border-white/20 transition flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-code text-gold-400"></i>
+        <span>6. Raw JSON Code</span>
+      </button>
+    </div>
+
+    <!-- =========================================================================
+         TAB 1: OPENING & HERO VIDEOS
+         ========================================================================= -->
+    <div id="content-videos" class="tab-content space-y-6">
+      
+      <!-- Segment A: Curtain Raiser / Welcome Intro Video -->
+      <section class="bg-panel border border-gold-500/25 rounded-2xl p-5 sm:p-7 shadow-xl">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-gold-500/15 border border-gold-400/40 text-gold-300 flex items-center justify-center">
+              <i class="fa-solid fa-door-open"></i>
+            </div>
+            <div>
+              <h2 class="font-serif text-lg text-white font-semibold">Opening Curtain Raiser Video</h2>
+              <p class="text-xs text-white/50">Plays on website launch behind the welcome preloader screen</p>
+            </div>
+          </div>
+          <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Curtain Segment</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <div>
+              <label class="block text-xs font-medium text-gold-200 mb-1">Video File Path or Google Drive URL</label>
+              <input type="text" id="curtain_videoPath" oninput="updateCurtainVideo()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="assets/videos/entry_intro.mp4" />
+              <p class="text-[11px] text-white/40 mt-1">Accepts local path (e.g. <code>assets/videos/entry_intro.mp4</code>) or Google Drive Share Link.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Poster Thumbnail Path</label>
+                <input type="text" id="curtain_poster" oninput="updateCurtainVideo()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="assets/images/invitation/poster.jpg" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Resolution Badge</label>
+                <input type="text" id="curtain_resolution" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="1080p 60fps" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Segment Title</label>
+                <input type="text" id="curtain_title" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="Welcome Curtain Raiser" />
+              </div>
+              <div class="flex items-center gap-6 pt-5">
+                <label class="flex items-center gap-2 cursor-pointer text-xs text-white/80 hover:text-white">
+                  <input type="checkbox" id="curtain_downloadable" onchange="syncFormToData()" class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+                  <span>Downloadable</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-xs text-white/80 hover:text-white">
+                  <input type="checkbox" id="curtain_defaultAudio" onchange="syncFormToData()" class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+                  <span>Default Audio ON</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video Preview Box -->
+          <div class="bg-obsidian border border-white/10 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-2">Live Video Preview</span>
+              <div class="aspect-video w-full rounded-lg overflow-hidden bg-black flex items-center justify-center relative border border-white/10">
+                <video id="curtain_previewVideo" class="w-full h-full object-cover" muted controls playsinline></video>
+              </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-white/10 text-[11px] text-white/60 flex items-center justify-between">
+              <span id="curtain_status">Checking file...</span>
+              <button onclick="testPlayVideo('curtain_previewVideo')" class="text-gold-300 hover:text-gold-200"><i class="fa-solid fa-play text-xs mr-1"></i>Test Play</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Segment B: Homepage Hero Video (Section 1) -->
+      <section class="bg-panel border border-gold-500/25 rounded-2xl p-5 sm:p-7 shadow-xl">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-gold-500/15 border border-gold-400/40 text-gold-300 flex items-center justify-center">
+              <i class="fa-solid fa-film"></i>
+            </div>
+            <div>
+              <h2 class="font-serif text-lg text-white font-semibold">Homepage Intro Video (Section 1)</h2>
+              <p class="text-xs text-white/50">Fullscreen backdrop behind the animated stroke typography and 3.5s clear video reveal</p>
+            </div>
+          </div>
+          <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Hero Section</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <div>
+              <label class="block text-xs font-medium text-gold-200 mb-1">Video File Path or Google Drive URL</label>
+              <input type="text" id="hero_videoPath" oninput="updateHeroVideo()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="assets/videos/intro.mp4" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Poster Image</label>
+                <input type="text" id="hero_poster" oninput="updateHeroVideo()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="assets/images/invitation/poster.jpg" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Resolution Badge</label>
+                <input type="text" id="hero_resolution" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="1080p 60fps" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Top Tagline</label>
+                <input type="text" id="hero_tagline" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="✦ Save The Date ✦" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Stroke Animated Headline</label>
+                <input type="text" id="hero_strokeHeadline" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="DEVASHISH & RIMU" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Clear Playback Seconds</label>
+                <input type="number" step="0.5" id="hero_clearSeconds" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="3.5" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-gold-200 mb-1">Sub-Caption Text</label>
+              <input type="text" id="hero_subCaption" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="Where Forever Begins in Golden Light" />
+            </div>
+          </div>
+
+          <!-- Video Preview Box -->
+          <div class="bg-obsidian border border-white/10 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-2">Live Hero Preview</span>
+              <div class="aspect-video w-full rounded-lg overflow-hidden bg-black flex items-center justify-center relative border border-white/10">
+                <video id="hero_previewVideo" class="w-full h-full object-cover" muted controls playsinline></video>
+              </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-white/10 text-[11px] text-white/60 flex items-center justify-between">
+              <span id="hero_status">Checking file...</span>
+              <button onclick="testPlayVideo('hero_previewVideo')" class="text-gold-300 hover:text-gold-200"><i class="fa-solid fa-play text-xs mr-1"></i>Test Play</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- =========================================================================
+         TAB 2: BACKGROUND MUSIC & AUDIO
+         ========================================================================= -->
+    <div id="content-audio" class="tab-content hidden space-y-6">
+      <section class="bg-panel border border-gold-500/25 rounded-2xl p-5 sm:p-7 shadow-xl">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-gold-500/15 border border-gold-400/40 text-gold-300 flex items-center justify-center">
+              <i class="fa-solid fa-music"></i>
+            </div>
+            <div>
+              <h2 class="font-serif text-lg text-white font-semibold">Background Music Controller</h2>
+              <p class="text-xs text-white/50">Romantic instrumental audio with audio toggle controller in header</p>
+            </div>
+          </div>
+          <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Audio Engine</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <div>
+              <label class="block text-xs font-medium text-gold-200 mb-1">Primary Audio Path / URL (MP3)</label>
+              <input type="text" id="audio_path" oninput="updateAudioPlayer()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="assets/audio/background-music.mp3" />
+              <p class="text-[11px] text-white/40 mt-1">Accepts local path (e.g. <code>assets/audio/background-music.mp3</code>) or Google Drive / CDN URL.</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-gold-200 mb-1">Online Fallback URL</label>
+              <input type="text" id="audio_fallback" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="https://cdn.pixabay.com/..." />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gold-200 mb-1">Music Title / Description</label>
+                <input type="text" id="audio_title" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3.5 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="Royal Shehnai & Celtic Strings" />
+              </div>
+              <div class="flex items-center gap-6 pt-5">
+                <label class="flex items-center gap-2 cursor-pointer text-xs text-white/80 hover:text-white">
+                  <input type="checkbox" id="audio_autoplay" onchange="syncFormToData()" class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+                  <span>Autoplay after Welcome Click</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-xs text-white/80 hover:text-white">
+                  <input type="checkbox" id="audio_defaultMuted" onchange="syncFormToData()" class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+                  <span>Default Muted</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audio Test Player -->
+          <div class="bg-obsidian border border-white/10 rounded-xl p-5 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-white/50 block mb-3">Live Audio Player</span>
+              <div class="p-4 rounded-xl bg-panel border border-white/10 flex flex-col items-center justify-center text-center">
+                <div class="w-12 h-12 rounded-full bg-gold-400/20 text-gold-300 flex items-center justify-center text-xl mb-3 shadow-inner">
+                  <i class="fa-solid fa-volume-high"></i>
+                </div>
+                <p id="audio_displayTitle" class="text-xs font-semibold text-white mb-3">Romantic Melody</p>
+                <audio id="audio_previewEl" controls class="w-full h-8" preload="metadata"></audio>
+              </div>
+            </div>
+            <p class="text-[11px] text-white/40 mt-4 text-center">Plays seamlessly on browser test.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =========================================================================
+         TAB 3: BENTO GALLERY (PHOTOS, VIDEOS & LOVE STORIES)
+         ========================================================================= -->
+    <div id="content-bento" class="tab-content hidden space-y-6">
+      
+      <!-- Toolbar: Search, Filters & Add Button -->
+      <div class="bg-panel border border-gold-500/25 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 shadow-lg">
+        <div class="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
+          <!-- Search -->
+          <div class="relative flex-1 min-w-[180px] max-w-sm">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-white/40"></i>
+            <input type="text" id="bentoSearchInput" oninput="filterBentoAdminList()" placeholder="Search title, location, caption..." class="w-full bg-obsidian border border-white/20 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+
+          <!-- Type filter -->
+          <select id="bentoTypeFilter" onchange="filterBentoAdminList()" class="bg-obsidian border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white focus:border-gold-400 focus:outline-none">
+            <option value="all">All Media Types</option>
+            <option value="photo">Photos Only</option>
+            <option value="video">Videos Only</option>
+            <option value="story">Love Stories Only</option>
+          </select>
+
+          <!-- Location filter -->
+          <select id="bentoLocationFilter" onchange="filterBentoAdminList()" class="bg-obsidian border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white focus:border-gold-400 focus:outline-none">
+            <option value="all">All Locations</option>
+          </select>
+        </div>
+
+        <button onclick="openBentoModal('create')" class="px-4 py-2 rounded-lg bg-gold-400 hover:bg-gold-300 text-obsidian text-xs font-bold transition flex items-center gap-2 shadow-md">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Add Media / Story Item</span>
+        </button>
+      </div>
+
+      <!-- Bento Cards Grid in Admin -->
+      <div id="bentoAdminGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered via JS -->
+      </div>
+
+    </div>
+
+    <!-- =========================================================================
+         TAB 4: HORIZONTAL FILMSTRIP PANORAMA
+         ========================================================================= -->
+    <div id="content-filmstrip" class="tab-content hidden space-y-6">
+      <div class="bg-panel border border-gold-500/25 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 shadow-lg">
+        <div>
+          <h2 class="font-serif text-lg text-white font-semibold">Horizontal Filmstrip Panorama Frames</h2>
+          <p class="text-xs text-white/50">Panoramic horizontal scroll corridor in Section 3</p>
+        </div>
+        <button onclick="openFilmstripModal('create')" class="px-4 py-2 rounded-lg bg-gold-400 hover:bg-gold-300 text-obsidian text-xs font-bold transition flex items-center gap-2 shadow-md">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Add Filmstrip Frame</span>
+        </button>
+      </div>
+
+      <div id="filmstripAdminGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TAB 5: COUPLE & INVITATION SETTINGS
+         ========================================================================= -->
+    <div id="content-couple" class="tab-content hidden space-y-6">
+      
+      <!-- Couple Details -->
+      <section class="bg-panel border border-gold-500/25 rounded-2xl p-5 sm:p-7 shadow-xl">
+        <h2 class="font-serif text-lg text-white font-semibold border-b border-white/10 pb-3 mb-5 flex items-center gap-2">
+          <i class="fa-solid fa-heart text-gold-400"></i>
+          <span>Bride &amp; Groom Profile &amp; Social Links</span>
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Groom's Name</label>
+            <input type="text" id="couple_groom" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="Devashish" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Bride's Name</label>
+            <input type="text" id="couple_bride" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="Rimu" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Couple Title (English)</label>
+            <input type="text" id="couple_titleEnglish" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="Devashish & Rimu" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Couple Title (Bengali)</label>
+            <input type="text" id="couple_titleBengali" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="দেবাশীষ ও রিমু" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Wedding Date (English)</label>
+            <input type="text" id="couple_dateEnglish" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="February 24, 2025" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Wedding Date (Bengali)</label>
+            <input type="text" id="couple_dateBengali" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="১২ই ফাল্গুন, ১৪৩১" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Venue / Location</label>
+            <input type="text" id="couple_venue" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="The Grand Palace Conservatory" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pt-4 border-t border-white/10">
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Instagram URL</label>
+            <input type="text" id="couple_instagramUrl" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Instagram Handle</label>
+            <input type="text" id="couple_instagramHandle" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Facebook URL</label>
+            <input type="text" id="couple_facebookUrl" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Facebook Handle</label>
+            <input type="text" id="couple_facebookHandle" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Bengali Invitation Suite Settings -->
+      <section class="bg-panel border border-gold-500/25 rounded-2xl p-5 sm:p-7 shadow-xl">
+        <h2 class="font-serif text-lg text-white font-semibold border-b border-white/10 pb-3 mb-5 flex items-center gap-2">
+          <i class="fa-solid fa-envelope-open-text text-gold-400"></i>
+          <span>Bengali 3D Invitation Suite Elements</span>
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Cover Header Tag</label>
+            <input type="text" id="invitation_cardCoverTag" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="শ্রীশ্রীপ্রজাপতয়ে নমঃ" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Mantra / Header Verse</label>
+            <input type="text" id="invitation_mantra" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="“ওঁ প্রজাপতয়ে নমঃ...”" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Inside Couple Portrait Photo</label>
+            <input type="text" id="invitation_couplePortraitPath" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="assets/images/invitation/couple-portrait.jpg" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Portrait Fallback URL</label>
+            <input type="text" id="invitation_couplePortraitFallback" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Inside Left Bengali Quote</label>
+            <input type="text" id="invitation_quoteLeft" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="“চারিপাশে উলুধ্বনি, শঙ্খ বাজে প্রাণে”" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gold-200 mb-1">Inside Left English Quote</label>
+            <input type="text" id="invitation_quoteEnglish" oninput="syncFormToData()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none" placeholder="“Two souls woven in golden threads”" />
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- =========================================================================
+         TAB 6: RAW JSON CODE VIEW & EDITOR
+         ========================================================================= -->
+    <div id="content-json" class="tab-content hidden space-y-4">
+      <div class="bg-panel border border-gold-500/25 rounded-2xl p-5 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4">
+          <div>
+            <h2 class="font-serif text-lg text-white font-semibold">Raw data.json Code Editor</h2>
+            <p class="text-xs text-white/50">Edit raw JSON directly or copy formatted code</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="formatRawJson()" class="px-3 py-1.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 text-xs text-white/80 hover:text-white transition">
+              <i class="fa-solid fa-align-left text-xs mr-1"></i>Format JSON
+            </button>
+            <button onclick="validateAndApplyJson()" class="px-3.5 py-1.5 rounded-lg bg-gold-400 hover:bg-gold-300 text-obsidian text-xs font-semibold transition">
+              <i class="fa-solid fa-check text-xs mr-1"></i>Apply Changes to Forms
+            </button>
+          </div>
+        </div>
+
+        <textarea id="rawJsonTextarea" rows="22" class="w-full bg-obsidian font-mono text-xs text-gold-200 border border-white/20 rounded-xl p-4 leading-relaxed focus:border-gold-400 focus:outline-none"></textarea>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       MODAL: ADD / EDIT BENTO ITEM
+       ========================================================================= -->
+  <div id="bentoItemModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-panel border border-gold-400/50 rounded-2xl max-w-2xl w-full p-6 sm:p-7 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-5">
+        <h3 id="bentoModalTitle" class="font-serif text-xl text-white font-semibold">Edit Bento Gallery Item</h3>
+        <button onclick="closeBentoModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="bentoItemForm" onsubmit="saveBentoItem(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="modal_bentoId" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Item Type</label>
+            <select id="modal_bentoType" onchange="toggleBentoTypeFields()" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none">
+              <option value="photo">Photo Capture</option>
+              <option value="video">Motion Video Film</option>
+              <option value="story">Love Story Milestone</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Title</label>
+            <input type="text" id="modal_bentoTitle" required class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Photo & Video Fields -->
+        <div id="modal_mediaFields" class="space-y-4">
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Media Source (Local Path or Google Drive Link)</label>
+            <input type="text" id="modal_bentoSrc" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="assets/images/bento/photo-1.jpg or assets/videos/ceremony.mp4" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Fallback URL</label>
+              <input type="text" id="modal_bentoFallback" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="https://images.unsplash.com/..." />
+            </div>
+            <div id="modal_posterContainer">
+              <label class="block text-gold-200 font-medium mb-1">Video Poster Image</label>
+              <input type="text" id="modal_bentoPoster" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="assets/images/invitation/poster.jpg" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Location Tag</label>
+              <input type="text" id="modal_bentoLocation" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="e.g. Lake Como, Kolkata, Bellagio" />
+            </div>
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Resolution</label>
+              <input type="text" id="modal_bentoResolution" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="e.g. 4K HDR, Ultra-HD, 1080p" />
+            </div>
+            <div class="flex items-center gap-4 pt-5">
+              <label class="flex items-center gap-2 cursor-pointer text-white/80 hover:text-white">
+                <input type="checkbox" id="modal_bentoDownloadable" checked class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+                <span>Downloadable</span>
+              </label>
+              <label id="modal_audioLabel" class="flex items-center gap-2 cursor-pointer text-white/80 hover:text-white">
+                <input type="checkbox" id="modal_bentoDefaultAudio" class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+                <span>Audio ON</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Caption / Description</label>
+            <textarea id="modal_bentoCaption" rows="2" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Grid Size (Span)</label>
+              <select id="modal_bentoSpanClass" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none">
+                <option value="bento-hero">Hero (Large 8-col)</option>
+                <option value="bento-feature">Feature (Wide 8-col)</option>
+                <option value="bento-wide">Wide (7-col)</option>
+                <option value="bento-tall">Tall (5-col)</option>
+                <option value="bento-portrait">Portrait (4-col)</option>
+                <option value="bento-third">Third (4-col Square)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Border Edge Style</label>
+              <select id="modal_bentoBorderStyle" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none">
+                <option value="border-torn-paper">Torn Paper Edge</option>
+                <option value="border-ink-splash">Ink Splash Edge</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Reveal Animation Style</label>
+              <select id="modal_bentoRevealStyle" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none">
+                <option value="reveal-blur-clear">Blur to Clear</option>
+                <option value="reveal-curtain">Curtain Wipe</option>
+                <option value="reveal-flip-3d">3D Flip Unfold</option>
+                <option value="reveal-zoom-settle">Zoom & Settle</option>
+                <option value="reveal-rotate-skew">Rotate & Skew</option>
+                <option value="reveal-fade-up">Fade & Rise</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Story Fields (Shown only if type === 'story') -->
+        <div id="modal_storyFields" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Chapter Subtitle</label>
+              <input type="text" id="modal_storyChapter" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="Chapter I · Autumn 2021" />
+            </div>
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Bengali Badge Tag</label>
+              <input type="text" id="modal_storyBengaliTag" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="প্রথম দেখা · কলেজ স্ট্রিট" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Story Narrative Text</label>
+            <textarea id="modal_storyText" rows="3" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Memorable Quote</label>
+              <input type="text" id="modal_storyQuote" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="“Some souls recognize each other...”" />
+            </div>
+            <div>
+              <label class="block text-gold-200 font-medium mb-1">Location Tag</label>
+              <input type="text" id="modal_storyLocation" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="Kolkata" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <button type="button" onclick="closeBentoModal()" class="px-4 py-2 rounded-lg border border-white/20 text-white/70 hover:text-white transition">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-lg bg-gold-400 hover:bg-gold-300 text-obsidian font-bold transition">Save Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: ADD / EDIT FILMSTRIP ITEM
+       ========================================================================= -->
+  <div id="filmstripModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-panel border border-gold-400/50 rounded-2xl max-w-xl w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-5">
+        <h3 id="filmstripModalTitle" class="font-serif text-xl text-white font-semibold">Edit Filmstrip Frame</h3>
+        <button onclick="closeFilmstripModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="filmstripItemForm" onsubmit="saveFilmstripItem(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="modal_filmstripId" />
+
+        <div>
+          <label class="block text-gold-200 font-medium mb-1">Title</label>
+          <input type="text" id="modal_filmstripTitle" required class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="01 · Arrival by Vintage Riva Boat" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Location Tag</label>
+            <input type="text" id="modal_filmstripLocation" required class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="Lake Como Pier" />
+          </div>
+          <div>
+            <label class="block text-gold-200 font-medium mb-1">Resolution</label>
+            <input type="text" id="modal_filmstripResolution" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="Panoramic 4K" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gold-200 font-medium mb-1">Image Source (Local Path or Google Drive Link)</label>
+          <input type="text" id="modal_filmstripSrc" required class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" placeholder="assets/images/filmstrip/slide-1.jpg" />
+        </div>
+
+        <div>
+          <label class="block text-gold-200 font-medium mb-1">Fallback URL</label>
+          <input type="text" id="modal_filmstripFallback" class="w-full bg-obsidian border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold-400 focus:outline-none" />
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-white/10">
+          <label class="flex items-center gap-2 cursor-pointer text-white/80 hover:text-white">
+            <input type="checkbox" id="modal_filmstripDownloadable" checked class="rounded border-white/30 text-gold-500 focus:ring-gold-400" />
+            <span>Downloadable</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="closeFilmstripModal()" class="px-4 py-2 rounded-lg border border-white/20 text-white/70 hover:text-white transition">Cancel</button>
+            <button type="submit" class="px-5 py-2 rounded-lg bg-gold-400 hover:bg-gold-300 text-obsidian font-bold transition">Save Frame</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       ADMIN CORE LOGIC
+       ========================================================================= -->
+  <script>
+    // In-memory data store matching data.json
+    let weddingData = null;
+
+    // Default Fallback Dataset
+    const DEFAULT_DATA = {
+      siteConfig: {
+        title: "Our Wedding · Devashish & Rimu",
+        theme: "luxury-gold",
+        enablePetals: true,
+        enableAIHDR: true
+      },
+      couple: {
+        groomName: "Devashish",
+        brideName: "Rimu",
+        coupleTitleEnglish: "Devashish & Rimu",
+        coupleTitleBengali: "দেবাশীষ ও রিমু",
+        weddingDateEnglish: "February 24, 2025",
+        weddingDateBengali: "১২ই ফাল্গুন, ১৪৩১ · ২৪শে ফেব্রুয়ারি, ২০২৫",
+        venue: "The Grand Palace Conservatory",
+        instagramUrl: "https://instagram.com",
+        instagramHandle: "@debashish_and_rimu",
+        facebookUrl: "https://facebook.com",
+        facebookHandle: "facebook.com/debashishandrimu"
+      },
+      audio: {
+        backgroundMusicPath: "assets/audio/background-music.mp3",
+        fallbackUrl: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+        title: "Royal Shehnai & Celtic Strings",
+        autoPlay: false,
+        defaultMuted: false
+      },
+      openingIntroVideo: {
+        openingIntroVideoPath: "assets/videos/entry_intro.mp4",
+        posterPath: "assets/images/invitation/poster.jpg",
+        resolution: "1080p 60fps",
+        downloadable: true,
+        defaultAudio: false,
+        title: "Welcome Curtain Raiser Prelude"
+      },
+      homepageIntroVideo: {
+        homepageIntroVideoPath: "assets/videos/intro.mp4",
+        posterPath: "assets/images/invitation/poster.jpg",
+        resolution: "1080p 60fps",
+        downloadable: true,
+        defaultAudio: false,
+        title: "Cinematic Opening Prelude",
+        tagline: "✦ Save The Date ✦",
+        strokeHeadline: "DEVASHISH & RIMU",
+        subCaption: "Where Forever Begins in Golden Light",
+        clearPlaybackSeconds: 3.5
+      },
+      invitation: {
+        subTitle: "শুভ বিবাহ · Royal Bengali Invitation Suite",
+        mantra: "“ওঁ প্রজাপতয়ে নমঃ · ওঁ যদেতৎ হৃদয়ং তব তদেতৎ হৃদয়ং মম”",
+        cardCoverTag: "শ্রীশ্রীপ্রজাপতয়ে নমঃ",
+        dateBengali: "১২ই ফাল্গুন, ১৪৩১ · ২৪শে ফেব্রুয়ারি, ২০২৫",
+        couplePortraitPath: "assets/images/invitation/couple-portrait.jpg",
+        couplePortraitFallback: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+        quoteLeft: "“চারিপাশে উলুধ্বনি, শঙ্খ বাজে প্রাণে”",
+        quoteEnglish: "“Two souls woven in golden threads”"
+      },
+      bentoGallery: [],
+      horizontalFilmstrip: []
+    };
+
+    // Initialize Studio on DOM Load
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadInitialData();
+    });
+
+    async function loadInitialData() {
+      try {
+        const response = await fetch('./data.json', { cache: 'no-cache' });
+        if (response.ok) {
+          weddingData = await response.json();
+          showToast("Loaded active data.json successfully", "success");
+        } else {
+          throw new Error("data.json not found on HTTP, using defaults");
+        }
+      } catch (err) {
+        console.warn("Could not fetch data.json directly, initializing default state:", err);
+        weddingData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        showToast("Initialized with default template", "info");
+      }
+      populateAllForms();
+    }
+
+    function populateAllForms() {
+      if (!weddingData) return;
+
+      // 1. Videos
+      const curtain = weddingData.openingIntroVideo || {};
+      document.getElementById('curtain_videoPath').value = curtain.openingIntroVideoPath || '';
+      document.getElementById('curtain_poster').value = curtain.posterPath || '';
+      document.getElementById('curtain_resolution').value = curtain.resolution || '1080p 60fps';
+      document.getElementById('curtain_title').value = curtain.title || 'Curtain Raiser';
+      document.getElementById('curtain_downloadable').checked = curtain.downloadable !== false;
+      document.getElementById('curtain_defaultAudio').checked = !!curtain.defaultAudio;
+      updateCurtainVideo(false);
+
+      const hero = weddingData.homepageIntroVideo || {};
+      document.getElementById('hero_videoPath').value = hero.homepageIntroVideoPath || '';
+      document.getElementById('hero_poster').value = hero.posterPath || '';
+      document.getElementById('hero_resolution').value = hero.resolution || '1080p 60fps';
+      document.getElementById('hero_tagline').value = hero.tagline || '✦ Save The Date ✦';
+      document.getElementById('hero_strokeHeadline').value = hero.strokeHeadline || 'DEVASHISH & RIMU';
+      document.getElementById('hero_subCaption').value = hero.subCaption || '';
+      document.getElementById('hero_clearSeconds').value = hero.clearPlaybackSeconds || 3.5;
+      updateHeroVideo(false);
+
+      // 2. Audio
+      const audio = weddingData.audio || {};
+      document.getElementById('audio_path').value = audio.backgroundMusicPath || '';
+      document.getElementById('audio_fallback').value = audio.fallbackUrl || '';
+      document.getElementById('audio_title').value = audio.title || '';
+      document.getElementById('audio_autoplay').checked = !!audio.autoPlay;
+      document.getElementById('audio_defaultMuted').checked = !!audio.defaultMuted;
+      updateAudioPlayer(false);
+
+      // 3. Couple & Socials
+      const couple = weddingData.couple || {};
+      document.getElementById('couple_groom').value = couple.groomName || '';
+      document.getElementById('couple_bride').value = couple.brideName || '';
+      document.getElementById('couple_titleEnglish').value = couple.coupleTitleEnglish || '';
+      document.getElementById('couple_titleBengali').value = couple.coupleTitleBengali || '';
+      document.getElementById('couple_dateEnglish').value = couple.weddingDateEnglish || '';
+      document.getElementById('couple_dateBengali').value = couple.weddingDateBengali || '';
+      document.getElementById('couple_venue').value = couple.venue || '';
+      document.getElementById('couple_instagramUrl').value = couple.instagramUrl || '';
+      document.getElementById('couple_instagramHandle').value = couple.instagramHandle || '';
+      document.getElementById('couple_facebookUrl').value = couple.facebookUrl || '';
+      document.getElementById('couple_facebookHandle').value = couple.facebookHandle || '';
+
+      // 4. Invitation
+      const inv = weddingData.invitation || {};
+      document.getElementById('invitation_cardCoverTag').value = inv.cardCoverTag || '';
+      document.getElementById('invitation_mantra').value = inv.mantra || '';
+      document.getElementById('invitation_couplePortraitPath').value = inv.couplePortraitPath || '';
+      document.getElementById('invitation_couplePortraitFallback').value = inv.couplePortraitFallback || '';
+      document.getElementById('invitation_quoteLeft').value = inv.quoteLeft || '';
+      document.getElementById('invitation_quoteEnglish').value = inv.quoteEnglish || '';
+
+      // 5. Bento & Filmstrip
+      renderBentoAdminList();
+      renderFilmstripAdminList();
+      updateLocationFiltersDropdown();
+      updateQuickStats();
+
+      // 6. Raw JSON
+      document.getElementById('rawJsonTextarea').value = JSON.stringify(weddingData, null, 2);
+    }
+
+    // Synchronize Form Inputs back into in-memory weddingData
+    function syncFormToData() {
+      if (!weddingData) return;
+
+      // Videos
+      weddingData.openingIntroVideo = {
+        openingIntroVideoPath: document.getElementById('curtain_videoPath').value.trim(),
+        posterPath: document.getElementById('curtain_poster').value.trim(),
+        resolution: document.getElementById('curtain_resolution').value.trim(),
+        title: document.getElementById('curtain_title').value.trim(),
+        downloadable: document.getElementById('curtain_downloadable').checked,
+        defaultAudio: document.getElementById('curtain_defaultAudio').checked
+      };
+
+      weddingData.homepageIntroVideo = {
+        homepageIntroVideoPath: document.getElementById('hero_videoPath').value.trim(),
+        posterPath: document.getElementById('hero_poster').value.trim(),
+        resolution: document.getElementById('hero_resolution').value.trim(),
+        title: "Cinematic Opening Prelude",
+        tagline: document.getElementById('hero_tagline').value.trim(),
+        strokeHeadline: document.getElementById('hero_strokeHeadline').value.trim(),
+        subCaption: document.getElementById('hero_subCaption').value.trim(),
+        clearPlaybackSeconds: parseFloat(document.getElementById('hero_clearSeconds').value) || 3.5,
+        downloadable: true,
+        defaultAudio: false
+      };
+
+      // Audio
+      weddingData.audio = {
+        backgroundMusicPath: document.getElementById('audio_path').value.trim(),
+        fallbackUrl: document.getElementById('audio_fallback').value.trim(),
+        title: document.getElementById('audio_title').value.trim(),
+        autoPlay: document.getElementById('audio_autoplay').checked,
+        defaultMuted: document.getElementById('audio_defaultMuted').checked
+      };
+
+      // Couple
+      weddingData.couple = {
+        groomName: document.getElementById('couple_groom').value.trim(),
+        brideName: document.getElementById('couple_bride').value.trim(),
+        coupleTitleEnglish: document.getElementById('couple_titleEnglish').value.trim(),
+        coupleTitleBengali: document.getElementById('couple_titleBengali').value.trim(),
+        weddingDateEnglish: document.getElementById('couple_dateEnglish').value.trim(),
+        weddingDateBengali: document.getElementById('couple_dateBengali').value.trim(),
+        venue: document.getElementById('couple_venue').value.trim(),
+        instagramUrl: document.getElementById('couple_instagramUrl').value.trim(),
+        instagramHandle: document.getElementById('couple_instagramHandle').value.trim(),
+        facebookUrl: document.getElementById('couple_facebookUrl').value.trim(),
+        facebookHandle: document.getElementById('couple_facebookHandle').value.trim()
+      };
+
+      // Invitation
+      weddingData.invitation = {
+        ...weddingData.invitation,
+        cardCoverTag: document.getElementById('invitation_cardCoverTag').value.trim(),
+        mantra: document.getElementById('invitation_mantra').value.trim(),
+        couplePortraitPath: document.getElementById('invitation_couplePortraitPath').value.trim(),
+        couplePortraitFallback: document.getElementById('invitation_couplePortraitFallback').value.trim(),
+        quoteLeft: document.getElementById('invitation_quoteLeft').value.trim(),
+        quoteEnglish: document.getElementById('invitation_quoteEnglish').value.trim()
+      };
+
+      // Update Raw JSON textarea
+      document.getElementById('rawJsonTextarea').value = JSON.stringify(weddingData, null, 2);
+      updateQuickStats();
+    }
+
+    // Media Preview Updaters
+    function updateCurtainVideo(shouldSync = true) {
+      if (shouldSync) syncFormToData();
+      const video = document.getElementById('curtain_previewVideo');
+      const path = document.getElementById('curtain_videoPath').value.trim();
+      const poster = document.getElementById('curtain_poster').value.trim();
+      const status = document.getElementById('curtain_status');
+
+      if (poster) video.poster = poster;
+      if (path) {
+        video.src = path;
+        video.onloadeddata = () => { status.textContent = `Ready (${video.videoWidth}x${video.videoHeight})`; };
+        video.onerror = () => { status.textContent = "File preview pending..."; };
+      }
+    }
+
+    function updateHeroVideo(shouldSync = true) {
+      if (shouldSync) syncFormToData();
+      const video = document.getElementById('hero_previewVideo');
+      const path = document.getElementById('hero_videoPath').value.trim();
+      const poster = document.getElementById('hero_poster').value.trim();
+      const status = document.getElementById('hero_status');
+
+      if (poster) video.poster = poster;
+      if (path) {
+        video.src = path;
+        video.onloadeddata = () => { status.textContent = `Ready (${video.videoWidth}x${video.videoHeight})`; };
+        video.onerror = () => { status.textContent = "File preview pending..."; };
+      }
+    }
+
+    function updateAudioPlayer(shouldSync = true) {
+      if (shouldSync) syncFormToData();
+      const player = document.getElementById('audio_previewEl');
+      const path = document.getElementById('audio_path').value.trim();
+      const title = document.getElementById('audio_title').value.trim();
+      document.getElementById('audio_displayTitle').textContent = title || 'Romantic Background Music';
+
+      if (path) player.src = path;
+    }
+
+    function testPlayVideo(videoId) {
+      const v = document.getElementById(videoId);
+      if (v) {
+        if (v.paused) v.play().catch(() => {});
+        else v.pause();
+      }
+    }
+
+    // =========================================================================
+    // BENTO GALLERY ADMIN CONTROLS
+    // =========================================================================
+    function renderBentoAdminList() {
+      const grid = document.getElementById('bentoAdminGrid');
+      grid.innerHTML = '';
+
+      if (!weddingData.bentoGallery || weddingData.bentoGallery.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-white/40 border border-dashed border-white/10 rounded-xl">No items in Bento Gallery yet. Click "Add Media / Story Item" above.</div>`;
+        return;
+      }
+
+      weddingData.bentoGallery.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'bento-admin-card bg-panel border border-white/10 hover:border-gold-400/40 rounded-xl p-4 flex flex-col justify-between transition group shadow-md';
+        card.dataset.id = item.id;
+        card.dataset.type = item.type;
+        card.dataset.location = (item.location || '').toLowerCase();
+        card.dataset.title = (item.title || '').toLowerCase();
+
+        const typeBadge = item.type === 'video'
+          ? '<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-semibold"><i class="fa-solid fa-film mr-1"></i>Video Film</span>'
+          : item.type === 'story'
+          ? '<span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-semibold"><i class="fa-solid fa-feather mr-1"></i>Story</span>'
+          : '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold"><i class="fa-regular fa-image mr-1"></i>Photo</span>';
+
+        const locationBadge = item.location
+          ? `<span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-white/70"><i class="fa-solid fa-location-dot text-[8px] text-gold-400 mr-1"></i>${item.location}</span>`
+          : '';
+
+        const resBadge = item.resolution
+          ? `<span class="px-2 py-0.5 rounded-full bg-gold-400/10 border border-gold-400/30 text-[10px] text-gold-300">${item.resolution}</span>`
+          : '';
+
+        // Media thumbnail
+        let mediaPreview = '';
+        if (item.type === 'video') {
+          mediaPreview = `
+            <div class="w-full h-32 rounded-lg bg-black/60 overflow-hidden relative mb-3 border border-white/10 flex items-center justify-center">
+              ${item.poster ? `<img src="${item.poster}" class="w-full h-full object-cover opacity-60" onerror="this.style.display='none'" />` : ''}
+              <i class="fa-solid fa-circle-play text-2xl text-gold-400/80 absolute"></i>
+            </div>`;
+        } else if (item.type === 'story') {
+          mediaPreview = `
+            <div class="w-full h-32 rounded-lg bg-gradient-to-br from-[#1E1728] to-[#120D1A] p-3 mb-3 border border-purple-500/30 flex flex-col justify-between overflow-hidden">
+              <span class="text-[9px] uppercase tracking-wider text-gold-300">${item.chapter || 'Chapter'}</span>
+              <p class="text-xs text-white/80 italic line-clamp-3">"${item.quote || item.storyText || ''}"</p>
+              <span class="text-[9px] text-purple-300 font-mono">${item.bengaliTag || ''}</span>
+            </div>`;
+        } else {
+          mediaPreview = `
+            <div class="w-full h-32 rounded-lg bg-black/60 overflow-hidden mb-3 border border-white/10">
+              <img src="${item.src}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x250/1A1422/D4AF37?text=Preview+Image'" />
+            </div>`;
+        }
+
+        card.innerHTML = `
+          <div>
+            ${mediaPreview}
+            <div class="flex items-center gap-1.5 flex-wrap mb-2">
+              ${typeBadge}
+              ${locationBadge}
+              ${resBadge}
+            </div>
+            <h4 class="font-serif text-sm font-semibold text-white group-hover:text-gold-200 transition line-clamp-1">${item.title}</h4>
+            <p class="text-[11px] text-white/60 line-clamp-2 mt-1">${item.caption || item.storyText || ''}</p>
+          </div>
+
+          <div class="pt-3 mt-3 border-t border-white/10 flex items-center justify-between text-xs">
+            <span class="text-[10px] text-white/40 font-mono">#${index + 1} · ${item.spanClass || 'item'}</span>
+            <div class="flex items-center gap-1.5">
+              <button onclick="moveBentoItem(${index}, -1)" title="Move Up" class="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}"><i class="fa-solid fa-arrow-up text-[10px]"></i></button>
+              <button onclick="moveBentoItem(${index}, 1)" title="Move Down" class="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white ${index === weddingData.bentoGallery.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}"><i class="fa-solid fa-arrow-down text-[10px]"></i></button>
+              <button onclick="openBentoModal('edit', '${item.id}')" title="Edit Item" class="p-1.5 rounded hover:bg-gold-400/20 text-gold-300 hover:text-gold-200"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+              <button onclick="deleteBentoItem('${item.id}')" title="Delete Item" class="p-1.5 rounded hover:bg-red-500/20 text-red-400 hover:text-red-300"><i class="fa-solid fa-trash text-xs"></i></button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      updateLocationFiltersDropdown();
+    }
+
+    function filterBentoAdminList() {
+      const q = document.getElementById('bentoSearchInput').value.toLowerCase().trim();
+      const type = document.getElementById('bentoTypeFilter').value;
+      const loc = document.getElementById('bentoLocationFilter').value.toLowerCase();
+      const cards = document.querySelectorAll('.bento-admin-card');
+
+      cards.forEach(card => {
+        const matchesQuery = !q || card.dataset.title.includes(q) || card.dataset.location.includes(q);
+        const matchesType = type === 'all' || card.dataset.type === type;
+        const matchesLoc = loc === 'all' || card.dataset.location === loc;
+
+        card.style.display = (matchesQuery && matchesType && matchesLoc) ? 'flex' : 'none';
+      });
+    }
+
+    function updateLocationFiltersDropdown() {
+      const select = document.getElementById('bentoLocationFilter');
+      if (!select || !weddingData.bentoGallery) return;
+
+      const currentVal = select.value;
+      const locations = Array.from(new Set(
+        weddingData.bentoGallery.map(i => i.location).filter(Boolean)
+      )).sort();
+
+      select.innerHTML = '<option value="all">All Locations</option>' +
+        locations.map(l => `<option value="${l.toLowerCase()}">${l}</option>`).join('');
+
+      select.value = currentVal;
+    }
+
+    function openBentoModal(mode, itemId = null) {
+      const modal = document.getElementById('bentoItemModal');
+      const form = document.getElementById('bentoItemForm');
+      form.reset();
+
+      if (mode === 'edit' && itemId) {
+        const item = weddingData.bentoGallery.find(x => x.id === itemId);
+        if (!item) return;
+
+        document.getElementById('bentoModalTitle').textContent = `Edit: ${item.title}`;
+        document.getElementById('modal_bentoId').value = item.id;
+        document.getElementById('modal_bentoType').value = item.type;
+        document.getElementById('modal_bentoTitle').value = item.title || '';
+        document.getElementById('modal_bentoSrc').value = item.src || '';
+        document.getElementById('modal_bentoFallback').value = item.fallbackSrc || '';
+        document.getElementById('modal_bentoPoster').value = item.poster || '';
+        document.getElementById('modal_bentoLocation').value = item.location || '';
+        document.getElementById('modal_bentoResolution').value = item.resolution || '';
+        document.getElementById('modal_bentoDownloadable').checked = item.downloadable !== false;
+        document.getElementById('modal_bentoDefaultAudio').checked = !!item.defaultAudio;
+        document.getElementById('modal_bentoCaption').value = item.caption || '';
+        document.getElementById('modal_bentoSpanClass').value = item.spanClass || 'bento-third';
+        document.getElementById('modal_bentoBorderStyle').value = item.borderStyle || 'border-torn-paper';
+        document.getElementById('modal_bentoRevealStyle').value = item.revealStyle || 'reveal-blur-clear';
+
+        // Story
+        document.getElementById('modal_storyChapter').value = item.chapter || '';
+        document.getElementById('modal_storyBengaliTag').value = item.bengaliTag || '';
+        document.getElementById('modal_storyText').value = item.storyText || '';
+        document.getElementById('modal_storyQuote').value = item.quote || '';
+        document.getElementById('modal_storyLocation').value = item.location || '';
+      } else {
+        document.getElementById('bentoModalTitle').textContent = 'Add New Media or Love Story Item';
+        document.getElementById('modal_bentoId').value = 'bento-' + Date.now();
+        document.getElementById('modal_bentoType').value = 'photo';
+        document.getElementById('modal_bentoDownloadable').checked = true;
+      }
+
+      toggleBentoTypeFields();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeBentoModal() {
+      const modal = document.getElementById('bentoItemModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleBentoTypeFields() {
+      const type = document.getElementById('modal_bentoType').value;
+      const mediaFields = document.getElementById('modal_mediaFields');
+      const storyFields = document.getElementById('modal_storyFields');
+      const posterContainer = document.getElementById('modal_posterContainer');
+      const audioLabel = document.getElementById('modal_audioLabel');
+
+      if (type === 'story') {
+        mediaFields.classList.add('hidden');
+        storyFields.classList.remove('hidden');
+      } else {
+        mediaFields.classList.remove('hidden');
+        storyFields.classList.add('hidden');
+
+        if (type === 'video') {
+          posterContainer.classList.remove('hidden');
+          audioLabel.classList.remove('hidden');
+        } else {
+          posterContainer.classList.add('hidden');
+          audioLabel.classList.add('hidden');
+        }
+      }
+    }
+
+    function saveBentoItem(e) {
+      e.preventDefault();
+      const id = document.getElementById('modal_bentoId').value;
+      const type = document.getElementById('modal_bentoType').value;
+      const title = document.getElementById('modal_bentoTitle').value.trim();
+
+      const revealNames = {
+        'reveal-blur-clear': 'Blur to Clear',
+        'reveal-curtain': 'Curtain Wipe',
+        'reveal-flip-3d': '3D Flip Unfold',
+        'reveal-zoom-settle': 'Zoom & Settle',
+        'reveal-rotate-skew': 'Rotate & Skew',
+        'reveal-fade-up': 'Fade & Rise'
+      };
+
+      const newItem = { id, type, title };
+
+      if (type === 'story') {
+        newItem.chapter = document.getElementById('modal_storyChapter').value.trim();
+        newItem.bengaliTag = document.getElementById('modal_storyBengaliTag').value.trim();
+        newItem.storyText = document.getElementById('modal_storyText').value.trim();
+        newItem.quote = document.getElementById('modal_storyQuote').value.trim();
+        newItem.location = document.getElementById('modal_storyLocation').value.trim();
+        newItem.spanClass = 'bento-story-wide';
+        newItem.revealStyle = 'reveal-fade-up';
+        newItem.revealName = 'Fade & Rise';
+      } else {
+        newItem.src = document.getElementById('modal_bentoSrc').value.trim();
+        newItem.fallbackSrc = document.getElementById('modal_bentoFallback').value.trim();
+        newItem.poster = document.getElementById('modal_bentoPoster').value.trim();
+        newItem.location = document.getElementById('modal_bentoLocation').value.trim();
+        newItem.resolution = document.getElementById('modal_bentoResolution').value.trim();
+        newItem.downloadable = document.getElementById('modal_bentoDownloadable').checked;
+        newItem.defaultAudio = document.getElementById('modal_bentoDefaultAudio').checked;
+        newItem.caption = document.getElementById('modal_bentoCaption').value.trim();
+        newItem.spanClass = document.getElementById('modal_bentoSpanClass').value;
+        newItem.borderStyle = document.getElementById('modal_bentoBorderStyle').value;
+        newItem.revealStyle = document.getElementById('modal_bentoRevealStyle').value;
+        newItem.revealName = revealNames[newItem.revealStyle] || 'Reveal Effect';
+        newItem.parallaxSpeed = 0.04;
+      }
+
+      const existingIndex = weddingData.bentoGallery.findIndex(x => x.id === id);
+      if (existingIndex >= 0) {
+        weddingData.bentoGallery[existingIndex] = newItem;
+        showToast(`Updated item "${title}"`, "success");
+      } else {
+        weddingData.bentoGallery.push(newItem);
+        showToast(`Added new item "${title}"`, "success");
+      }
+
+      closeBentoModal();
+      renderBentoAdminList();
+      syncFormToData();
+    }
+
+    function deleteBentoItem(id) {
+      if (!confirm("Are you sure you want to delete this item?")) return;
+      weddingData.bentoGallery = weddingData.bentoGallery.filter(x => x.id !== id);
+      renderBentoAdminList();
+      syncFormToData();
+      showToast("Item deleted", "info");
+    }
+
+    function moveBentoItem(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= weddingData.bentoGallery.length) return;
+
+      const temp = weddingData.bentoGallery[index];
+      weddingData.bentoGallery[index] = weddingData.bentoGallery[targetIndex];
+      weddingData.bentoGallery[targetIndex] = temp;
+
+      renderBentoAdminList();
+      syncFormToData();
+    }
+
+    // =========================================================================
+    // FILMSTRIP ADMIN CONTROLS
+    // =========================================================================
+    function renderFilmstripAdminList() {
+      const grid = document.getElementById('filmstripAdminGrid');
+      grid.innerHTML = '';
+
+      if (!weddingData.horizontalFilmstrip || weddingData.horizontalFilmstrip.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-white/40 border border-dashed border-white/10 rounded-xl">No filmstrip frames yet. Click "Add Filmstrip Frame" above.</div>`;
+        return;
+      }
+
+      weddingData.horizontalFilmstrip.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'bg-panel border border-white/10 hover:border-gold-400/40 rounded-xl p-4 flex flex-col justify-between transition group shadow-md';
+        
+        card.innerHTML = `
+          <div>
+            <div class="w-full h-32 rounded-lg bg-black/60 overflow-hidden mb-3 border border-white/10">
+              <img src="${item.src}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x250/1A1422/D4AF37?text=Panorama+Frame'" />
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap mb-2">
+              <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-white/70"><i class="fa-solid fa-location-dot text-[8px] text-gold-400 mr-1"></i>${item.location || ''}</span>
+              ${item.resolution ? `<span class="px-2 py-0.5 rounded-full bg-gold-400/10 border border-gold-400/30 text-[10px] text-gold-300">${item.resolution}</span>` : ''}
+              ${item.downloadable !== false ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] text-emerald-300">Downloadable</span>' : ''}
+            </div>
+            <h4 class="font-serif text-sm font-semibold text-white group-hover:text-gold-200 transition line-clamp-1">${item.title}</h4>
+            <p class="text-[10px] text-white/40 font-mono mt-1">${item.src}</p>
+          </div>
+
+          <div class="pt-3 mt-3 border-t border-white/10 flex items-center justify-between text-xs">
+            <span class="text-[10px] text-white/40 font-mono">Frame #${index + 1}</span>
+            <div class="flex items-center gap-1.5">
+              <button onclick="moveFilmstripItem(${index}, -1)" title="Move Left" class="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}"><i class="fa-solid fa-arrow-left text-[10px]"></i></button>
+              <button onclick="moveFilmstripItem(${index}, 1)" title="Move Right" class="p-1.5 rounded hover:bg-white/10 text-white/60 hover:text-white ${index === weddingData.horizontalFilmstrip.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}"><i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+              <button onclick="openFilmstripModal('edit', '${item.id}')" title="Edit Frame" class="p-1.5 rounded hover:bg-gold-400/20 text-gold-300 hover:text-gold-200"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+              <button onclick="deleteFilmstripItem('${item.id}')" title="Delete Frame" class="p-1.5 rounded hover:bg-red-500/20 text-red-400 hover:text-red-300"><i class="fa-solid fa-trash text-xs"></i></button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openFilmstripModal(mode, itemId = null) {
+      const modal = document.getElementById('filmstripModal');
+      const form = document.getElementById('filmstripItemForm');
+      form.reset();
+
+      if (mode === 'edit' && itemId) {
+        const item = weddingData.horizontalFilmstrip.find(x => x.id === itemId);
+        if (!item) return;
+
+        document.getElementById('filmstripModalTitle').textContent = `Edit: ${item.title}`;
+        document.getElementById('modal_filmstripId').value = item.id;
+        document.getElementById('modal_filmstripTitle').value = item.title || '';
+        document.getElementById('modal_filmstripLocation').value = item.location || '';
+        document.getElementById('modal_filmstripResolution').value = item.resolution || 'Panoramic 4K';
+        document.getElementById('modal_filmstripSrc').value = item.src || '';
+        document.getElementById('modal_filmstripFallback').value = item.fallbackSrc || '';
+        document.getElementById('modal_filmstripDownloadable').checked = item.downloadable !== false;
+      } else {
+        document.getElementById('filmstripModalTitle').textContent = 'Add Filmstrip Panorama Frame';
+        document.getElementById('modal_filmstripId').value = 'filmstrip-' + Date.now();
+        document.getElementById('modal_filmstripResolution').value = 'Panoramic 4K';
+        document.getElementById('modal_filmstripDownloadable').checked = true;
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeFilmstripModal() {
+      const modal = document.getElementById('filmstripModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function saveFilmstripItem(e) {
+      e.preventDefault();
+      const id = document.getElementById('modal_filmstripId').value;
+      const title = document.getElementById('modal_filmstripTitle').value.trim();
+      const location = document.getElementById('modal_filmstripLocation').value.trim();
+      const resolution = document.getElementById('modal_filmstripResolution').value.trim();
+      const src = document.getElementById('modal_filmstripSrc').value.trim();
+      const fallbackSrc = document.getElementById('modal_filmstripFallback').value.trim();
+      const downloadable = document.getElementById('modal_filmstripDownloadable').checked;
+
+      const newItem = { id, title, location, resolution, src, fallbackSrc, downloadable };
+
+      const existingIndex = weddingData.horizontalFilmstrip.findIndex(x => x.id === id);
+      if (existingIndex >= 0) {
+        weddingData.horizontalFilmstrip[existingIndex] = newItem;
+        showToast(`Updated frame "${title}"`, "success");
+      } else {
+        weddingData.horizontalFilmstrip.push(newItem);
+        showToast(`Added new frame "${title}"`, "success");
+      }
+
+      closeFilmstripModal();
+      renderFilmstripAdminList();
+      syncFormToData();
+    }
+
+    function deleteFilmstripItem(id) {
+      if (!confirm("Are you sure you want to delete this filmstrip frame?")) return;
+      weddingData.horizontalFilmstrip = weddingData.horizontalFilmstrip.filter(x => x.id !== id);
+      renderFilmstripAdminList();
+      syncFormToData();
+      showToast("Frame removed", "info");
+    }
+
+    function moveFilmstripItem(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= weddingData.horizontalFilmstrip.length) return;
+
+      const temp = weddingData.horizontalFilmstrip[index];
+      weddingData.horizontalFilmstrip[index] = weddingData.horizontalFilmstrip[targetIndex];
+      weddingData.horizontalFilmstrip[targetIndex] = temp;
+
+      renderFilmstripAdminList();
+      syncFormToData();
+    }
+
+    // =========================================================================
+    // EXPORT, COPY & IMPORT TOOLS
+    // =========================================================================
+    function copyJsonToClipboard() {
+      syncFormToData();
+      const jsonStr = JSON.stringify(weddingData, null, 2);
+      navigator.clipboard.writeText(jsonStr).then(() => {
+        showToast("✓ JSON copied to clipboard! Ready to paste into data.json", "success");
+      }).catch(err => {
+        console.error(err);
+        showToast("Could not copy automatically. You can copy from Tab 6 (Raw JSON).", "error");
+      });
+    }
+
+    function downloadJsonFile() {
+      syncFormToData();
+      const jsonStr = JSON.stringify(weddingData, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "data.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("✓ data.json downloaded! Drop it into your repository root.", "success");
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          weddingData = parsed;
+          populateAllForms();
+          showToast(`✓ Successfully imported "${file.name}"!`, "success");
+        } catch (err) {
+          alert("Invalid JSON file format: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function formatRawJson() {
+      const ta = document.getElementById('rawJsonTextarea');
+      try {
+        const parsed = JSON.parse(ta.value);
+        ta.value = JSON.stringify(parsed, null, 2);
+        showToast("JSON formatted cleanly", "success");
+      } catch (err) {
+        showToast("JSON Syntax Error: " + err.message, "error");
+      }
+    }
+
+    function validateAndApplyJson() {
+      const ta = document.getElementById('rawJsonTextarea');
+      try {
+        const parsed = JSON.parse(ta.value);
+        weddingData = parsed;
+        populateAllForms();
+        showToast("✓ Changes applied to all tabs!", "success");
+      } catch (err) {
+        alert("Cannot apply. JSON Syntax Error:\n\n" + err.message);
+      }
+    }
+
+    function updateQuickStats() {
+      if (!weddingData) return;
+      const bento = weddingData.bentoGallery || [];
+      const vCount = (bento.filter(x => x.type === 'video').length) + 2; // + curtain & hero
+      const pCount = bento.filter(x => x.type === 'photo').length;
+      const locs = new Set(bento.map(x => x.location).filter(Boolean));
+      const fCount = (weddingData.horizontalFilmstrip || []).length;
+
+      document.getElementById('statVideoCount').textContent = `${vCount} Films`;
+      document.getElementById('statPhotoCount').textContent = `${pCount} Photos`;
+      document.getElementById('statLocationCount').textContent = `${locs.size} Places`;
+      document.getElementById('statFilmstripCount').textContent = `${fCount} Frames`;
+    }
+
+    // Tab Navigation
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+
+      const target = document.getElementById('content-' + tabName);
+      const tabBtn = document.getElementById('tab-' + tabName);
+      if (target) target.classList.remove('hidden');
+      if (tabBtn) tabBtn.classList.add('active');
+
+      if (tabName === 'json') {
+        syncFormToData();
+      }
+    }
+
+    // Toast Notification Utility
+    let toastTimer = null;
+    function showToast(message, type = "success") {
+      clearTimeout(toastTimer);
+      const toast = document.getElementById('toastMessage');
+      const text = document.getElementById('toastText');
+      const icon = document.getElementById('toastIcon');
+
+      text.textContent = message;
+      toast.className = `px-4 py-3 rounded-xl border flex items-center justify-between text-xs transition-all duration-300 ${
+        type === 'success' ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-200' :
+        type === 'error' ? 'bg-red-500/15 border-red-500/40 text-red-200' :
+        'bg-gold-500/15 border-gold-500/40 text-gold-200'
+      }`;
+
+      icon.className = type === 'success' ? 'fa-solid fa-circle-check text-sm text-emerald-400' :
+        type === 'error' ? 'fa-solid fa-triangle-exclamation text-sm text-red-400' :
+        'fa-solid fa-circle-info text-sm text-gold-400';
+
+      toast.classList.remove('hidden');
+
+      toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4500);
+    }
+
+    function hideToast() {
+      document.getElementById('toastMessage').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
